@@ -1,0 +1,37 @@
+
+view,
+scroll-view,
+swiper,
+swiper-item,
+cover-view,
+cover-image,
+icon,
+text,
+rich-text,
+progress,
+button,
+checkbox,
+form,
+input,
+label,
+radio,
+slider,
+switch,
+textarea,
+navigator,
+audio,
+camera,
+image,
+video,
+._ul,
+._li {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	font-family: PingFangSC-Medium,PingFang SC;
+	list-style: none;
+}
+page, page {
+	overflow-x: hidden;
+}
+
