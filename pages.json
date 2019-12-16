@@ -13,7 +13,11 @@
 		{
 			"path": "pages/fans/fans",
 			"style": {
-				"navigationBarTitleText": "粉丝团"
+				"navigationBarTitleText": "粉丝团",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": true
+				}
 			}
 		},{
 			"path": "pages/person/person",

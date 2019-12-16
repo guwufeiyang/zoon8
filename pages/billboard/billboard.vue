@@ -8,7 +8,6 @@
 			<!-- 头部轮播 -->
 			<view class="carousel-section">
 				<!-- 标题栏和状态栏占位符 -->
-				
 				<view class="carousel-shadow"></view>
 				<swiper class="carousel" circular @change="swiperChange" :autoplay="true" >
 					<swiper-item v-for="(img, index) in carouselList" :key="index" class="carousel-item" @click="navToDetailPage({title: '轮播广告'})">
@@ -27,14 +26,14 @@
 			</view>
 			<view class="section top-3">
 				<ul class="billboard-list-top-3">
-					<li class="billboard-item" v-for="item in billboardListTop3" :key="item.id">
+					<li class="billboard-item" v-for="item in billboardListTop3" :key="item.id" >
 						<view class="portrait">
 							<image class="img" :src="item.img" >
 							<text class="rank">{{item.rank}}</text>
 						</view>
 						<view class="name">{{item.name}}</view>
 						<view class="integral">{{item.integral}}<i class="icon-integral"></i></view>
-						<button class="btn-pick">PICK</button>
+						<button class="btn-pick" @tap="navToFansPage(item.id)">PICK</button>
 					</li>
 				</ul>
 			</view>
@@ -49,8 +48,7 @@
 								<view class="integral">{{item.integral}}<i class="icon-integral"></i></view>
 							</view>
 						</div>
-						<button class="btn-pick">PICK</button>
-						
+						<button class="btn-pick" @tap="navToFansPage(item.id)">PICK</button>
 					</li>
 				</ul>
 			</view>
@@ -81,6 +79,7 @@
 				this.carouselList = carouselList;
 				// 获取榜单
 				let billboardList = await this.$api.json('billboardList');
+				
 				if(billboardList) {
 					this.billboardListTop3 = billboardList.slice(0,3);
 					this.billboardListOthers = billboardList.slice(3,10);
@@ -90,7 +89,13 @@
 			swiperChange(e) {
 				const index = e.detail.current;
 				this.swiperCurrent = index;
-			}	
+			},
+			navToFansPage(id) {
+				getApp().globalData.billboardId = id;
+				uni.switchTab({
+					url: "/pages/fans/fans"
+				})
+			}
 		}
 	}
 </script>

@@ -1,0 +1,268 @@
+/* #ifdef MP */
+page {
+	overflow-x: hidden;
+}
+.status_bar {
+	height: var(--status-bar-height);
+	width: 100%;
+	color: #fff;
+	font-size: 12px;
+	position: relative;
+	top: 64upx;
+	z-index: 99;
+	text-align: center;
+}
+.header-bg {
+	top: -50upx;
+}
+.content {
+	position: relative;
+	// padding: 108upx 0 0 0;
+}
+
+/* #endif */
+
+/* #ifdef H5 */
+.status_bar {
+	height: var(--status-bar-height);
+	width: 100%;
+	color: #fff;
+	font-size: 14px;
+	position: relative;
+	top: 60upx;
+	z-index: 99;
+	text-align: center;
+}
+.content {
+	position: relative;
+	// padding: 114upx 0 0 0;
+}
+/* #endif */
+
+page {
+	background: #FAF9F9;
+	
+}
+.container {
+	height: 100%;
+	background: #FAF9F9;
+}
+.header-bg {
+	position: relative;
+	width: 750upx;
+	height: 308upx;
+	padding-top: 148upx;
+	overflow: hidden;
+	background: linear-gradient(127deg,rgba(250,114,104,1) 0%, rgba(117,96,249,1) 100%);
+	.header-img {
+		position: absolute;
+		right: -120upx;
+		bottom: 30upx;
+		width: 462upx;
+		height: 152upx;
+		background: url(../../static/fans-bg.png) no-repeat left top;
+		background-size: 100%;
+	}
+	.fans-info {
+		display: flex;
+		width: 100%;
+		height: 186upx;
+		.portrait {
+			width: 120upx;
+			height: 120upx;
+			border-radius: 50%;
+			margin: 0 25upx 0 32upx;
+		}
+		.info-m {
+			width: 343upx;
+			.username {
+				font-size: 18px;
+				color: #fff;
+				line-height: 44upx;
+			}
+			.rank-info {
+				display: flex;
+				padding-top: 14upx;
+				color: #fff;
+			}
+			.rank-info-item {
+				width: 112upx;
+			}
+			.integral-info-item {
+				flex: 1;
+			}
+			.info-val {
+				font-size: 14px;
+				line-height: 36upx;
+				font-family: "arial";
+				font-weight:500;
+			}
+			.info-label {
+				font-size: 12px;
+				line-height: 32upx;
+			}
+		}
+		.btn-join {
+			width: 200upx;
+			height: 64upx;
+			line-height: 64upx;
+			margin-top: 56upx;
+			padding: 0;
+			background: rgba(250, 104, 137, 1);
+			box-shadow: 0upx 4upx 18upx 0upx rgba(250, 104, 137, 0.6);
+			border-radius: 32upx;
+			font-size: 24upx;
+			color: #fff;
+			text-align: center;
+		}
+	}
+	
+}
+
+.contribute-box {
+	position: relative;
+	width: 100%;
+	height: 88upx;
+	margin-bottom: 20upx;
+	.contribute-box-l { 
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 8upx;
+		height: 88upx;
+		background: url(../../static/contribute-box-border.png) no-repeat left top;
+		background-size: 100% 100%;
+	}
+	.contribute-box-r-bg {
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: calc(100% - 8upx);;
+		height: 88upx;
+		background: linear-gradient(127deg, rgba(250,114,104,1) 0%,rgba(117,96,249,1) 100%);
+		opacity: 0.5;
+	}
+	.contribute-box-r {
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 742upx;
+		height: 88upx;
+		flex: 1;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0 27upx;
+		.label {
+			font-size: 14px;
+			color: #fff;
+		}
+		.img-list {
+			display: flex;
+		}
+		.img-wrap {
+			position: relative;
+			width: 60upx;
+			height: 60upx;
+			margin-right: 20upx;
+			&:last-child{
+				margin-right: 0;
+			}
+		}
+		.contribute-img {
+			width: 60upx;
+			height: 60upx;
+			border-radius: 50%;
+		}
+		.index {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			width: 28upx;
+			height: 28upx;
+			border-radius: 50%;
+			line-height: 28upx;
+			font-size: 12px;
+			color: #fff;
+			font-family: arial;
+			text-align: center;
+			background: #eb68fa;
+			
+		}
+	}	
+}
+/* #ifdef MP */ 
+.contribute-box {
+	position: relative;
+	top: -50upx;
+}
+/* #endif */
+.section {
+	width: 686upx;
+	margin: 0 auto 40upx;
+	background: rgba(255,255,255,1);
+	box-shadow: 0px 2upx 40upx 0px rgba(0,0,0,0.04);
+	border-radius: 16upx;
+}
+.message-list { 
+	padding: 20upx 0;
+	.message-item {
+		position: relative;
+		height: 120upx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0 30upx;
+		.portrait-bg {
+			display: none;
+			position: absolute;
+			left: 26upx;
+			top: 0;
+			width: 88upx;
+			height: 104upx;
+			background: url(../../static/person-bg-xs.png) no-repeat left top;
+			background-size: 100% 100%;
+			transition: all 0.5s;
+		}
+		.img{
+			width: 80upx;
+			height: 80upx;
+			margin: 0 22upx 0 0;
+			border-radius: 50%;
+		}
+		.item-right {
+			flex: 1;
+		}
+		.item-top {
+			display: flex;
+			height: 38upx;
+			align-items: flex-end; 
+			justify-content: space-between;
+		}
+		.name {
+			font-size: 12px;
+			color: #FA6889;
+			line-height: 40upx;
+		}
+		.message {
+			font-size: 14px;
+			color: #414348;
+			line-height: 38upx;
+		}
+		.time {
+			font-size: 12px;
+			color: #414348;
+		}
+		&.active {
+			.portrait-bg {
+				display: block;
+			}
+			.message {
+				color: #FA6889;
+			}
+		}
+	}
+}
+	
+	
+	
