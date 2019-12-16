@@ -1,0 +1,104 @@
+.orderPage {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #FAF9F9;
+}
+
+.tabBar {
+	height: 110upx;
+	padding: 0 80upx;
+	display: flex;
+	background: #ffffff;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+.tab {
+	flex: 1;
+	font-size: 24upx;
+	color: #95989c;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	&.active {
+		color: #fa6889;
+		&:after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			margin-left: -21upx;
+			width: 42upx;
+			height: 6upx;
+			border-radius: 3upx;
+			background: #fa6889;
+		}
+	}
+}
+
+.list {
+	position: absolute;
+	top: 130upx;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow-y: auto;
+}
+
+.sec {
+	width: 690upx;
+	height: 210upx;
+	border-radius: 10upx;
+	background: #ffffff;
+	margin: 0 auto 20upx;
+	display: flex;
+	position: relative;
+	.img {
+		width: 130upx;
+		height: 130upx;
+		border-radius: 5upx;
+		flex: 1 130upx 0;
+		margin: 40upx 0 0 30upx;
+	}
+	.con {
+		height: 130upx;
+		flex: 3;
+		margin: 30upx 0 0 20upx;
+		.title {
+			font-size: 48upx;
+			color: #3a4155;
+			width: 240upx;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.detail {
+			font-size: 24upx;
+			color: #95989c;
+		}
+		.status {
+			font-size: 36upx;
+			color: #fa6889;
+		}
+	}
+	.btn {
+		position: absolute;
+		top: 72upx;
+		right: 30upx;
+		color: #ffffff;
+		width: 230upx;
+		height: 96upx;
+		background: url('../../static/myOrder/rect@2x(1).png');
+		background-size: cover;
+		text-align: center;
+		line-height: 78upx;
+		font-size: 32upx;
+	}
+}
+

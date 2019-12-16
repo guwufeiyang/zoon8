@@ -77,7 +77,52 @@ const billboardList = [
 	}
 ]
 
+/*订单列表*/
+const orderList = [
+	{
+		id: 1,
+		img: "/static/logo.png",
+		title: '程新林演唱会门票',
+		detail: '详情相亲相亲',
+		status: 1,
+		type: 0,
+	},
+	{
+		id: 2,
+		img: "/static/logo.png",
+		title: '程新林演唱会门票',
+		detail: '详情相亲相亲',
+		status: 0,
+		type: 0,
+	},
+	{
+		id: 3,
+		img: "/static/logo.png",
+		title: '程新林演唱会门票',
+		detail: '详情相亲相亲',
+		status: 0,
+		type: 2,
+	},
+	{
+		id: 4,
+		img: "/static/logo.png",
+		title: '程新林演唱会门票',
+		detail: '详情相亲相亲',
+		status: 0,
+		type: 2,
+	},
+	{
+		id: 5,
+		img: "/static/logo.png",
+		title: '程新林演唱会门票',
+		detail: '详情相亲相亲',
+		status: 2,
+		type: 2,
+	},
+]
+
 export default {
 	carouselList,
-	billboardList
+	billboardList,
+	orderList
 }
