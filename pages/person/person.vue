@@ -10,7 +10,7 @@
 				<view class="userinfo-box-top">
 					<image class="portrait" src="/static/missing-face.png"></image>
 					<view class="userinfo-r">
-						<view class="login-status">登录</view>
+						<button type="primary" class="login-status" @tap="gotoLogin">登录</button>
 						<view class="rank-info">
 							<view class="rank-info-item">
 								<view class="info-val">--</view>
@@ -66,9 +66,8 @@
 					<view class="icon-arrow-right"></view>
 				</li>
 			</ul>
-			
 		</view>
-	</view>
+	<view>
 </template>
 
 <script>
@@ -77,6 +76,13 @@
 			return {
 				hasLogin: false
 			};
+		},
+		methods:{
+			gotoLogin(){
+				uni.reLaunch({
+				    url: '../login/login',
+				});
+			}
 		}
 	}
 </script>

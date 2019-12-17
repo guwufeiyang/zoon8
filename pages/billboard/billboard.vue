@@ -58,6 +58,7 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
 	export default {
 		data() {
 			return {
@@ -68,7 +69,12 @@
 				billboardListOthers: []
 			}
 		},
+		computed: {
+			...mapState(['userInfo'])
+		},
 		onLoad() {
+			// 可以根据this.userInfo.token时候有值判断是否已经登录
+ 			
 			this.loadData();
 		},
 		methods: {
