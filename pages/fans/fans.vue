@@ -8,7 +8,6 @@
 			<view class="not-fans-wrap">
 				<image class="not-fans-img" src="../../static/not-fans.png"></image>
 				<text class="not-fans-text">你还没有加入粉丝团哦 快去榜单选择心仪爱豆加入粉丝团</text>
-				<button class="btn-red">登录查看粉丝团</button>
 			</view>
 		</view>
 		<view class="content" v-if="isFans">
@@ -95,7 +94,7 @@
 		data() {
 			return {
 				// id: getApp().globalData.billboardId,
-				isFans: false,
+				isFans: true,
 				userInfo: {},
 				fanlist: [],
 				contributeList: []

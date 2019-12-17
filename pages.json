@@ -42,14 +42,14 @@
 		}, {
 			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "登录"
+				"navigationBarTitleText": "授权登录"
 			}
 		}
     ],
 	"globalStyle": {
-		"navigationBarTextStyle": "white",
+		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "八度空间",
-		"navigationBarBackgroundColor": "#ac67bd",
+		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#FAF9F9"
 	},
 	"tabBar": {

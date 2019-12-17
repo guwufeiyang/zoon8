@@ -164,6 +164,24 @@ const fanlist = [
 	time: "14:09:31"
 }]
 
+const achievementList = [
+	{
+		img: '/static/icon-music.png',
+		title: '音乐达人',
+		desc: '成就详情成就详情'
+	},
+	{
+		img: '/static/icon-fans.png',
+		title: '狂热粉丝',
+		desc: '成就详情成就详情'
+	},
+	{
+		img: '/static/icon-achievement.png',
+		title: '挥金如图',
+		desc: '成就详情成就详情'
+	}
+]
+
 /*订单列表*/
 const orderList = [
 	{
@@ -213,5 +231,6 @@ export default {
 	billboardList,
 	contributeList,
 	fanlist,
+	achievementList,
 	orderList
 }

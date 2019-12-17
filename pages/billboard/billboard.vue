@@ -25,8 +25,8 @@
 				<button>榜单福利<i class="icon-tip"></i></button>
 			</view>
 			<view class="section top-3">
-				<ul class="billboard-list-top-3">
-					<li class="billboard-item" v-for="item in billboardListTop3" :key="item.rank" >
+				<view class="billboard-list-top-3">
+					<view class="billboard-item" v-for="item in billboardListTop3" :key="item.rank" >
 						<view class="portrait">
 							<image class="img" :src="item.img" >
 							<text class="rank">{{item.rank}}</text>
@@ -34,23 +34,23 @@
 						<view class="name">{{item.name}}</view>
 						<view class="integral">{{item.integral}}<i class="icon-integral"></i></view>
 						<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
-					</li>
-				</ul>
+					</view>
+				</view>
 			</view>
 			<view class="section top-others">
-				<ul class="billboard-list-others">
-					<li class="billboard-item" v-for="item in billboardListOthers" :key="item.rank">
-						<div class="billboard-item-l">
+				<view class="billboard-list-others">
+					<view class="billboard-item" v-for="item in billboardListOthers" :key="item.rank">
+						<view class="billboard-item-l">
 							<text class="rank">{{item.rank}}</text>
 							<image class="img" :src="item.img"></image>
 							<view>
 								<view class="name">{{item.name}}</view>
 								<view class="integral">{{item.integral}}<i class="icon-integral"></i></view>
 							</view>
-						</div>
+						</view>
 						<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
-					</li>
-				</ul>
+					</view>
+				</view>
 			</view>
 		</view>
 		
@@ -91,9 +91,7 @@
 				let billboardList = await this.$api.json('billboardList');
 				
 				if(billboardList) {
-					
 					this.swapArr(billboardList, 0, 1);
-					
 					this.billboardListTop3 = billboardList.slice(0,3);
 					this.billboardListOthers = billboardList.slice(3,10);
 				}
