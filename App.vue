@@ -1,10 +1,21 @@
 <script>
+	import { mapState } from 'vuex'
 	export default {
-		 globalData: {  
+		globalData: {  
 			bandInfo: {}
-		},  
-		onLaunch: function() {
-			// console.log('App Launch')
+		},
+		computed: {
+			...mapState(['userInfo'])
+		},
+		onLaunch: async function() {
+			console.log('App onLaunch')
+			
+			//
+			if(this.userInfo.token){
+				// uni.redirectTo({url: '/pages/billboard/billboard'})
+			} else {
+				// uni.redirectTo({url: '/pages/login/login'})
+			}
 		},
 		onShow: function() {
 			// console.log('App Show')

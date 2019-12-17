@@ -1,6 +1,8 @@
 <template>
 	<view>
-		个人中心
+        <view class="btn-row">
+            <button type="primary" class="primary" @tap="gotoLogin">登录</button>
+        </view>
 	</view>
 </template>
 
@@ -10,6 +12,13 @@
 			return {
 				
 			};
+		},
+		methods:{
+			gotoLogin(){
+				uni.reLaunch({
+				    url: '../login/login',
+				});
+			}
 		}
 	}
 </script>

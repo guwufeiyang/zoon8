@@ -25,10 +25,16 @@ async function arequest(url, data, header) {
 			// wechatId: infoRes.userInfo.openId,
 			// name: infoRes.userInfo.nickName
 		})
-		jwt = loginRes.data
+		jwt = loginRes.data.token
 		console.log("login success", jwt);
+		
+		if(url == '/mockLogin') {
+			return loginRes
+		}
 	}
-	return await dorequest(url, data, {'jwt': jwt, ...header})
+	if(url != '/mockLogin') {
+		return await dorequest(url, data, {'jwt': jwt, ...header})
+	}
 }
 				
 
