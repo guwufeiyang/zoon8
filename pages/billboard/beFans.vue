@@ -1,14 +1,14 @@
 <template>
 	<view class="container">
 		<view class="status_bar">
-			粉丝团
+			<i class="icon-back" @click="navBack"></i>{{userInfo.name}}粉丝团
 		</view>
 		<view class="content">
 			<view class="header-bg">
 				<view class="header-img"></view>
 				
 				<view class="fans-info">
-					<image class="portrait" :src="userInfo.portrait || '/static/missing-face.png'"></image>
+					<image class="portrait" :src="userInfo.img || '/static/missing-face.png'"></image>
 					<view class="info-m">
 						<view class="username">{{userInfo.name}}</view>
 						<view class="rank-info">
@@ -23,7 +23,7 @@
 						</view>
 					</view>
 					<view class="info-r">
-						<button class="btn-join">加入公会</button>
+						<button class="btn-join">加入粉丝团</button>
 					</view>
 				</view>
 			</view>	
@@ -44,7 +44,11 @@
 				
 			<view class="section">
 				<ul class="message-list">
-					<li class="message-item" :class="{active: item.selected === true}" v-for="(item, index) in fanlist" :key="index" @click="selectFans(item, index+1)">
+					<li class="message-item" 
+						:class="{'active': item.selected }" 
+						v-for="(item, index) in fanlist" 
+						:key="index" 
+						@click="selectFans(item)">
 						<view class="portrait-bg"></view>
 						<image class="img" :src="item.portrait"></image>
 						<view class="item-right">
@@ -68,46 +72,45 @@
 		data() {
 			return {
 				// id: getApp().globalData.billboardId,
-				
 				userInfo: {},
 				fanlist: [],
 				contributeList: []
 			};
 		},
-		onLoad() {
-			// 接收传值,id里面放的是标题，因为测试数据并没写id
-			// console.log(this.id)
-			
+		onLoad(options) {
+			// this.userInfo = getApp().globalData.bandInfo;
+			this.userInfo = JSON.parse(options.item);
 			this.loadData()
 		},
 		methods: {
 			async loadData() {
 				// 获取榜单
-				let fanlist = await this.$api.json('fanlist');	
-				this.fanlist = fanlist;
+				this.fanlist = await this.$api.json('fanlist');
 				this.fanlist.forEach(item=>{
 					item.selected = false;
 				});
-				this.fanlist[0].selected = true;
-				this.userInfo = this.fanlist[0];
-				this.userInfo.rank = 1;
+			
 				// 获取贡献榜
 				this.contributeList = await this.$api.json('contributeList');
 			},
-			selectFans(item, idx) {
-				this.userInfo = item;
+			selectFans(item) {
 				this.fanlist.forEach(item=>{
 					item.selected = false;
 				});
 				item.selected = true;
-				this.userInfo.rank = idx;
-			}
+				console.log(this.fanlist);
+			},
+			navBack(){
+				uni.switchTab({
+					url: "/pages/billboard/billboard"
+				})
+			},
 		}
 		
 	}
 </script>
 
 <style lang="less">
-	@import url('fans.less');
+	@import url('beFans.less');
 </style>
 
