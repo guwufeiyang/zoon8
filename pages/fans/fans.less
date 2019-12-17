@@ -32,16 +32,59 @@ page {
 	top: 60upx;
 	z-index: 99;
 	text-align: center;
+	
 }
 .content {
 	position: relative;
 	// padding: 114upx 0 0 0;
 }
 /* #endif */
-
+.icon-back {
+	display: inline-block;
+	position: absolute;
+	left: 20upx;
+	top: 0;
+	width: 32upx;
+	height: 32upx;
+	background: url(../../static/icon-back.png) no-repeat left top;
+	background-size: 100%;
+	
+}
 page {
 	background: #FAF9F9;
-	
+}
+
+.not-fans-wrap {
+	width: 336upx;
+	height: 420upx;
+	margin: 220upx auto 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	.not-fans-img {
+		width: 222upx;
+		height: 224upx;
+	}
+	.not-fans-text {
+		width: 100%;
+		font-size: 12px;
+		color: #656976;
+		text-align: center;
+		line-height: 18px;
+	}
+	.btn-red {
+		width: 300upx;
+		height: 68upx;
+		line-height: 68upx;
+		margin-top: 30upx;
+		padding: 0;
+		background: rgba(250, 104, 137, 1);
+		box-shadow: 0upx 4upx 18upx 0upx rgba(250, 104, 137, 0.6);
+		border-radius: 32upx;
+		font-size: 12px;
+		color: #fff;
+		text-align: center;
+	}
 }
 .container {
 	height: 100%;
@@ -86,7 +129,7 @@ page {
 				color: #fff;
 			}
 			.rank-info-item {
-				width: 112upx;
+				width: 116upx;
 			}
 			.integral-info-item {
 				flex: 1;
@@ -116,14 +159,12 @@ page {
 			text-align: center;
 		}
 	}
-	
 }
 
 .contribute-box {
 	position: relative;
 	width: 100%;
 	height: 88upx;
-	margin-bottom: 20upx;
 	.contribute-box-l { 
 		position: absolute;
 		left: 0;
@@ -190,6 +231,36 @@ page {
 			
 		}
 	}	
+}
+
+.task-box {
+	width: 100%;
+	height: 192upx;
+	background: rgba(255, 255, 255, 1);
+	box-shadow: 0px 0px 40upx 0px rgba(0, 0, 0, 0.04);
+	border-radius: 0px 0px 16upx 16upx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20upx;
+	padding: 0 114upx;
+	.task-item {
+		// flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.task-img {
+		width: 100upx;
+		height: 100upx;
+		margin-bottom: 8upx;
+	}
+	.task-txt {
+		font-size: 14px;
+		color: #414348;
+		line-height: 14px;
+	}
+
 }
 /* #ifdef MP */ 
 .contribute-box {

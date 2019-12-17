@@ -1,12 +1,19 @@
 <template>
 	<view class="container">
-		<view class="status_bar">
-			粉丝团
+		<view class="status_bar" :style="{color: statusBarColor}">
+			<text v-if="isFans">{{userInfo.name}}</text>粉丝团
 		</view>
-		<view class="content">
+		
+		<view class="content" v-if="!isFans">
+			<view class="not-fans-wrap">
+				<image class="not-fans-img" src="../../static/not-fans.png"></image>
+				<text class="not-fans-text">你还没有加入粉丝团哦 快去榜单选择心仪爱豆加入粉丝团</text>
+				<button class="btn-red">登录查看粉丝团</button>
+			</view>
+		</view>
+		<view class="content" v-if="isFans">
 			<view class="header-bg">
 				<view class="header-img"></view>
-				
 				<view class="fans-info">
 					<image class="portrait" :src="userInfo.portrait || '/static/missing-face.png'"></image>
 					<view class="info-m">
@@ -23,7 +30,7 @@
 						</view>
 					</view>
 					<view class="info-r">
-						<button class="btn-join">加入公会</button>
+						<button class="btn-join">加入粉丝团</button>
 					</view>
 				</view>
 			</view>	
@@ -41,10 +48,25 @@
 					</view>
 				</view>
 			</view>
+			
+			<view class="task-box">
+				<view class="task-item">
+					<image class="task-img" src="../../static/icon-task.png"></image>
+					<text class="task-txt">做任务</text>
+				</view>
+				<view class="task-item">
+					<image class="task-img" src="../../static/icon-message.png"></image>
+					<text class="task-txt">发留言</text>
+				</view>
+				<view class="task-item">
+					<image class="task-img" src="../../static/icon-lottery.png"></image>
+					<text class="task-txt">去抽奖</text>
+				</view>
+			</view>
 				
 			<view class="section">
 				<ul class="message-list">
-					<li class="message-item" :class="{active: item.selected === true}" v-for="(item, index) in fanlist" :key="index" @click="selectFans(item, index+1)">
+					<li class="message-item" :class="{active: item.selected === true}" v-for="(item, index) in fanlist" :key="index" @tap="selectFans(item, index+1)">
 						<view class="portrait-bg"></view>
 						<image class="img" :src="item.portrait"></image>
 						<view class="item-right">
@@ -59,25 +81,32 @@
 			</view>
 		</view>
 		
+		
 	</view>
 </template>
 
 
 <script>
+	import uniStatusBar from '@/components/uni-status-bar.vue'
 	export default {
+		components: {
+			uniStatusBar
+		},
 		data() {
 			return {
 				// id: getApp().globalData.billboardId,
-				
+				isFans: false,
 				userInfo: {},
 				fanlist: [],
 				contributeList: []
 			};
 		},
+		computed: {
+			statusBarColor() {
+				return this.isFans ? "#fff": "#000"
+			}
+		},
 		onLoad() {
-			// 接收传值,id里面放的是标题，因为测试数据并没写id
-			// console.log(this.id)
-			
 			this.loadData()
 		},
 		methods: {
@@ -101,7 +130,10 @@
 				});
 				item.selected = true;
 				this.userInfo.rank = idx;
-			}
+			},
+			navBack(){
+				uni.navigateBack();
+			},
 		}
 		
 	}

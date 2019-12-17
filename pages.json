@@ -1,17 +1,19 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-		    "path" : "pages/order/order",
-		    "style": {
-				"navigationBarTextStyle": "black",
-				"navigationBarBackgroundColor": "#ffffff",
-		    	"navigationBarTitleText": "我的订单"
-		    }
-		},
-		{
 			"path": "pages/billboard/billboard",
 			"style": {
 				"navigationBarTitleText": "新秀榜单",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": true
+				}
+			}
+		},
+		{
+			"path": "pages/billboard/beFans",
+			"style": {
+				"navigationBarTitleText": "加入粉丝团",
 				"navigationStyle": "custom",
 				"app-plus": {
 					"titleNView": true
@@ -27,14 +29,23 @@
 					"titleNView": true
 				}
 			}
-		},{
+		},
+		{
 			"path": "pages/person/person",
 			"style": {
-				
 				"navigationBarTitleText": "个人中心"
 			}
+		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false,
+					"animationType": "slide-in-bottom"
+				}
+			}
 		}
-	    
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

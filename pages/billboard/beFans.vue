@@ -23,7 +23,7 @@
 						</view>
 					</view>
 					<view class="info-r">
-						<button class="btn-join">加入粉丝团</button>
+						<button class="btn-join" @click="joinFansGroup">加入粉丝团</button>
 					</view>
 				</view>
 			</view>	
@@ -35,7 +35,7 @@
 					<view class="label">贡献榜</view>
 					<view class="img-list">
 						<view class="img-wrap" v-for="(item,index) in contributeList" :key="index">
-							<image class="contribute-img"  :src="item.img"></image>
+							<image class="contribute-img" :src="item.img"></image>
 							<view class="index" :style="{backgroundColor: item.bg}">{{index+1}}</view>
 						</view>
 					</view>
@@ -56,7 +56,7 @@
 								<text class="name">{{ item.name }}</text>
 								<text class="time">{{ item.time }}</text>
 							</view>
-							<view class="message">{{item.message}}</view>
+							<view class="message">{{ item.message }}</view>
 						</view>
 					</li>
 				</ul>
@@ -105,6 +105,19 @@
 					url: "/pages/billboard/billboard"
 				})
 			},
+			joinFansGroup() {
+				uni.showModal({
+				    title: '提示',
+				    content: '您将加入王一博的粉丝团，暂不提供退团功能哦！',
+				    success: function (res) {
+				        if (res.confirm) {
+				            console.log('用户点击确定');
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');
+				        }
+				    }
+				});
+			}
 		}
 		
 	}
