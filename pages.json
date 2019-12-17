@@ -1,6 +1,14 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+		    "path" : "pages/order/order",
+		    "style": {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#ffffff",
+		    	"navigationBarTitleText": "我的订单"
+		    }
+		},
+		{
 			"path": "pages/billboard/billboard",
 			"style": {
 				"navigationBarTitleText": "新秀榜单",
@@ -22,10 +30,12 @@
 		},{
 			"path": "pages/person/person",
 			"style": {
+				
 				"navigationBarTitleText": "个人中心"
 			}
 		}
-	],
+	    
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "八度空间",
