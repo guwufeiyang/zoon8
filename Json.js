@@ -162,7 +162,7 @@ const fanlist = [
 	portrait: '/static/temp/portrait-img3.jpg',
 	message: '小摩托一起加油！',
 	time: "14:09:31"
-}
+}]
 
 /*订单列表*/
 const orderList = [
