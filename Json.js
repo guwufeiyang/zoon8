@@ -10,15 +10,15 @@ const billboardList = [
 	{
 		id: 1,
 		img: "/static/temp/portrait-img1.jpg",
-		rank: 2,
-		name: "刺猬乐队",
+		rank: 1,
+		name: "新裤子",
 		integral: "839989289"
 	}, 
 	{
 		id: 2,
 		img: "/static/temp/portrait-img2.jpg",
-		rank: 1,
-		name: "新裤子",
+		rank: 2,
+		name: "刺猬乐队",
 		integral: "839989289"
 	}, {
 		id: 3,

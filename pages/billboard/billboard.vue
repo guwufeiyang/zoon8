@@ -26,20 +26,20 @@
 			</view>
 			<view class="section top-3">
 				<ul class="billboard-list-top-3">
-					<li class="billboard-item" v-for="item in billboardListTop3" :key="item.id" >
+					<li class="billboard-item" v-for="item in billboardListTop3" :key="item.rank" >
 						<view class="portrait">
 							<image class="img" :src="item.img" >
 							<text class="rank">{{item.rank}}</text>
 						</view>
 						<view class="name">{{item.name}}</view>
 						<view class="integral">{{item.integral}}<i class="icon-integral"></i></view>
-						<button class="btn-pick" @tap="navToFansPage(item.id)">PICK</button>
+						<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
 					</li>
 				</ul>
 			</view>
 			<view class="section top-others">
 				<ul class="billboard-list-others">
-					<li class="billboard-item" v-for="item in billboardListOthers" :key="item.id">
+					<li class="billboard-item" v-for="item in billboardListOthers" :key="item.rank">
 						<div class="billboard-item-l">
 							<text class="rank">{{item.rank}}</text>
 							<image class="img" :src="item.img"></image>
@@ -48,7 +48,7 @@
 								<view class="integral">{{item.integral}}<i class="icon-integral"></i></view>
 							</view>
 						</div>
-						<button class="btn-pick" @tap="navToFansPage(item.id)">PICK</button>
+						<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
 					</li>
 				</ul>
 			</view>
@@ -72,6 +72,10 @@
 			this.loadData();
 		},
 		methods: {
+			swapArr(arr, index1, index2) {
+			    arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+			    return arr;
+			},
 			async loadData() {
 				// 获取轮播图
 				let carouselList = await this.$api.json('carouselList');
@@ -81,6 +85,9 @@
 				let billboardList = await this.$api.json('billboardList');
 				
 				if(billboardList) {
+					
+					this.swapArr(billboardList, 0, 1);
+					
 					this.billboardListTop3 = billboardList.slice(0,3);
 					this.billboardListOthers = billboardList.slice(3,10);
 				}
@@ -90,10 +97,9 @@
 				const index = e.detail.current;
 				this.swiperCurrent = index;
 			},
-			navToFansPage(id) {
-				getApp().globalData.billboardId = id;
-				uni.switchTab({
-					url: "/pages/fans/fans"
+			navToFansPage(item) {
+				uni.navigateTo({
+					url: `/pages/billboard/beFans?item=${JSON.stringify(item)}`
 				})
 			}
 		}

@@ -1,7 +1,7 @@
 <script>
 	export default {
 		 globalData: {  
-			billboardId: '' 
+			bandInfo: {}
 		},  
 		onLaunch: function() {
 			// console.log('App Launch')
