@@ -1,6 +1,6 @@
 <template>
 	<view>
-		
+		µÇÂ¼Ò³
 	</view>
 </template>
 

@@ -33,17 +33,16 @@
 		{
 			"path": "pages/person/person",
 			"style": {
-				"navigationBarTitleText": "个人中心"
+				"navigationBarTitleText": "个人中心",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": true
+				}
 			}
 		}, {
 			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "",
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": false,
-					"animationType": "slide-in-bottom"
-				}
+				"navigationBarTitleText": "登录"
 			}
 		}
     ],

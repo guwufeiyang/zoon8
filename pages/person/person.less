@@ -1,0 +1,116 @@
+
+.header-bg {
+	position: absolute;
+	left: 0;
+	top: -126upx;
+	width: 750upx;
+	height: 336upx;
+	border-radius: 50%;
+	transform: scale(1.5);
+	overflow: hidden;
+	background: linear-gradient(127deg, rgba(250,114,104,1) 0%, rgba(117,96,249,1) 100%);
+}
+.userinfo-box {
+	position: relative;
+	width: 686upx;
+	height: 258upx;
+	background: #fff url(../../static/person-info-bg.png) left bottom no-repeat;
+	background-size: 100% 62upx;
+	border-radius: 16upx;
+	margin: 0 auto 20upx;
+	padding: 36upx 0 0 32upx;
+	.userinfo-box-top {
+		display: flex;
+	}
+	.portrait {
+		width: 120upx;
+		height: 120upx;
+		border-radius: 50%;
+		margin-right: 24upx;
+		background: #fff url(../../static/missing-face.png) left bottom no-repeat;
+	}
+	.userinfo-r {
+		flex: 1;
+		color: #414348;
+		.login-status {
+			font-size: 18px;
+			line-height: 44upx;
+		}
+		.rank-info {
+			display: flex;
+			padding-top: 14upx;
+		}
+		.rank-info-item {
+			width: 114upx;
+		}
+		.integral-info-item {
+			flex: 1;
+		}
+		.info-val {
+			font-size: 14px;
+			line-height: 36upx;
+			font-family: "arial";
+			font-weight: 500;
+		}
+		.info-label {
+			font-size: 12px;
+			line-height: 32upx;
+		}
+	}
+}
+.notLogin-item {
+	height: 180upx;
+	padding-left: 32upx;
+	padding-right: 32upx;
+	display: flex;
+	align-items: center;
+	.img {
+		width: 100upx;
+		height: 100upx;
+		border-radius: 50%;
+		margin-right: 20upx;
+	}
+	.section-txt {
+		flex: 1;
+	}
+	.info-label {
+		height: 48upx;
+		font-size: 16px;
+		font-weight: 500;
+		color: #3A4155;
+		line-height: 48upx;
+	}
+	.info-value {
+		font-size: 14px;
+		color: #95989C;
+		line-height: 40upx;
+	}
+}
+.hasLogin-item-box {
+	padding: 20upx 32upx;
+}
+.hasLogin-item {
+	display: flex;
+	width: 100%;
+	height: 88upx;
+	align-items: center;
+	.img {
+		width: 42upx;
+		height: 40upx;
+		margin-right: 20upx;
+	}
+	.text {
+		flex: 1;
+		font-size: 14px;
+		color: #414348;
+	}
+	.icon-arrow-right {
+		width: 20upx;
+		height: 20upx;
+		background: url(../../static/icon-arrow-right.png) no-repeat left top;
+		background-size: 100%;
+		
+	}
+}
+
+	
