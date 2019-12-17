@@ -26,11 +26,14 @@
 				var loginRes = await arequest('/mockLogin', null, {
 				})
 				this.login(loginRes.data)
+                
+				uni.reLaunch({
+				    url: '../billboard/billboard',
+				});
 			}
 		},
 		onReady() {
-			// TODO ÐÞ¸ÄÎªµÇÂ¼Ò³Ãæ
-			// this.doLogin()
+			this.doLogin()
 		}
 	}
 </script>
