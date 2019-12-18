@@ -48,27 +48,21 @@
 				]
 			},
             /* ios打包配置 */
-			"ios": {
-
-			},
+            "ios" : {},
             /* SDK配置 */
-			"sdkConfigs": {
-
-			}
-		}
-	},
+            "sdkConfigs" : {}
+        }
+    },
     /* 快应用特有相关 */
-	"quickapp": {
-
-	},
+    "quickapp" : {},
     /* 小程序特有相关 */
-	"mp-weixin": {
-		"appid": "",
-		"setting": {
-			"urlCheck": false
-		},
-		"usingComponents": true
-	},
+    "mp-weixin" : {
+        "appid" : "",
+        "setting" : {
+            "urlCheck" : false
+        },
+        "usingComponents" : true
+    },
     "mp-alipay" : {
         "usingComponents" : true
     },
@@ -77,5 +71,14 @@
     },
     "mp-toutiao" : {
         "usingComponents" : true
+    },
+    "h5" : {
+        "title" : "八度空间",
+        "router" : {
+            "mode" : "history"
+        },
+        "devServer" : {
+            "https" : false
+        }
     }
 }

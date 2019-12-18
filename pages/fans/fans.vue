@@ -50,11 +50,11 @@
 			</view>
 			
 			<view class="task-box" v-if="userInfo.bindedBand">
-				<view class="task-item">
+				<view class="task-item" @click="doTask()">
 					<image class="task-img" src="../../static/icon-task.png"></image>
 					<text class="task-txt">做任务</text>
 				</view>
-				<view class="task-item">
+				<view class="task-item" @click="sendMessage()">
 					<image class="task-img" src="../../static/icon-message.png"></image>
 					<text class="task-txt">发留言</text>
 				</view>
@@ -143,7 +143,8 @@
 				propList: [],
 				comments: [],
 				commentPage: 0,
-				commentPageSize: 10
+				commentPageSize: 10,
+				bandInfo: {}
 			}
 		},
 		computed: {
@@ -164,7 +165,7 @@
 					this.bandInfo = this.bands.find(function(item){
 						return item.id == bandId
 					})
-					console.log("bandInfo " + bandInfo + " bandId " + bandId)
+					// console.log("bandInfo " + bandInfo + " bandId " + bandId)
 				}
 				
 				if(this.userInfo.bindedBand) {
@@ -225,7 +226,17 @@
 			},
 			selectProp(item) {
 				item.selected = !item.selected;
-			}
+			},
+			gotoContribute() {
+				uni.navigateTo({
+					url: "/pages/contribute/contribute"
+				})
+			},
+			doTask() {
+				uni.navigateTo({
+					url: "/pages/doTask/doTask"
+				})
+			},
 		},
 		onLoad(option) {
 			this.loadData(option)

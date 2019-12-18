@@ -39,6 +39,11 @@
             "style" : {
 				"navigationBarTitleText": "贡献榜"
 			}
+        }, {
+            "path" : "pages/doTask/doTask",
+            "style" : {
+            	"navigationBarTitleText": "做任务"
+            }
         }
     ],
 	"globalStyle": {
