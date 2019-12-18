@@ -25,7 +25,7 @@
 			</view>
 			
 			<view class="section-list">
-				<view class="section notLogin-item" v-for="(item, index) in achievementList" :key="index">
+				<view class="section notLogin-item" :class="{disabled: (userInfo.achievements || []).includes(item.id)}" v-for="(item, index) in achievementList" :key="index">
 					<image :src="item.image" class="img"></image>
 					<view class="section-txt">
 						<view class="info-label">{{item.name}}</view>

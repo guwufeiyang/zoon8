@@ -31,7 +31,10 @@
 				if(!this.userInfo.token) {
 					var loginRes = await arequest('/mockLogin', {code: ""}, {
 					})
-					this.login(loginRes.data)
+					var userInfo = loginRes.data
+					userInfo.roles = JSON.parse(userInfo.roles || "[]")
+					userInfo.achievements = JSON.parse(userInfo.achievements || "[]")
+					this.login(userInfo)
 				}
 				uni.navigateBack();	
 			}
