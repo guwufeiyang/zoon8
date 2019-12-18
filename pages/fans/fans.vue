@@ -29,8 +29,8 @@
 						</view>
 					</view>
 					<view class="info-r">
-						<button v-if="!hasJoin" class="btn-join" @click="joinFansGroup()">加入粉丝团</button>
-						<button v-if="hasJoin" class="btn-join" @click="contributeIntergral()">贡献积分<text class="icon-contribute-intergral"></text></button>
+						<button v-if="!userInfo.bindedBand" class="btn-join" @click="joinFansGroup()">加入粉丝团</button>
+						<button v-if="userInfo.bindedBand" class="btn-join" @click="contributeIntergral()">贡献积分<text class="icon-contribute-intergral"></text></button>
 					</view>
 				</view>
 			</view>	
@@ -49,7 +49,7 @@
 				</view>
 			</view>
 			
-			<view class="task-box" v-if="hasJoin">
+			<view class="task-box" v-if="userInfo.bindedBand">
 				<view class="task-item">
 					<image class="task-img" src="../../static/icon-task.png"></image>
 					<text class="task-txt">做任务</text>
@@ -133,14 +133,12 @@
 	import uniPopup from '@/components/uni-popup.vue'
 	export default {
 		components: {
+			uniStatusBar,
 			uniPopup
 		},
 		data() {
 			return {
-				isFans: true,
 				contributeList: [],
-				hasJoin: false,
-				userInfo: uni.getStorageSync("selectBand") || {},
 				type: '',
 				propList: [],
 				comments: [],
@@ -220,7 +218,6 @@
 				this.$refs.showtip.close();
 			},
 			confirmJoin() {
-				this.hasJoin = true;
 				this.$refs.showtip.close();
 			},
 			closeBottomPop() {
