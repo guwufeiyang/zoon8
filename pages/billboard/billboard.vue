@@ -30,6 +30,7 @@
 				<view class="billboard-list-top-3">
 					<view class="billboard-item" v-for="item in billboardListTop3" :key="item.rank" >
 						<image class="portrait-bg" src="../../static/person-bg-s.png"></image>
+
 						<view class="portrait">
 							<image class="img" :src="item.logo" >
 							<text class="rank">{{item.rank}}</text>
@@ -83,7 +84,7 @@
 			...mapState(['userInfo', 'bands'])
 		},
 		methods: {
-			...mapMutations(['login', 'setBands']),
+			...mapMutations(['login', 'setBands', 'setCurrentBand']),
 			swapArr(arr, index1, index2) {
 			    arr[index1] = arr.splice(index2, 1, arr[index1])[0];
 			    return arr;
@@ -108,16 +109,14 @@
 				this.swiperCurrent = index;
 			},
 			navToFansPage(item) {
-				// this.$store.commit('selectBand', item);
-				uni.setStorageSync("selectBand", item);
-				
+				this.setCurrentBand(item.id)
 				uni.switchTab({
 					url: "/pages/fans/fans"
 				})
 			}
 		},
-		onLoad(option) {
-			this.loadData(option);
+		onLoad() {
+			this.loadData();
 		}
 	}
 </script>

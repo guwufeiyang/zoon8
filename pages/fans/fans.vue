@@ -1,16 +1,16 @@
 <template>
 	<view class="container">
 		<view class="status_bar" :style="{color: statusBarColor}">
-			<text v-if="userInfo.bindedBand">{{bandInfo.name}}</text>粉丝团
+			<text v-if="bandId">{{bandInfo.name}}</text>粉丝团
 		</view>
 		
-		<view class="content" v-if="!userInfo.bindedBand">
+		<view class="content" v-if="!bandId">
 			<view class="not-fans-wrap">
 				<image class="not-fans-img" src="../../static/not-fans.png"></image>
 				<text class="not-fans-text">你还没有加入粉丝团哦 快去榜单选择心仪爱豆加入粉丝团</text>
 			</view>
 		</view>
-		<view class="content" v-if="userInfo.bindedBand">
+		<view class="content" v-if="bandId">
 			<view class="header-bg">
 				<image class="header-img" src="../../static/fans-bg.png"></image>
 				<view class="fans-info">
@@ -30,10 +30,12 @@
 					</view>
 					<view class="info-r">
 						<button v-if="!userInfo.bindedBand" class="btn-join" @click="joinFansGroup()">加入粉丝团</button>
-						<button v-if="userInfo.bindedBand" class="btn-join" @click="contributeIntergral()">
+						
+						<button v-if="userInfo.bindedBand == bandId" class="btn-join" @click="contributeIntergral()">
 							贡献积分
 							<image class="icon-integral" src="../../static/icon-contribute-intergral.png"></image>
 						</button>
+
 					</view>
 				</view>
 			</view>	
@@ -52,7 +54,7 @@
 				</view>
 			</view>
 			
-			<view class="task-box" v-if="userInfo.bindedBand">
+			<view class="task-box" v-if="userInfo.bindedBand == bandId">
 				<view class="task-item" @click="doTask()">
 					<image class="task-img" src="../../static/icon-task.png"></image>
 					<text class="task-txt">做任务</text>
@@ -68,24 +70,22 @@
 			</view>
 				
 			<view class="section">
-				<ul class="message-list">
-					<li class="message-item" 
-						:class="{'active': item.selected}" 
-						v-for="(item, index) in fanlist" 
-						:key="index" 
-						@tap="selectFans(item)"
-					>
+				<view class="message-list">
+					<view class="message-item-wrap" :class="{'active': item.selected}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item)">
 						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
-						<image class="img" :src="item.portrait"></image>
-						<view class="item-right">
-							<view class="item-top">
-								<text class="name">{{ item.name }}</text>
-								<text class="time">{{ item.time }}</text>
+						<view class="message-item" >
+							<image class="img" :src="item.fanAvatar"></image>
+							<view class="item-right">
+								<view class="item-top">
+									<text class="name">{{ item.fanName }}</text>
+									<text class="time">{{ item.time | formatDate('hh:mm:ss') }}</text>
+								</view>
+								<view class="message">{{item.content}}</view>
 							</view>
-							<view class="message">{{item.message}}</view>
 						</view>
-					</li>
-				</ul>
+					</view>
+					
+				</view>
 			</view>
 		</view>
 		
@@ -139,6 +139,31 @@
 </template>
 
 <script>
+	var dateFormat = {
+	    padLeftZero: function (str) {
+	        return ('00' + str).substr(str.length)
+	    },
+	    formatDate: function (date, fmt) {
+	        if (/(y+)/.test(fmt)) {
+	            fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+	        }
+	        let o = {
+	            'M+': date.getMonth() + 1,
+	            'd+': date.getDate(),
+	            'h+': date.getHours(),
+	            'm+': date.getMinutes(),
+	            's+': date.getSeconds()
+	        }
+	        for (let k in o) {
+	            if (new RegExp(`(${k})`).test(fmt)) {
+	                let str = o[k] + ''
+	                fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? str : this.padLeftZero(str))
+	            }
+	        }
+	        return fmt
+	    }
+	}
+	
 	import { mapState, mapMutations } from 'vuex'
 	import { arequest } from '../../room8Util.js'
 
@@ -151,46 +176,68 @@
 		},
 		data() {
 			return {
+				bandId: null, //从上下文中推测出的
+				bandInfo: {},
+
 				contributeList: [],
 				type: '',
 				propList: [],
 				comments: [],
 				commentPage: 0,
-				commentPageSize: 10,
-				bandInfo: {}
+				commentPageSize: 10
 			}
 		},
 		computed: {
-			...mapState(['userInfo', 'bands']),
+			...mapState(['userInfo', 'bands', 'currentBand']),
 			statusBarColor() {
 				return this.userInfo.bindedBand ? "#fff": "#000"
 			}
 		},
+		filters:{
+			formatDate(time, format="yyyy.MM.dd") {
+				let theTime = new Date(time)
+				let today = new Date()
+				today.setHours(0)
+				today.setMinutes(0)
+				today.setSeconds(0)
+				if(theTime < today) {
+					return dateFormat.formatDate(theTime, "yyyy.MM.dd");
+				}
+				return dateFormat.formatDate(theTime, format);
+			}
+		},
 		methods: {
 			...mapMutations(['login', 'setBands']),
-			async loadData(option) {
-				var bandId = option.bandId || this.userInfo.bindedBand
+			async loadData() {
 				if(!this.bands) {
 					var bands = await arequest('/loadBands', null, {})
 					this.setBands(bands.data)
 				}
-				if(bandId) {
-					this.bandInfo = this.bands.find(function(item){
-						return item.id == bandId
+
+				this.bandId = this.currentBand || this.userInfo.bindedBand
+				if(this.bandId) {
+					this.bandInfo = this.bands.find((item)=>{
+						return item.id == this.bandId
 					})
-					// console.log("bandInfo " + bandInfo + " bandId " + bandId)
 				}
 				
 				if(this.userInfo.bindedBand) {
 					this.comments = await arequest('/loadComment', {offset: this.commentPage * this.commentPageSize, limit: this.commentPageSize}, {});
 					
-					if(this.comments && this.comments.length > 0) {
+					var commentsRes = await arequest('/loadComment', {
+						id: this.bandId, 
+						offset: this.commentPage * this.commentPageSize, 
+						limit: this.commentPageSize,
+					}, {})
+					this.comments = commentsRes.data
+					
+					if(this.comments) {
 						this.comments.forEach(item=>{
+							item.time = new Date(item.createTimestamp)
 							item.selected = false;
 						});
 						this.comments[0].selected = true;
 					}
-					
 				}
 
 				// 获取贡献榜
@@ -258,8 +305,8 @@
 				
 			}
 		},
-		onLoad(option) {
-			this.loadData(option)
+		onShow() {
+			this.loadData()
 		}
 	}
 </script>

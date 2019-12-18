@@ -20,7 +20,10 @@
 					<view class="name">{{item.name}}</view>
 				</view>
 				<view class="item-r">
-					<view class="integral">{{item.integral}}<i class="icon-integral"></i></view>
+					<view class="integral">
+						{{item.integral}}
+						<image class="icon-integral" src="../../static/icon-integral.png"></image>
+					</view>
 				</view>
 			</view>
 		</view>
