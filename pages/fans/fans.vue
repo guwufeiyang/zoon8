@@ -1,29 +1,29 @@
 <template>
 	<view class="container">
 		<view class="status_bar" :style="{color: statusBarColor}">
-			<text v-if="isFans">{{userInfo.name}}</text>粉丝团
+			<text v-if="userInfo.bindedBand">{{bandInfo.name}}</text>粉丝团
 		</view>
 		
-		<view class="content" v-if="!isFans">
+		<view class="content" v-if="!userInfo.bindedBand">
 			<view class="not-fans-wrap">
 				<image class="not-fans-img" src="../../static/not-fans.png"></image>
 				<text class="not-fans-text">你还没有加入粉丝团哦 快去榜单选择心仪爱豆加入粉丝团</text>
 			</view>
 		</view>
-		<view class="content" v-if="isFans">
+		<view class="content" v-if="userInfo.bindedBand">
 			<view class="header-bg">
 				<view class="header-img"></view>
 				<view class="fans-info">
-					<image class="portrait" :src="userInfo.portrait || '/static/missing-face.png'"></image>
+					<image class="portrait" :src="bandInfo.portrait || '/static/missing-face.png'"></image>
 					<view class="info-m">
-						<view class="username">{{userInfo.name}}</view>
+						<view class="username">{{bandInfo.name}}</view>
 						<view class="rank-info">
 							<view class="rank-info-item">
-								<view class="info-val">No.{{userInfo.rank}}</view>
+								<view class="info-val">No.{{bandInfo.rank || '--'}}</view>
 								<view class="info-label">当前排名</view>
 							</view>
 							<view class="integral-info-item">
-								<view class="info-val">{{userInfo.integral}}</view>
+								<view class="info-val">{{bandInfo.integral}}</view>
 								<view class="info-label">本日积分</view>
 							</view>
 						</view>
@@ -65,7 +65,7 @@
 				
 			<view class="section">
 				<ul class="message-list">
-					<li class="message-item" :class="{active: item.selected === true}" v-for="(item, index) in fanlist" :key="index" @tap="selectFans(item, index+1)">
+					<li class="message-item" :class="{active: item.selected === true}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item, index+1)">
 						<view class="portrait-bg"></view>
 						<image class="img" :src="item.portrait"></image>
 						<view class="item-right">
@@ -86,6 +86,9 @@
 
 
 <script>
+	import { mapState, mapMutations } from 'vuex'
+	import { arequest } from '../../room8Util.js'
+
 	import uniStatusBar from '@/components/uni-status-bar.vue'
 	export default {
 		components: {
@@ -93,46 +96,58 @@
 		},
 		data() {
 			return {
-				// id: getApp().globalData.billboardId,
-				isFans: true,
-				userInfo: {},
-				fanlist: [],
-				contributeList: []
+				contributeList: [],
+				comments: [],
+				commentPage: 0,
+				commentPageSize: 10
 			};
 		},
 		computed: {
+			...mapState(['userInfo', 'bands']),
 			statusBarColor() {
-				return this.isFans ? "#fff": "#000"
+				return this.userInfo.bindedBand ? "#fff": "#000"
 			}
 		},
-		onLoad() {
-			this.loadData()
-		},
 		methods: {
-			async loadData() {
-				// 获取榜单
-				let fanlist = await this.$api.json('fanlist');	
-				this.fanlist = fanlist;
-				this.fanlist.forEach(item=>{
-					item.selected = false;
-				});
-				this.fanlist[0].selected = true;
-				this.userInfo = this.fanlist[0];
-				this.userInfo.rank = 1;
+			...mapMutations(['login', 'setBands']),
+			async loadData(option) {
+				var bandId = option.bandId || this.userInfo.bindedBand
+				if(!this.bands) {
+					var bands = await arequest('/loadBands', null, {})
+					this.setBands(bands.data)
+				}
+				if(bandId) {
+					this.bandInfo = this.bands.find(function(item){
+						return item.id == bandId
+					})
+					console.log("bandInfo " + bandInfo + " bandId " + bandId)
+				}
+				
+				if(this.userInfo.bindedBand) {
+					this.comments = await arequest('/loadComment', {offset: this.commentPage * this.commentPageSize, limit: this.commentPageSize}, {})
+					this.comments.forEach(item=>{
+						item.selected = false;
+					});
+					this.comments[0].selected = true;
+				}
+
 				// 获取贡献榜
 				this.contributeList = await this.$api.json('contributeList');
 			},
 			selectFans(item, idx) {
-				this.userInfo = item;
-				this.fanlist.forEach(item=>{
+				this.bandInfo = item;
+				this.comments.forEach(item=>{
 					item.selected = false;
 				});
 				item.selected = true;
-				this.userInfo.rank = idx;
+				this.bandInfo.rank = idx;
 			},
 			navBack(){
 				uni.navigateBack();
 			},
+		},
+		onLoad(option) {
+			this.loadData(option)
 		}
 		
 	}

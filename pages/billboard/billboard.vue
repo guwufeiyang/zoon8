@@ -28,7 +28,7 @@
 				<view class="billboard-list-top-3">
 					<view class="billboard-item" v-for="item in billboardListTop3" :key="item.rank" >
 						<view class="portrait">
-							<image class="img" :src="item.img" >
+							<image class="img" :src="item.logo" >
 							<text class="rank">{{item.rank}}</text>
 						</view>
 						<view class="name">{{item.name}}</view>
@@ -42,7 +42,7 @@
 					<view class="billboard-item" v-for="item in billboardListOthers" :key="item.rank">
 						<view class="billboard-item-l">
 							<text class="rank">{{item.rank}}</text>
-							<image class="img" :src="item.img"></image>
+							<image class="img" :src="item.logo"></image>
 							<view>
 								<view class="name">{{item.name}}</view>
 								<view class="integral">{{item.integral}}<i class="icon-integral"></i></view>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-	import { mapState } from 'vuex'
+	import { mapState, mapMutations } from 'vuex'
 	import { arequest } from '../../room8Util.js'
 	
 	export default {
@@ -71,14 +71,10 @@
 			}
 		},
 		computed: {
-			...mapState(['userInfo'])
-		},
-		onLoad() {
-			// 可以根据this.userInfo.token时候有值判断是否已经登录
- 			
-			this.loadData();
+			...mapState(['userInfo', 'bands'])
 		},
 		methods: {
+			...mapMutations(['login', 'setBands']),
 			swapArr(arr, index1, index2) {
 			    arr[index1] = arr.splice(index2, 1, arr[index1])[0];
 			    return arr;
@@ -89,12 +85,12 @@
 				this.carouselList = bannerRes.data
 				
 				// 获取榜单
-				let billboardList = await this.$api.json('billboardList');
-				
-				if(billboardList) {
-					this.swapArr(billboardList, 0, 1);
-					this.billboardListTop3 = billboardList.slice(0,3);
-					this.billboardListOthers = billboardList.slice(3,10);
+				var bands = await arequest('/loadBands', null, {})
+				this.setBands(bands.data)
+				if(bands.data) {
+					this.swapArr(bands.data, 0, 1);
+					this.billboardListTop3 = bands.data.slice(0,3);
+					this.billboardListOthers = bands.data.slice(3,10);
 				}
 			},
 			//轮播图切换修改背景色
@@ -107,6 +103,9 @@
 					url: `/pages/billboard/beFans?item=${JSON.stringify(item)}`
 				})
 			}
+		},
+		onLoad(option) {
+			this.loadData(option);
 		}
 	}
 </script>

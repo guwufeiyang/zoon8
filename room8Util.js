@@ -4,7 +4,11 @@ function arequest(url, data, header) {
 			url: 'http://111.229.221.83:38080/room8' + url,
 			method: data ? "POST" : "GET",
 			data: data,
-			header: header,
+			header: {
+				...header,
+				'Access-Control-Allow-Origin': '*',
+				'Content-Type': 'application/json; charset=UTF-8'
+			},
 			success: (res) => {
 				console.log("url " + url + " got " + res.data)
 				resolve(res);
@@ -15,7 +19,7 @@ function arequest(url, data, header) {
 		});
 	})
 }
- 
+
 // var loginRes = await arequest('/mockLogin', {
 // 	code: ""
 // 	// code: loginRes.authResult.code,

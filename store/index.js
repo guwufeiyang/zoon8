@@ -8,7 +8,8 @@ const store = new Vuex.Store({
         userInfo: {
 			name: "",
 			token: null
-		}
+		},
+		bands: []
     },
     mutations: {
         login(state, userInfo) {
@@ -26,7 +27,14 @@ const store = new Vuex.Store({
 			uni.removeStorage({
 				key:'userInfo'
 			})
-        }
+        },
+		setBands(state, bands) {
+			state.bands = bands
+			uni.setStorage({
+				key:'bands',
+				data: bands
+			})
+		}
     }
 })
 
