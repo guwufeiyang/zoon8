@@ -6,6 +6,7 @@
 		<view class="content">
 			<view class="header-bg"></view>
 			<view class="userinfo-box">
+				<image src="../../static/person-info-bg.png" class="box-bg"></image>
 				<view class="userinfo-box-top">
 					<image class="portrait" v-bind:src='userInfo.avatar || "/static/missing-face.png"'></image>
 					<view class="userinfo-r">

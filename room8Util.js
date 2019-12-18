@@ -19,7 +19,7 @@ function arequest(url, data, header) {
 		});
 	})
 }
-
+ 
 // var loginRes = await arequest('/mockLogin', {
 // 	code: ""
 // 	// code: loginRes.authResult.code,

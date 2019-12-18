@@ -1,14 +1,4 @@
 
-
-.icon-integral {
-	display: inline-block;
-	width: 20upx;
-	height: 20upx;
-	background: url(../../static/icon-integral.png) no-repeat left top;
-	background-size: 100%;
-	vertical-align: -3upx;
-	margin-left: 4upx;
-}
 .btn-pick {
 	width: 120upx;
 	height: 50upx;
@@ -23,13 +13,9 @@
 .header-bg {
 	position: absolute;
 	left: 0;
-	top: -126upx;
+	top: -60upx;
 	width: 750upx;
 	height: 336upx;
-	border-radius: 50%;
-	transform: scale(1.5);
-	overflow: hidden;
-	background: linear-gradient(127deg, rgba(250,114,104,1) 0%, rgba(117,96,249,1) 100%);
 }
 	
 .carousel-section {
@@ -41,8 +27,6 @@
 		width: 622upx;
 		height: 276upx;
 		transform: translateX(-50%);
-		background: url(../../static/banner-bg.png) no-repeat left top;
-		background-size: 100%;
 	}
 	.carousel {
 		width: 100%;
@@ -107,9 +91,6 @@
 		display: inline-block;
 		width: 20upx;
 		height: 20upx;
-		background: url(../../static/icon-tip.png) no-repeat left top;
-		background-size: 100%;
-		
 		margin-left: 4upx;
 	}
 }
@@ -122,13 +103,17 @@
 		flex-direction: column;
 		align-items: center;
 		padding-top: 62upx;
-		.portrait {
-			position: relative;
+		position: relative;
+		.portrait-bg {
+			position: absolute;
+			left: 60upx;
+			top: 42upx;
 			width: 108upx;
 			height: 124upx;
-			padding-top: 16upx;
-			background: url(../../static/person-bg-s.png) no-repeat left top;
-			background-size: 100%;
+		}
+		.portrait {
+			position: relative;
+			
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -140,7 +125,7 @@
 			.rank {
 				position: absolute;
 				left: 50%;
-				bottom: -12upx;
+				bottom: -15upx;
 				display: inline-block;
 				width: 32upx;
 				height: 32upx;
@@ -169,14 +154,6 @@
 			font-family: HelveticaNeue;
 			color: #95989C;
 			vertical-align: middle;
-			.icon-integral {
-				display: inline-block;
-				width: 20upx;
-				height: 20upx;
-				background: url(../../static/icon-integral.png) no-repeat left top;
-				background-size: 100%;
-				margin-left: 4upx;
-			}
 		}
 		.btn-pick {
 			margin-bottom: 40upx;
@@ -184,16 +161,18 @@
 		&:nth-child(2) {
 			position: relative;
 			top: -20upx;
-			padding-top: 27upx;
+			padding-top: 52upx;
 			background: rgba(255,255,255,1);
 			box-shadow: 0upx -26upx 40upx 0upx rgba(0,0,0,0.04);
 			border-radius: 16upx;
-			.portrait {
+			.portrait-bg {
+				position: absolute;
+				left: 49upx;
+				top: 28upx;
 				width: 132upx;
 				height: 152upx;
-				padding-top: 19upx;
-				background: url(../../static/person-bg-l.png) no-repeat left top;
-				background-size: 100%;
+			}
+			.portrait {
 				.img {
 					width: 122upx;
 					height: 122upx;

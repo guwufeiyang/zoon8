@@ -45,17 +45,17 @@
 <style lang="less">
 .container {
 	.logo-box {
-		width: 660upx;
-		height: 340upx;
+		width: 670upx;
+		height: 384upx;
 		margin: 0 auto;
 		display: flex;
 		justify-content: center;
 		padding-top: 80upx;
-		border-bottom: 1upx solid #d7d7d7;
+		border-bottom: 1upx solid #c8c7cc;
 	}
 	.logo {
-		width: 146upx;
-		height: 146upx;
+		width: 282upx;
+		height: 282upx;
 	}
 	.content-box { 
 		width: 660upx;
@@ -64,25 +64,25 @@
 	}
 	.tip1 {
 		font-size: 16px;
-		line-height: 60upx;
-		color: #000;
+		line-height: 80upx;
+		color: #414348;
 	}
 	.tip2 {
-		font-size: 14px;
-		line-height: 40upx;
-		color: #8f4d5b;
+		font-size: 16px;
+		line-height: 70upx;
+		color: #95989c;
 	}
 	.btn-login {
-		width: 100%;
+		width: 332upx;
 		height: 100upx;
 		line-height: 100upx;
-		margin-top: 40upx;
-		padding: 0;
-		background: #3388ff;
-		border-radius: 50upx;
-		font-size: 16px;
+		margin: 360upx auto 0;
 		color: #fff;
-		text-align: center;
+		font-size: 16px;
+		background: linear-gradient(127deg,rgba(250,114,104,1) 0%,rgba(117,96,249,1) 100%);
+		box-shadow: 0px 12upx 20upx 0px rgba(184,105,176,0.54);
+		border-radius: 100upx;
+
 	}	
 }
 </style>

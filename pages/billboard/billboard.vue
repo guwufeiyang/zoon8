@@ -4,11 +4,10 @@
 			新秀榜单
 		</view>
 		<view class="content">
-			<view class="header-bg"></view>
+			<image class="header-bg" src="../../static/header-bg.png"></image>
 			<!-- 头部轮播 -->
 			<view class="carousel-section">
-				<!-- 标题栏和状态栏占位符 -->
-				<view class="carousel-shadow"></view>
+				<image class="carousel-shadow" src="../../static/banner-bg.png"></image>
 				<swiper class="carousel" circular @change="swiperChange" :autoplay="true" >
 					<swiper-item v-for="(img, index) in carouselList" :key="index" class="carousel-item" @click="navToDetailPage({title: '轮播广告'})">
 						<image :src="img" />
@@ -22,17 +21,24 @@
 				</view>
 			</view>
 			<view class="billboard-title">
-				<button>榜单福利<i class="icon-tip"></i></button>
+				<button>
+					榜单福利
+					<image class="icon-tip" src="../../static/icon-tip.png"></image>
+				</button>
 			</view>
 			<view class="section top-3">
 				<view class="billboard-list-top-3">
 					<view class="billboard-item" v-for="item in billboardListTop3" :key="item.rank" >
+						<image class="portrait-bg" src="../../static/person-bg-s.png"></image>
 						<view class="portrait">
 							<image class="img" :src="item.logo" >
 							<text class="rank">{{item.rank}}</text>
 						</view>
 						<view class="name">{{item.name}}</view>
-						<view class="integral">{{item.integral}}<i class="icon-integral"></i></view>
+						<view class="integral">
+							{{item.integral}}
+							<image src="../../static/icon-integral.png" class="icon-integral"></image>
+						</view>
 						<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
 					</view>
 				</view>
@@ -45,7 +51,10 @@
 							<image class="img" :src="item.logo"></image>
 							<view>
 								<view class="name">{{item.name}}</view>
-								<view class="integral">{{item.integral}}<i class="icon-integral"></i></view>
+								<view class="integral">
+									{{item.integral}}
+									<image src="../../static/icon-integral.png" class="icon-integral"></image>
+								</view>
 							</view>
 						</view>
 						<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>

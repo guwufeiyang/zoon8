@@ -12,7 +12,7 @@
 		</view>
 		<view class="content" v-if="userInfo.bindedBand">
 			<view class="header-bg">
-				<view class="header-img"></view>
+				<image class="header-img" src="../../static/fans-bg.png"></image>
 				<view class="fans-info">
 					<image class="portrait" :src="bandInfo.portrait || '/static/missing-face.png'"></image>
 					<view class="info-m">
@@ -23,20 +23,23 @@
 								<view class="info-label">当前排名</view>
 							</view>
 							<view class="integral-info-item">
-								<view class="info-val">{{bandInfo.integral}}</view>
+								<view class="info-val">{{bandInfo.integral || "--"}}</view>
 								<view class="info-label">本日积分</view>
 							</view>
 						</view>
 					</view>
 					<view class="info-r">
 						<button v-if="!userInfo.bindedBand" class="btn-join" @click="joinFansGroup()">加入粉丝团</button>
-						<button v-if="userInfo.bindedBand" class="btn-join" @click="contributeIntergral()">贡献积分<text class="icon-contribute-intergral"></text></button>
+						<button v-if="userInfo.bindedBand" class="btn-join" @click="contributeIntergral()">
+							贡献积分
+							<image class="icon-integral" src="../../static/icon-contribute-intergral.png"></image>
+						</button>
 					</view>
 				</view>
 			</view>	
 			
 			<view class="contribute-box" @click="gotoContribute()">
-				<view class="contribute-box-l"></view>
+				<image class="contribute-box-l" src="../../static/contribute-box-border.png"></image>
 				<view class="contribute-box-r-bg"></view>
 				<view class="contribute-box-r">
 					<view class="label">贡献榜</view>
@@ -72,7 +75,7 @@
 						:key="index" 
 						@tap="selectFans(item)"
 					>
-						<view class="portrait-bg"></view>
+						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
 						<image class="img" :src="item.portrait"></image>
 						<view class="item-right">
 							<view class="item-top">
@@ -102,7 +105,7 @@
 		<!--贡献积分底部弹窗  -->
 		<uni-popup ref="showtipbottom" :type="type" :mask-click="false">
 			<view class="uni-tip uni-tip-contribute-intergral">
-				<view class="icon-close" @click="closeBottomPop()"></view>
+				<image class="icon-close" @click="closeBottomPop()" src="../../static/icon-close.png"></image>
 				<view class="prop-list">
 					<view class="prop-box" v-for="(item,index) in propList" 
 						:key="index"
@@ -110,18 +113,28 @@
 						@click="selectProp(item)">
 						<image :src="item.img" class="img"></image>
 						<view class="name">{{item.name}}</view>
-						<view class="integral">{{item.integral}}<text class="icon-contribute"></text> </view>
+						<view class="integral">
+							{{item.integral}}
+							<image class="icon-integral " src="../../static/icon-integral.png"></image> 
+						</view>
 					</view>
 				</view>
 				<view class="tip-bottom-area">
-					<view class="left-content">可用积分: <text class="val">30000</text></view>
+					<view class="left-content">
+						可用积分: <text class="val">30000</text> 
+						<text @click="getIntegral()">获取积分 ></text>
+					</view>
 					<button class="btn-join" @click="confirmContribute()">
 						贡献积分
-						<text class="icon-contribute-intergral"></text>
+						<image src="../../static/icon-contribute-intergral.png" class="icon-integral"></image>
 					</button>
 				</view>
 			</view>
 		</uni-popup>
+		
+		<!--获取积分弹窗  -->
+		<view class="mask"></view>
+		<view class="dialog-box"></view>
 	</view>
 </template>
 
@@ -169,11 +182,15 @@
 				}
 				
 				if(this.userInfo.bindedBand) {
-					this.comments = await arequest('/loadComment', {offset: this.commentPage * this.commentPageSize, limit: this.commentPageSize}, {})
-					this.comments.forEach(item=>{
-						item.selected = false;
-					});
-					this.comments[0].selected = true;
+					this.comments = await arequest('/loadComment', {offset: this.commentPage * this.commentPageSize, limit: this.commentPageSize}, {});
+					
+					if(this.comments && this.comments.length > 0) {
+						this.comments.forEach(item=>{
+							item.selected = false;
+						});
+						this.comments[0].selected = true;
+					}
+					
 				}
 
 				// 获取贡献榜
@@ -237,6 +254,9 @@
 					url: "/pages/doTask/doTask"
 				})
 			},
+			getIntegral() {
+				
+			}
 		},
 		onLoad(option) {
 			this.loadData(option)

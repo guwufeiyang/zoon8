@@ -26,7 +26,7 @@
 	}
 </script>
 
-<style>
+<style lang="less">
 view, scroll-view, swiper, swiper-item, cover-view, cover-image, icon, text, rich-text, progress, button, checkbox,
 form, input, label, radio, slider, switch, textarea, navigator, audio, camera, image, video,ul,li {
 	box-sizing: border-box;
@@ -79,6 +79,7 @@ page {
 }
 .content {
 	position: relative;
+	
 	padding: 128upx 0 0 0;
 }
 /* #endif */
@@ -106,15 +107,11 @@ page {
 	top: 0;
 	width: 32upx;
 	height: 32upx;
-	background: url(/static/icon-back.png) no-repeat left top;
-	background-size: 100%;
 }
 .icon-integral {
 	display: inline-block;
 	width: 20upx;
 	height: 20upx;
-	background: url(/static/icon-integral.png) no-repeat left top;
-	background-size: 100%;
 	margin-left: 4upx;
 }
 .tab-bar {

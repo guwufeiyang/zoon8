@@ -1,4 +1,3 @@
-
 .header-bg {
 	position: absolute;
 	left: 0;
@@ -14,11 +13,19 @@
 	position: relative;
 	width: 686upx;
 	height: 258upx;
-	background: #fff url(../../static/person-info-bg.png) left bottom no-repeat;
+	background: #fff;
 	background-size: 100% 62upx;
 	border-radius: 16upx;
 	margin: 0 auto 20upx;
 	padding: 36upx 0 0 32upx;
+	overflow: hidden;
+	.box-bg {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 686upx;
+		height: 62upx;
+	}
 	.userinfo-box-top {
 		display: flex;
 	}
@@ -27,7 +34,6 @@
 		height: 120upx;
 		border-radius: 50%;
 		margin-right: 24upx;
-		background: #fff url(../../static/missing-face.png) left bottom no-repeat;
 	}
 	.userinfo-r {
 		flex: 1;
@@ -91,28 +97,6 @@
 .hasLogin-item-box {
 	padding: 20upx 32upx;
 }
-.hasLogin-item {
-	display: flex;
-	width: 100%;
-	height: 88upx;
-	align-items: center;
-	.img {
-		width: 42upx;
-		height: 40upx;
-		margin-right: 20upx;
-	}
-	.text {
-		flex: 1;
-		font-size: 14px;
-		color: #414348;
-	}
-	.icon-arrow-right {
-		width: 20upx;
-		height: 20upx;
-		background: url(../../static/icon-arrow-right.png) no-repeat left top;
-		background-size: 100%;
-		
-	}
-}
+
 
 	

@@ -1,11 +1,11 @@
 <template>
 	<view>
 		<view class="status_bar">
-			<text class="icon-back" @click="returnBack"></text>
+			<image class="icon-back" @click="returnBack" src="../../static/icon-back.png"></image>
 			做任务
 		</view>
 		<view class="content-bg1"></view>
-		<view class="content-bg2"></view>
+		<image class="content-bg2" src="../../static/doTaskBg.png"></image>
 		<view class="content">
 			<view class="tab-bar">
 				<view class="tab" :class="{'active':active===0}" @click="tabSwitch(0)">每日任务</view>
