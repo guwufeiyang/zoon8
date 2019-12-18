@@ -7,16 +7,16 @@
 			<view class="header-bg"></view>
 			<view class="userinfo-box">
 				<view class="userinfo-box-top">
-					<image class="portrait" src="/static/missing-face.png"></image>
+					<image class="portrait" v-bind:src='userInfo.avatar || "/static/missing-face.png"'></image>
 					<view class="userinfo-r">
-						<button  class="login-btn" @tap="gotoLogin">登录</button>
+						<button class="login-btn" v-if="!userInfo.token" @tap="gotoLogin">登录</button>
 						<view class="rank-info">
 							<view class="rank-info-item">
-								<view class="info-val">--</view>
+								<view class="info-val">{{userInfo.rank || '--'}}</view>
 								<view class="info-label">当前排名</view>
 							</view>
 							<view class="integral-info-item">
-								<view class="info-val">--</view>
+								<view class="info-val">{{userInfo.contribute || '--'}}</view>
 								<view class="info-label">本日积分</view>
 							</view>
 						</view>
@@ -26,9 +26,9 @@
 			
 			<view class="section-list">
 				<view class="section notLogin-item" v-for="(item, index) in achievementList" :key="index">
-					<image :src="item.img" class="img"></image>
+					<image :src="item.image" class="img"></image>
 					<view class="section-txt">
-						<view class="info-label">{{item.title}}</view>
+						<view class="info-label">{{item.name}}</view>
 						<view class="info-value">{{item.desc}}</view>
 					</view>
 				</view>
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+	import { mapState, mapMutations } from 'vuex'
+	import { arequest } from '../../room8Util.js'
 	export default {
 		data() {
 			return {
@@ -45,8 +47,10 @@
 				achievementList: []
 			};
 		},
+		computed: {
+			...mapState(['userInfo'])
+		},
 		onLoad() {
-			// 可以根据this.userInfo.token时候有值判断是否已经登录
 			this.loadData();
 		},
 		methods:{
@@ -56,8 +60,8 @@
 				});
 			},
 			async loadData() {
-				// 获取用户成就列表
-				this.achievementList = await this.$api.json('achievementList');
+				var loadAllGainsRes = await arequest('/loadAllGains', null, {})
+				this.achievementList = loadAllGainsRes.data
 			}
 		}
 	}

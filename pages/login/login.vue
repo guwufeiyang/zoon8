@@ -27,15 +27,15 @@
         methods: {
 			...mapMutations(['login']),
 			async doLogin(){
-				
-				var loginRes = await arequest('/mockLogin', null, {
-				})
-				this.login(loginRes.data)
-                // 返回到登录之前的那个页面
-				uni.navigateBack();
+				console.log("this.userInfo.token " + this.userInfo.token)
+				if(!this.userInfo.token) {
+					var loginRes = await arequest('/mockLogin', {code: ""}, {
+					})
+					this.login(loginRes.data)
+				}
+				uni.navigateBack();	
 			}
 		}
-		
 	}
 </script>
 

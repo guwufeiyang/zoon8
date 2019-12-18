@@ -1,10 +1,3 @@
-
-/* 首页轮播图 */
-const carouselList = [
-	 "/static/temp/banner.png",
-	 "/static/temp/banner.png",
-	 "/static/temp/banner.png"
-]
 /* 首页-榜单数据 */
 const billboardList = [
 	{
@@ -164,24 +157,6 @@ const fanlist = [
 	time: "14:09:31"
 }]
 
-const achievementList = [
-	{
-		img: '/static/icon-music.png',
-		title: '音乐达人',
-		desc: '成就详情成就详情'
-	},
-	{
-		img: '/static/icon-fans.png',
-		title: '狂热粉丝',
-		desc: '成就详情成就详情'
-	},
-	{
-		img: '/static/icon-achievement.png',
-		title: '挥金如图',
-		desc: '成就详情成就详情'
-	}
-]
-
 /*订单列表*/
 const orderList = [
 	{
@@ -227,10 +202,8 @@ const orderList = [
 ]
 
 export default {
-	carouselList,
 	billboardList,
 	contributeList,
 	fanlist,
-	achievementList,
 	orderList
 }

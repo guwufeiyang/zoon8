@@ -18,7 +18,7 @@
 				<view class="swiper-dots">
 					<text class="num">{{swiperCurrent+1}}</text>
 					<text class="sign">/</text>
-					<text class="num">{{swiperLength}}</text>
+					<text class="num">{{carouselList.length}}</text>
 				</view>
 			</view>
 			<view class="billboard-title">
@@ -59,11 +59,12 @@
 
 <script>
 	import { mapState } from 'vuex'
+	import { arequest } from '../../room8Util.js'
+	
 	export default {
 		data() {
 			return {
 				swiperCurrent: 0,
-				swiperLength: 0,
 				carouselList: [],
 				billboardListTop3: [],
 				billboardListOthers: []
@@ -84,9 +85,9 @@
 			},
 			async loadData() {
 				// 获取轮播图
-				let carouselList = await this.$api.json('carouselList');
-				this.swiperLength = carouselList.length;
-				this.carouselList = carouselList;
+				var bannerRes = await arequest('/banner', null, {})
+				this.carouselList = bannerRes.data
+				
 				// 获取榜单
 				let billboardList = await this.$api.json('billboardList');
 				
