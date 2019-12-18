@@ -34,7 +34,12 @@
 			"style": {
 				"navigationBarTitleText": "授权登录"
 			}
-		}
+		}, {
+            "path" : "pages/contribute/contribute",
+            "style" : {
+				"navigationBarTitleText": "贡献榜"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

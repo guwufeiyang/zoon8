@@ -124,4 +124,13 @@
 		box-shadow: 0px 2upx 40upx 0px rgba(0,0,0,0.04);
 		border-radius: 16upx;
 	}
+	
+	.icon-integral {
+		display: inline-block;
+		width: 20upx;
+		height: 20upx;
+		background: url(/static/icon-integral.png) no-repeat left top;
+		background-size: 100%;
+		margin-left: 4upx;
+	}
 </style>

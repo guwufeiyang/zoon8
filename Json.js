@@ -17,6 +17,40 @@ const contributeList = [{
 }
 ]
 
+const contributeAllList = [{
+	id: "001",
+	rank: 1,
+	img: "/static/temp/portrait-img1.jpg",
+	name: '摩托姐姐',
+	integral: 18888,
+	
+}, {
+	id: "002",
+	rank: 2,
+	img: "/static/temp/portrait-img2.jpg",
+	name: 'Guwufeiyang',
+	integral: 1888,
+}, {
+	id: "003",
+	rank: 3,
+	img: "/static/temp/portrait-img3.jpg",
+	name: '最爱甜甜了',
+	integral: 1885,
+}, {
+	id: "004",
+	rank: 4,
+	img: "/static/temp/portrait-img4.jpg",
+	name: '摩托姐姐',
+	integral: 1883,
+}, {
+	id: "005",
+	rank: 5,
+	img: "/static/temp/portrait-img1.jpg",
+	name: 'Guwufeiyang',
+	integral: 1880
+}
+]
+
 /* 粉丝团 */
 const fanlist = [
 { 
@@ -174,7 +208,9 @@ const orderList = [
 ]
 
 export default {
+	billboardList,
 	contributeList,
+	contributeAllList,
 	fanlist,
 	propList,
 	orderList

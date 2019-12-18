@@ -35,7 +35,7 @@
 				</view>
 			</view>	
 			
-			<view class="contribute-box">
+			<view class="contribute-box" @click="gotoContribute()">
 				<view class="contribute-box-l"></view>
 				<view class="contribute-box-r-bg"></view>
 				<view class="contribute-box-r">
@@ -66,7 +66,12 @@
 				
 			<view class="section">
 				<ul class="message-list">
-					<li class="message-item" :class="{active: item.selected}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item, index+1)">
+					<li class="message-item" 
+						:class="{'active': item.selected}" 
+						v-for="(item, index) in fanlist" 
+						:key="index" 
+						@tap="selectFans(item)"
+					>
 						<view class="portrait-bg"></view>
 						<image class="img" :src="item.portrait"></image>
 						<view class="item-right">
@@ -105,7 +110,7 @@
 						@click="selectProp(item)">
 						<image :src="item.img" class="img"></image>
 						<view class="name">{{item.name}}</view>
-						<view class="integral">{{item.integral}}<text class="icon-contribute-intergral-red"></text> </view>
+						<view class="integral">{{item.integral}}<text class="icon-contribute"></text> </view>
 					</view>
 				</view>
 				<view class="tip-bottom-area">
