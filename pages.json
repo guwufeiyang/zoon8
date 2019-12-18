@@ -11,16 +11,6 @@
 			}
 		},
 		{
-			"path": "pages/billboard/beFans",
-			"style": {
-				"navigationBarTitleText": "加入粉丝团",
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": true
-				}
-			}
-		},
-		{
 			"path": "pages/fans/fans",
 			"style": {
 				"navigationBarTitleText": "粉丝团",

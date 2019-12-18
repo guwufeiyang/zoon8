@@ -17,6 +17,14 @@
 	background: url(../../static/icon-back.png) no-repeat left top;
 	background-size: 100%;
 }
+.icon-contribute-intergral {
+	display: inline-block;
+	width: 20upx;
+	height: 20upx;
+	background: url(../../static/icon-contribute-intergral.png) no-repeat left top;
+	background-size: 100%;
+	margin-left: 4upx;
+}
 
 .not-fans-wrap {
 	width: 336upx;
@@ -292,6 +300,55 @@
 		}
 	}
 }
-	
+
+/* 提示窗口 */
+	.uni-tip {
+		width: 640upx;
+		height: 310upx;
+		background-color: #fff;
+		// padding: 30upx;
+		border-radius: 10upx;
+	}
+
+	.uni-tip-title {
+		margin-bottom: 10px;
+		text-align: center;
+		font-weight: bold;
+		font-size: 16px;
+		color: #333;
+	}
+
+	.uni-tip-content {
+		display: flex;
+		height: 208upx;
+		align-items: center;
+		justify-content: center;
+		font-size: 16px;
+		text-align: center;
+		line-height: 42upx;
+		color: #656976;
+		border-bottom: 1upx solid #F4F5F7;
+	}
+
+	.uni-tip-group-button {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		height: 100upx;
+		line-height: 100upx;
+	}
+
+	.uni-tip-button {
+		flex: 1;
+		text-align: center;
+		font-size: 18px;
+		color: #656976;
+		&:last-child{
+			border-left: 1upx solid #F4F5F7;
+			color: #fa6889;
+		}
+	}
+
 	
 	

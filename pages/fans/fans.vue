@@ -1,16 +1,16 @@
 <template>
 	<view class="container">
 		<view class="status_bar" :style="{color: statusBarColor}">
-			<text v-if="isFans">{{userInfo.name}}</text>粉丝团
+			<text v-if="userInfo.name">{{userInfo.name}}</text>粉丝团
 		</view>
 		
-		<view class="content" v-if="!isFans">
+		<view class="content" v-if="!userInfo.name">
 			<view class="not-fans-wrap">
 				<image class="not-fans-img" src="../../static/not-fans.png"></image>
 				<text class="not-fans-text">你还没有加入粉丝团哦 快去榜单选择心仪爱豆加入粉丝团</text>
 			</view>
 		</view>
-		<view class="content" v-if="isFans">
+		<view class="content" v-if="userInfo.name">
 			<view class="header-bg">
 				<view class="header-img"></view>
 				<view class="fans-info">
@@ -29,7 +29,8 @@
 						</view>
 					</view>
 					<view class="info-r">
-						<button class="btn-join">加入粉丝团</button>
+						<button v-if="!hasJoin" class="btn-join" @click="joinFansGroup('tip')">加入粉丝团</button>
+						<button v-if="hasJoin" class="btn-join" @click="contributeIntergral('bottom', 'tip')">贡献积分<text class="icon-contribute-intergral"></text></button>
 					</view>
 				</view>
 			</view>	
@@ -48,7 +49,7 @@
 				</view>
 			</view>
 			
-			<view class="task-box">
+			<view class="task-box" v-if="hasJoin">
 				<view class="task-item">
 					<image class="task-img" src="../../static/icon-task.png"></image>
 					<text class="task-txt">做任务</text>
@@ -80,59 +81,102 @@
 			</view>
 		</view>
 		
+		<!--确认加入弹窗  -->
+		<uni-popup ref="showtip" :type="type" :mask-click="false">
+			<view class="uni-tip">
+				<text class="uni-tip-content">
+					您将加入王一博的粉丝团，<br />暂不提供退团功能哦！
+				</text>
+				<view class="uni-tip-group-button">
+					<text class="uni-tip-button" @click="cancel()">再看看</text>
+					<text class="uni-tip-button" @click="confrimJoin()">加入</text>
+				</view>
+			</view>
+		</uni-popup>
 		
+		<!--贡献积分底部弹窗  -->
+		<uni-popup ref="showtipbottom" :type="type" :mask-click="false">
+			<view class="uni-tip">
+				<text class="uni-tip-content">
+					您将加入王一博的粉丝团，<br />暂不提供退团功能哦！
+				</text>
+				<view class="uni-tip-group-button">
+					<text class="uni-tip-button" @click="cancel()">再看看</text>
+					<text class="uni-tip-button" @click="confrimJoin()">加入</text>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
-
 <script>
-	import uniStatusBar from '@/components/uni-status-bar.vue'
+	import uniPopup from '@/components/uni-popup.vue'
 	export default {
 		components: {
-			uniStatusBar
+			uniPopup
 		},
 		data() {
 			return {
-				// id: getApp().globalData.billboardId,
 				isFans: true,
-				userInfo: {},
 				fanlist: [],
-				contributeList: []
-			};
+				contributeList: [],
+				hasJoin: false,
+				userInfo: uni.getStorageSync("selectBand") || {},
+				type: '',
+			}
 		},
 		computed: {
 			statusBarColor() {
-				return this.isFans ? "#fff": "#000"
+				return this.userInfo.name ? "#fff": "#000"
 			}
 		},
 		onLoad() {
-			this.loadData()
+			// this.userInfo = uni.getStorageSync("selectBand");
+			this.loadData();
 		},
 		methods: {
 			async loadData() {
 				// 获取榜单
-				let fanlist = await this.$api.json('fanlist');	
-				this.fanlist = fanlist;
-				this.fanlist.forEach(item=>{
+				this.fanlist = await this.$api.json('fanlist');
+				
+				this.fanlist.forEach(item => {
 					item.selected = false;
 				});
-				this.fanlist[0].selected = true;
-				this.userInfo = this.fanlist[0];
-				this.userInfo.rank = 1;
 				// 获取贡献榜
 				this.contributeList = await this.$api.json('contributeList');
 			},
 			selectFans(item, idx) {
-				this.userInfo = item;
-				this.fanlist.forEach(item=>{
+				this.fanlist.forEach( item => {
 					item.selected = false;
 				});
 				item.selected = true;
-				this.userInfo.rank = idx;
 			},
 			navBack(){
 				uni.navigateBack();
 			},
+			joinFansGroup(open) {
+				this.type = 'center';
+				this.$nextTick(() => {
+					this.$refs['show' + open].open();
+				});
+			},
+			// 贡献积分
+			contributeIntergral() {
+				// 如果积分不足
+				
+				// 如果积分充足
+				this.type = 'bottom';
+				this.$nextTick(() => {
+					this.$refs.showtipbottom.open();
+				})
+			},
+			cancel() {
+				this.$refs.showtip.close();
+			},
+			confrimJoin() {
+				this.hasJoin = true;
+				this.$refs.showtip.close();
+			}
 		}
 		
 	}

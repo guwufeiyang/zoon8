@@ -103,8 +103,11 @@
 				this.swiperCurrent = index;
 			},
 			navToFansPage(item) {
-				uni.navigateTo({
-					url: `/pages/billboard/beFans?item=${JSON.stringify(item)}`
+				// this.$store.commit('selectBand', item);
+				uni.setStorageSync("selectBand", item);
+				
+				uni.switchTab({
+					url: "/pages/fans/fans"
 				})
 			}
 		}
