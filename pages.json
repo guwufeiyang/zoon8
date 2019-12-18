@@ -42,7 +42,11 @@
         }, {
             "path" : "pages/doTask/doTask",
             "style" : {
-            	"navigationBarTitleText": "做任务"
+            	"navigationBarTitleText": "做任务",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": true
+				}
             }
         }
     ],

@@ -51,38 +51,7 @@
 </script>
 
 <style lang="less">
-.tab-bar {
-	display: flex;
-	justify-content: space-between;
-	height: 88upx;
-	margin-bottom: 20upx;
-	padding: 0 170upx;
-	background: #fff;
-	box-shadow: 0px 2upx 40upx 0px rgba(0, 0, 0, 0.04);
-}
-.tab {
-	flex: 1;
-	font-size: 24upx;
-	color: #95989c;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	position: relative;
-	&.active {
-		color: #fa6889;
-		&:after {
-			content: '';
-			position: absolute;
-			bottom: 0;
-			left: 50%;
-			margin-left: -21upx;
-			width: 42upx;
-			height: 6upx;
-			border-radius: 3upx;
-			background: #fa6889;
-		}
-	}
-}
+
 
 .contribute-item {
 	width: 100%;
