@@ -25,7 +25,26 @@
 	background-size: 100%;
 	margin-left: 4upx;
 }
-
+.icon-contribute-intergral-red {
+	display: inline-block;
+	width: 20upx;
+	height: 20upx;
+	background: url(../../static/icon-integral.png) no-repeat left top;
+	background-size: 100%;
+	margin-left: 4upx;
+}
+.btn-join {
+	width: 200upx;
+	height: 64upx;
+	line-height: 64upx;
+	padding: 0;
+	background: rgba(250, 104, 137, 1);
+	box-shadow: 0upx 4upx 18upx 0upx rgba(250, 104, 137, 0.6);
+	border-radius: 32upx;
+	font-size: 24upx;
+	color: #fff;
+	text-align: center;
+}
 .not-fans-wrap {
 	width: 336upx;
 	height: 420upx;
@@ -302,53 +321,116 @@
 }
 
 /* 提示窗口 */
-	.uni-tip {
-		width: 640upx;
-		height: 310upx;
-		background-color: #fff;
-		// padding: 30upx;
-		border-radius: 10upx;
-	}
+.uni-tip {
+	width: 640upx;
+	height: 310upx;
+	background-color: #fff;
+	// padding: 30upx;
+	border-radius: 10upx;
+}
 
-	.uni-tip-title {
-		margin-bottom: 10px;
-		text-align: center;
-		font-weight: bold;
-		font-size: 16px;
-		color: #333;
-	}
+.uni-tip-title {
+	margin-bottom: 10px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 16px;
+	color: #333;
+}
 
-	.uni-tip-content {
+.uni-tip-content {
+	display: flex;
+	height: 208upx;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+	text-align: center;
+	line-height: 42upx;
+	color: #656976;
+	border-bottom: 1upx solid #F4F5F7;
+}
+
+.uni-tip-group-button {
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+	height: 100upx;
+	line-height: 100upx;
+}
+
+.uni-tip-button {
+	flex: 1;
+	text-align: center;
+	font-size: 18px;
+	color: #656976;
+	&:last-child{
+		border-left: 1upx solid #F4F5F7;
+		color: #fa6889;
+	}
+}
+.uni-tip-contribute-intergral {
+	position: relative;
+	width: 750upx;
+	height: 752upx;
+	padding: 82upx 33upx 0;
+	background: #fff;
+	box-shadow: 0px 2upx 40upx 0px rgba(0, 0, 0, 0.04);
+	border-radius: 16upx 16upx 0px 0px;
+	.icon-close {
+		position: absolute;
+		right: 26upx;
+		top: 26upx;
+		width: 36upx;
+		height: 36upx;
+		background: url(../../static/icon-close.png) no-repeat left top;
+		background-size: 100% 100%;
+	}
+	.prop-list {
 		display: flex;
-		height: 208upx;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+	.prop-box {
+		width: 164upx;
+		height: 220upx;
+		margin-bottom: 20upx;
+		border-radius: 14upx;
+		border: 1px solid #fff;
+		display: flex;
+		flex-direction: column;
 		align-items: center;
-		justify-content: center;
-		font-size: 16px;
-		text-align: center;
-		line-height: 42upx;
-		color: #656976;
-		border-bottom: 1upx solid #F4F5F7;
-	}
-
-	.uni-tip-group-button {
-		/* #ifndef APP-NVUE */
-		display: flex;
-		/* #endif */
-		flex-direction: row;
-		height: 100upx;
-		line-height: 100upx;
-	}
-
-	.uni-tip-button {
-		flex: 1;
-		text-align: center;
-		font-size: 18px;
-		color: #656976;
-		&:last-child{
-			border-left: 1upx solid #F4F5F7;
-			color: #fa6889;
+		&.is-select {
+			border: 1px solid #FA6889;
+		}
+		.img {
+			width: 102upx;
+			height: 102upx;
+			margin: 20upx 0 8upx 0;
+		}
+		.name {
+			font-size: 14px;
+			line-height: 40upx;
+			color: #95989C;
+		}
+		.integral {
+			font-size: 12px;
+			color: #FA6889;
 		}
 	}
+	.tip-bottom-area {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.left-content {
+			font-size: 12px;
+			color: #414348;
+			.val {
+				margin-left: 4upx;
+				color: #FA6889;
+			}
+		}
+	}
+}
 
 	
 	
