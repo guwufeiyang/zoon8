@@ -85,6 +85,50 @@ const fanlist = [
 	time: "14:09:31"
 }]
 
+/* 贡献积分底部弹窗 */
+const propList = [
+	{
+		img: '/static/prop-img1.png',
+		name: '荧光棒',
+		integral: '100'
+	},
+	{
+		img: '/static/prop-img2.png',
+		name: '应援灯牌',
+		integral: '300'
+	},
+	{
+		img: '/static/prop-img3.png',
+		name: '为你比心',
+		integral: '500'
+	},
+	{
+		img: '/static/prop-img4.png',
+		name: '玫瑰花',
+		integral: '800'
+	},
+	{
+		img: '/static/prop-img5.png',
+		name: '好运锦鲤',
+		integral: '2000'
+	},
+	{
+		img: '/static/prop-img6.png',
+		name: '大吉他',
+		integral: '5000'
+	},
+	{
+		img: '/static/prop-img7.png',
+		name: '歌神话筒',
+		integral: '8000'
+	},
+	{
+		img: '/static/prop-img8.png',
+		name: '金唱片',
+		integral: '9999'
+	}
+]
+
 /*订单列表*/
 const orderList = [
 	{
@@ -132,5 +176,6 @@ const orderList = [
 export default {
 	contributeList,
 	fanlist,
+	propList,
 	orderList
 }

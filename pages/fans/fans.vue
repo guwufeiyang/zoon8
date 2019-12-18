@@ -29,7 +29,8 @@
 						</view>
 					</view>
 					<view class="info-r">
-						<button class="btn-join">加入粉丝团</button>
+						<button v-if="!hasJoin" class="btn-join" @click="joinFansGroup()">加入粉丝团</button>
+						<button v-if="hasJoin" class="btn-join" @click="contributeIntergral()">贡献积分<text class="icon-contribute-intergral"></text></button>
 					</view>
 				</view>
 			</view>	
@@ -48,7 +49,7 @@
 				</view>
 			</view>
 			
-			<view class="task-box">
+			<view class="task-box" v-if="hasJoin">
 				<view class="task-item">
 					<image class="task-img" src="../../static/icon-task.png"></image>
 					<text class="task-txt">做任务</text>
@@ -65,7 +66,7 @@
 				
 			<view class="section">
 				<ul class="message-list">
-					<li class="message-item" :class="{active: item.selected === true}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item, index+1)">
+					<li class="message-item" :class="{active: item.selected}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item, index+1)">
 						<view class="portrait-bg"></view>
 						<image class="img" :src="item.portrait"></image>
 						<view class="item-right">
@@ -80,27 +81,67 @@
 			</view>
 		</view>
 		
+		<!--确认加入弹窗  -->
+		<uni-popup ref="showtip" :type="type" :mask-click="false">
+			<view class="uni-tip">
+				<text class="uni-tip-content">
+					您将加入王一博的粉丝团，<br />暂不提供退团功能哦！
+				</text>
+				<view class="uni-tip-group-button">
+					<text class="uni-tip-button" @click="cancel()">再看看</text>
+					<text class="uni-tip-button" @click="confirmJoin()">加入</text>
+				</view>
+			</view>
+		</uni-popup>
 		
+		<!--贡献积分底部弹窗  -->
+		<uni-popup ref="showtipbottom" :type="type" :mask-click="false">
+			<view class="uni-tip uni-tip-contribute-intergral">
+				<view class="icon-close" @click="closeBottomPop()"></view>
+				<view class="prop-list">
+					<view class="prop-box" v-for="(item,index) in propList" 
+						:key="index"
+						:class="{'is-select': item.selected}"
+						@click="selectProp(item)">
+						<image :src="item.img" class="img"></image>
+						<view class="name">{{item.name}}</view>
+						<view class="integral">{{item.integral}}<text class="icon-contribute-intergral-red"></text> </view>
+					</view>
+				</view>
+				<view class="tip-bottom-area">
+					<view class="left-content">可用积分: <text class="val">30000</text></view>
+					<button class="btn-join" @click="confirmContribute()">
+						贡献积分
+						<text class="icon-contribute-intergral"></text>
+					</button>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
-
 
 <script>
 	import { mapState, mapMutations } from 'vuex'
 	import { arequest } from '../../room8Util.js'
 
 	import uniStatusBar from '@/components/uni-status-bar.vue'
+	import uniPopup from '@/components/uni-popup.vue'
 	export default {
 		components: {
-			uniStatusBar
+			uniPopup
 		},
 		data() {
 			return {
+				isFans: true,
 				contributeList: [],
+				hasJoin: false,
+				userInfo: uni.getStorageSync("selectBand") || {},
+				type: '',
+				propList: [],
 				comments: [],
 				commentPage: 0,
 				commentPageSize: 10
-			};
+			}
 		},
 		computed: {
 			...mapState(['userInfo', 'bands']),
@@ -133,6 +174,15 @@
 
 				// 获取贡献榜
 				this.contributeList = await this.$api.json('contributeList');
+				
+				// 获取道具
+				let propList = await this.$api.json('propList');
+				let newPropList = propList.map(item => {
+					item.selected = false;
+					return item;
+				})
+				this.propList  = newPropList;
+				
 			},
 			selectFans(item, idx) {
 				this.bandInfo = item;
@@ -145,11 +195,39 @@
 			navBack(){
 				uni.navigateBack();
 			},
+			joinFansGroup(open) {
+				this.type = 'center';
+				this.$nextTick(() => {
+					this.$refs.showtip.open();
+				});
+			},
+			// 贡献积分
+			contributeIntergral() {
+				// 如果积分不足
+				
+				// 如果积分充足
+				this.type = 'bottom';
+				this.$nextTick(() => {
+					this.$refs.showtipbottom.open();
+				})
+			},
+			cancel() {
+				this.$refs.showtip.close();
+			},
+			confirmJoin() {
+				this.hasJoin = true;
+				this.$refs.showtip.close();
+			},
+			closeBottomPop() {
+				this.$refs.showtipbottom.close();
+			},
+			selectProp(item) {
+				item.selected = !item.selected;
+			}
 		},
 		onLoad(option) {
 			this.loadData(option)
 		}
-		
 	}
 </script>
 
