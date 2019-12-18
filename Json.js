@@ -208,7 +208,6 @@ const orderList = [
 ]
 
 export default {
-	billboardList,
 	contributeList,
 	contributeAllList,
 	fanlist,
