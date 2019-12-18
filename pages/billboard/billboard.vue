@@ -26,7 +26,7 @@
 			</view>
 			<view class="section top-3">
 				<view class="billboard-list-top-3">
-					<view class="billboard-item" v-for="item in billboardListTop3" :key="item.rank" >
+					<view class="billboard-item" v-for="(item, index) in billboardListTop3" :key="index" >
 						<view class="portrait">
 							<image class="img" :src="item.logo" >
 							<text class="rank">{{item.rank}}</text>
@@ -39,7 +39,7 @@
 			</view>
 			<view class="section top-others">
 				<view class="billboard-list-others">
-					<view class="billboard-item" v-for="item in billboardListOthers" :key="item.rank">
+					<view class="billboard-item" v-for="(item, index) in billboardListOthers" :key="index">
 						<view class="billboard-item-l">
 							<text class="rank">{{item.rank}}</text>
 							<image class="img" :src="item.logo"></image>
@@ -53,7 +53,6 @@
 				</view>
 			</view>
 		</view>
-		
 	</view>
 </template>
 
@@ -74,7 +73,7 @@
 			...mapState(['userInfo', 'bands'])
 		},
 		methods: {
-			...mapMutations(['login', 'setBands']),
+			...mapMutations(['login', 'setBands', 'setCurrentBand']),
 			swapArr(arr, index1, index2) {
 			    arr[index1] = arr.splice(index2, 1, arr[index1])[0];
 			    return arr;
@@ -99,16 +98,14 @@
 				this.swiperCurrent = index;
 			},
 			navToFansPage(item) {
-				// this.$store.commit('selectBand', item);
-				uni.setStorageSync("selectBand", item);
-				
+				this.setCurrentBand(item.id)
 				uni.switchTab({
 					url: "/pages/fans/fans"
 				})
 			}
 		},
-		onLoad(option) {
-			this.loadData(option);
+		onLoad() {
+			this.loadData();
 		}
 	}
 </script>
