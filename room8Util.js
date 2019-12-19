@@ -1,3 +1,4 @@
+var jwt = "";
 function arequest(url, data, header) {
 	return new Promise((resolve, reject) => {
 		uni.request({
@@ -6,11 +7,14 @@ function arequest(url, data, header) {
 			data: data,
 			header: {
 				...header,
+				jwt,
 				'Access-Control-Allow-Origin': '*',
 				'Content-Type': 'application/json; charset=UTF-8'
 			},
 			success: (res) => {
-				console.log("url " + url + " got " + res.data)
+				if('/mockLogin' == url) {
+					jwt = res.data.token
+				}
 				resolve(res);
 			},
 			fail: (err) => {
@@ -19,17 +23,6 @@ function arequest(url, data, header) {
 		});
 	})
 }
- 
-// var loginRes = await arequest('/mockLogin', {
-// 	code: ""
-// 	// code: loginRes.authResult.code,
-// 	// access_token: loginRes.authResult.access_token,
-// 	// expires_in: loginRes.authResult.expires_in,
-// 	// wechatId: infoRes.userInfo.openId,
-// 	// name: infoRes.userInfo.nickName
-// })
-// jwt = loginRes.data.token
-// console.log("login success", jwt);
 export {
 	arequest
 }

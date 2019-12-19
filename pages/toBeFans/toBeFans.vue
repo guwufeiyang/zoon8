@@ -22,7 +22,7 @@
 						</view>
 					</view>
 					<view class="info-r">
-						<button class="btn-join" @click="joinFansGroup()">加入粉丝团</button>
+						<button class="btn-join" v-if="!userInfo.bindedBand" @click="joinFansGroup()">加入粉丝团</button>
 					</view>
 				</view>
 			</view>	
@@ -153,15 +153,12 @@
 					this.setBands(bands.data)
 				}
 
-				this.bandId = this.currentBand || this.userInfo.bindedBand
+				this.bandId = this.currentBand
+				
 				if(this.bandId) {
 					this.bandInfo = this.bands.find((item)=>{
 						return item.id == this.bandId
 					})
-				}
-				
-				if(this.userInfo.bindedBand) {
-					this.comments = await arequest('/loadComment', {offset: this.commentPage * this.commentPageSize, limit: this.commentPageSize}, {});
 					
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
@@ -202,11 +199,23 @@
 			navBack(){
 				uni.navigateBack();
 			},
-			joinFansGroup(open) {
-				this.type = 'center';
-				this.$nextTick(() => {
-					this.$refs.showtip.open();
-				});
+			async joinFansGroup(open) {
+				if(this.userInfo.id) {
+					var bindToBandRes = await arequest('/bindToBand', {
+						id: this.bandId
+					}, {})
+					var meRes = await arequest('/me', null, {})
+					this.login(meRes.data)
+									
+					this.type = 'center';
+					this.$nextTick(() => {
+						this.$refs.showtip.open();
+					});
+				} else {
+					uni.navigateTo({
+						url: "../login/login"
+					})
+				}
 			},
 			// 贡献积分
 			contributeIntergral() {

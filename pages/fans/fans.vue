@@ -221,7 +221,7 @@
 			}
 		},
 		computed: {
-			...mapState(['userInfo', 'bands', 'currentBand']),
+			...mapState(['userInfo', 'bands']),
 			statusBarColor() {
 				return this.userInfo.bindedBand ? "#fff": "#000"
 			}
@@ -240,15 +240,14 @@
 			}
 		},
 		methods: {
-			...mapMutations(['login', 'setBands', 'setCurrentBand']),
+			...mapMutations(['login', 'setBands']),
 			async loadData() {
 				if(!this.bands) {
 					var bands = await arequest('/loadBands', null, {})
 					this.setBands(bands.data)
 				}
 
-				this.bandId = this.currentBand || this.userInfo.bindedBand
-				this.setCurrentBand(null)
+				this.bandId = this.userInfo.bindedBand
 
 				if(this.bandId) {
 					this.bandInfo = this.bands.find((item)=>{

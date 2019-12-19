@@ -10,7 +10,7 @@
 				<view class="userinfo-box-top">
 					<image class="portrait" v-bind:src='userInfo.avatar || "/static/missing-face.png"'></image>
 					<view class="userinfo-r">
-						<button class="login-btn" v-if="!userInfo.token" @tap="gotoLogin">登录</button>
+						<button class="login-btn" v-if="!userInfo.avatar" @tap="gotoLogin">登录</button>
 						<view class="rank-info">
 							<view class="rank-info-item">
 								<view class="info-val">{{userInfo.rank || '--'}}</view>
