@@ -49,6 +49,16 @@
 				}
             }
         }
+        ,{
+            "path" : "pages/toBeFans/toBeFans",
+            "style" : {
+				"navigationBarTitleText": "粉丝团",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": true
+				}
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

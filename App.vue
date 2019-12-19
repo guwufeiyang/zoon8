@@ -53,7 +53,7 @@ page {
 	height: var(--status-bar-height);
 	width: 100%;
 	color: #fff;
-	font-size: 16px;
+	font-size: 14px;
 	position: relative;
 	top: 64upx;
 	z-index: 99;
@@ -71,7 +71,7 @@ page {
 	height: var(--status-bar-height);
 	width: 100%;
 	color: #fff;
-	font-size: 16px;
+	font-size: 14px;
 	position: relative;
 	top: 60upx;
 	z-index: 99;
@@ -79,7 +79,6 @@ page {
 }
 .content {
 	position: relative;
-	
 	padding: 128upx 0 0 0;
 }
 /* #endif */
