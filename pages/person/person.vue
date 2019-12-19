@@ -17,7 +17,7 @@
 								<view class="info-label">当前排名</view>
 							</view>
 							<view class="integral-info-item">
-								<view class="info-val">{{userInfo.contribute || '--'}}</view>
+								<view class="info-val">{{userInfo.amountToday || '--'}}</view>
 								<view class="info-label">本日积分</view>
 							</view>
 						</view>

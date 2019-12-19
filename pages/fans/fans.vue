@@ -16,7 +16,7 @@
 			<view class="header-bg">
 				<image class="header-img" src="../../static/fans-bg.png"></image>
 				<view class="fans-info">
-					<image class="portrait" :src="bandInfo.portrait || '/static/missing-face.png'"></image>
+					<image class="portrait" :src="bandInfo.logo || '/static/missing-face.png'"></image>
 					<view class="info-m">
 						<view class="username">{{bandInfo.name}}</view>
 						<view class="rank-info">
@@ -94,7 +94,7 @@
 		<uni-popup ref="joinFansGroupPop" :type="type" :mask-click="false">
 			<view class="uni-tip">
 				<text class="uni-tip-content">
-					您将加入王一博的粉丝团，<br />暂不提供退团功能哦！
+					您将加入{{bandInfo.name}}的粉丝团，<br />暂不提供退团功能哦！
 				</text>
 				<view class="uni-tip-group-button">
 					<text class="uni-tip-button" @click="cancelJoinFansGroup()">再看看</text>
@@ -240,7 +240,7 @@
 			}
 		},
 		methods: {
-			...mapMutations(['login', 'setBands']),
+			...mapMutations(['login', 'setBands', 'setCurrentBand']),
 			async loadData() {
 				if(!this.bands) {
 					var bands = await arequest('/loadBands', null, {})
@@ -248,15 +248,13 @@
 				}
 
 				this.bandId = this.currentBand || this.userInfo.bindedBand
+				this.setCurrentBand(null)
+
 				if(this.bandId) {
 					this.bandInfo = this.bands.find((item)=>{
 						return item.id == this.bandId
 					})
-				}
-				
-				if(this.userInfo.bindedBand) {
-					//this.comments = await arequest('/loadComment', {offset: this.commentPage * this.commentPageSize, limit: this.commentPageSize}, {});
-					
+
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
 						offset: this.commentPage * this.commentPageSize, 
