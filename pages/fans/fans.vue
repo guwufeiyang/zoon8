@@ -8,6 +8,7 @@
 			<view class="not-fans-wrap">
 				<image class="not-fans-img" src="../../static/not-fans.png"></image>
 				<text class="not-fans-text">你还没有加入粉丝团哦 快去榜单选择心仪爱豆加入粉丝团</text>
+				<text class="task-txt"  @click="sendMessage()">发留言</text>
 			</view>
 		</view>
 		<view class="content" v-if="bandId">
@@ -132,9 +133,23 @@
 			</view>
 		</uni-popup>
 		
+		<!--评论弹窗弹窗  -->
+		<uni-popup ref="showbottomcomment" :type="type" :mask-click="false">
+			<view class="uni-tip uni-tip-comment">
+				<view class="btn-area">
+					<button class="btn" @click="cancelSendMsg()">取消</button>
+					<button class="btn" @click="confirmSendMsg()">确定</button>
+				</view>
+				<textarea class="textarea" placeholder="写入留言" />
+			</view>
+		</uni-popup>
+		
 		<!--获取积分弹窗  -->
-		<view class="mask"></view>
-		<view class="dialog-box"></view>
+		<view class="get-integral-pop" v-if="showGetIntegralPop">
+			<view class="mask"></view>
+			<view class="dialog-box"></view>
+		</view>
+		
 	</view>
 </template>
 
@@ -184,7 +199,9 @@
 				propList: [],
 				comments: [],
 				commentPage: 0,
-				commentPageSize: 10
+				commentPageSize: 10,
+				
+				showGetIntegralPop: false
 			}
 		},
 		computed: {
@@ -222,7 +239,7 @@
 				}
 				
 				if(this.userInfo.bindedBand) {
-					this.comments = await arequest('/loadComment', {offset: this.commentPage * this.commentPageSize, limit: this.commentPageSize}, {});
+					//this.comments = await arequest('/loadComment', {offset: this.commentPage * this.commentPageSize, limit: this.commentPageSize}, {});
 					
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
@@ -263,7 +280,7 @@
 			navBack(){
 				uni.navigateBack();
 			},
-			joinFansGroup(open) {
+			joinFansGroup() {
 				this.type = 'center';
 				this.$nextTick(() => {
 					this.$refs.showtip.open();
@@ -277,7 +294,7 @@
 				this.type = 'bottom';
 				this.$nextTick(() => {
 					this.$refs.showtipbottom.open();
-				})
+				});
 			},
 			cancel() {
 				this.$refs.showtip.close();
@@ -302,7 +319,19 @@
 				})
 			},
 			getIntegral() {
-				
+				this.showGetIntegralPop = true;
+			},
+			sendMessage() {
+				this.type = 'bottom';
+				this.$nextTick(() => {
+					this.$refs.showbottomcomment.open();
+				});
+			},
+			cancelSendMsg() {
+				this.$refs.showbottomcomment.close();
+			},
+			confirmSendMsg() {
+				this.$refs.showbottomcomment.close();
 			}
 		},
 		onShow() {
