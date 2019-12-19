@@ -9,6 +9,7 @@
 				<image class="not-fans-img" src="../../static/not-fans.png"></image>
 				<text class="not-fans-text">你还没有加入粉丝团哦 快去榜单选择心仪爱豆加入粉丝团</text>
 				<text class="task-txt"  @click="sendMessage()">发留言</text>
+				<text class="task-txt"  @click="getIntegral()">获取积分</text>
 			</view>
 		</view>
 		<view class="content" v-if="bandId">
@@ -85,28 +86,27 @@
 							</view>
 						</view>
 					</view>
-					
 				</view>
 			</view>
 		</view>
 		
 		<!--确认加入弹窗  -->
-		<uni-popup ref="showtip" :type="type" :mask-click="false">
+		<uni-popup ref="joinFansGroupPop" :type="type" :mask-click="false">
 			<view class="uni-tip">
 				<text class="uni-tip-content">
 					您将加入王一博的粉丝团，<br />暂不提供退团功能哦！
 				</text>
 				<view class="uni-tip-group-button">
-					<text class="uni-tip-button" @click="cancel()">再看看</text>
-					<text class="uni-tip-button" @click="confirmJoin()">加入</text>
+					<text class="uni-tip-button" @click="cancelJoinFansGroup()">再看看</text>
+					<text class="uni-tip-button" @click="confirmJoinFansGroup()">加入</text>
 				</view>
 			</view>
 		</uni-popup>
 		
 		<!--贡献积分底部弹窗  -->
-		<uni-popup ref="showtipbottom" :type="type" :mask-click="false">
+		<uni-popup ref="contributeIntegralPop" :type="type" :mask-click="false">
 			<view class="uni-tip uni-tip-contribute-intergral">
-				<image class="icon-close" @click="closeBottomPop()" src="../../static/icon-close.png"></image>
+				<image class="icon-close" @click="closeContributeIntegralPop()" src="../../static/icon-close.png"></image>
 				<view class="prop-list">
 					<view class="prop-box" v-for="(item,index) in propList" 
 						:key="index"
@@ -134,7 +134,7 @@
 		</uni-popup>
 		
 		<!--评论弹窗弹窗  -->
-		<uni-popup ref="showbottomcomment" :type="type" :mask-click="false">
+		<uni-popup ref="showSendCommentPop" :type="type" :mask-click="false">
 			<view class="uni-tip uni-tip-comment">
 				<view class="btn-area">
 					<button class="btn" @click="cancelSendMsg()">取消</button>
@@ -145,10 +145,28 @@
 		</uni-popup>
 		
 		<!--获取积分弹窗  -->
-		<view class="get-integral-pop" v-if="showGetIntegralPop">
-			<view class="mask"></view>
-			<view class="dialog-box"></view>
-		</view>
+		<uni-popup ref="showGetTntegralPop" :type="type" :mask-click="false">
+			<view class="uni-tip uni-get-integral">
+				<image class="icon-close" @click="closeGetTntegralPop()" src="../../static/close.png"></image>
+				<view class="tip">积分不足，可通过以下方式获取</view>
+				<view class="box-list">
+					<view class="box-item">
+						<image src="../../static/img-task.png" class="box-bg"></image>
+						<view class="box-content">
+							<view class="label">做任务</view>
+							<view class="desc">支出你的爱豆</view>
+						</view>
+					</view>
+					<view class="box-item">
+						<image src="../../static/img-lottery.png" class="box-bg"></image>
+						<view class="box-content">
+							<view class="label">去抽奖</view>
+							<view class="desc">获取意外惊喜</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</uni-popup>
 		
 	</view>
 </template>
@@ -199,9 +217,7 @@
 				propList: [],
 				comments: [],
 				commentPage: 0,
-				commentPageSize: 10,
-				
-				showGetIntegralPop: false
+				commentPageSize: 10
 			}
 		},
 		computed: {
@@ -283,9 +299,16 @@
 			joinFansGroup() {
 				this.type = 'center';
 				this.$nextTick(() => {
-					this.$refs.showtip.open();
+					this.$refs.joinFansGroupPop.open();
 				});
 			},
+			cancelJoinFansGroup() {
+				this.$refs.joinFansGroupPop.close();
+			},
+			confirmJoinFansGroup() {
+				this.$refs.joinFansGroupPop.close();
+			},
+			
 			// 贡献积分
 			contributeIntergral() {
 				// 如果积分不足
@@ -293,17 +316,11 @@
 				// 如果积分充足
 				this.type = 'bottom';
 				this.$nextTick(() => {
-					this.$refs.showtipbottom.open();
+					this.$refs.contributeIntegralPop.open();
 				});
 			},
-			cancel() {
-				this.$refs.showtip.close();
-			},
-			confirmJoin() {
-				this.$refs.showtip.close();
-			},
-			closeBottomPop() {
-				this.$refs.showtipbottom.close();
+			closeContributeIntegralPop() {
+				this.$refs.contributeIntegralPop.close();
 			},
 			selectProp(item) {
 				item.selected = !item.selected;
@@ -318,20 +335,28 @@
 					url: "/pages/doTask/doTask"
 				})
 			},
+			// 获取积分弹窗
 			getIntegral() {
-				this.showGetIntegralPop = true;
+				this.type = 'center';
+				this.$nextTick(() => {
+					this.$refs.showGetTntegralPop.open();
+				});
 			},
+			closeGetTntegralPop() {
+				this.$refs.showGetTntegralPop.close();
+			},
+			// 发表留言弹窗
 			sendMessage() {
 				this.type = 'bottom';
 				this.$nextTick(() => {
-					this.$refs.showbottomcomment.open();
+					this.$refs.showSendCommentPop.open();
 				});
 			},
 			cancelSendMsg() {
-				this.$refs.showbottomcomment.close();
+				this.$refs.showSendCommentPop.close();
 			},
 			confirmSendMsg() {
-				this.$refs.showbottomcomment.close();
+				this.$refs.showSendCommentPop.close();
 			}
 		},
 		onShow() {
