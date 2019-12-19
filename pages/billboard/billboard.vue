@@ -28,7 +28,7 @@
 			</view>
 			<view class="section top-3">
 				<view class="billboard-list-top-3">
-					<view class="billboard-item" v-for="item in billboardListTop3" :key="item.rank" >
+					<view class="billboard-item" v-for="(item, index) in billboardListTop3" :key="index" >
 						<image class="portrait-bg" src="../../static/person-bg-s.png"></image>
 
 						<view class="portrait">
@@ -46,7 +46,7 @@
 			</view>
 			<view class="section top-others">
 				<view class="billboard-list-others">
-					<view class="billboard-item" v-for="item in billboardListOthers" :key="item.rank">
+					<view class="billboard-item" v-for="(item, index) in billboardListOthers" :key="index">
 						<view class="billboard-item-l">
 							<text class="rank">{{item.rank}}</text>
 							<image class="img" :src="item.logo"></image>
