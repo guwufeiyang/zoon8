@@ -112,7 +112,7 @@
 						<image :src="item.img" class="img"></image>
 						<view class="name">{{item.name}}</view>
 						<view class="integral">
-							{{item.integral}}
+							{{item.price}}
 							<image class="icon-integral " src="../../static/icon-integral.png"></image> 
 						</view>
 					</view>
@@ -273,12 +273,14 @@
 				this.contributeList = await this.$api.json('contributeList');
 				
 				// 获取道具
-				var propList = await this.$api.json('propList');
-				propList = propList.map(item=>{
-					item.selected = false
-					return item
-				})
-				this.propList = propList
+				if(this.userInfo.id) {
+					var propListRes = await arequest('/loadAllGifts', null, {})
+					var propList = propListRes.data
+					propList = propList.forEach(item=>{
+						item.selected = false
+					})
+					this.propList = propList
+				}
 			},
 			selectFans(item, idx) {
 				this.bandInfo = item;
@@ -363,6 +365,21 @@
 				this.comments = commentsRes.data
 				
 				this.$refs.showSendCommentPop.close();
+			},
+			async confirmContribute() {
+				var gifts = this.propList.filter(item=>{
+					return item.selected
+				}).map(item=>{
+					return {
+						"id": item.id,
+						"price": item.price
+					}
+				})
+				var contributeRes = await arequest('/contribute', gifts, {})
+				
+				uni.showToast({
+					title: "" + this.propList.reduce((sum, item) =>{ return sum + parseInt(item.selected ? item.price : 0)}, 0)
+				})
 			}
 		},
 		onShow() {

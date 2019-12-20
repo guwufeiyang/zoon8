@@ -7,7 +7,7 @@
 			<view class="header-bg">
 				<image class="header-img" src="../../static/fans-bg.png"></image>
 				<view class="fans-info">
-					<image class="portrait" :src="bandInfo.portrait || '/static/missing-face.png'"></image>
+					<image class="portrait" :src="bandInfo.logo || '/static/missing-face.png'"></image>
 					<view class="info-m">
 						<view class="username">{{bandInfo.name}}</view>
 						<view class="rank-info">
@@ -154,11 +154,13 @@
 				}
 
 				this.bandId = this.currentBand
-				
 				if(this.bandId) {
-					this.bandInfo = this.bands.find((item)=>{
-						return item.id == this.bandId
-					})
+					var loadBandDetailRes = await arequest('/loadBandDetail', { id: this.bandId }, {})
+					this.bandInfo = loadBandDetailRes.data
+					
+					// this.bandInfo = this.bands.find((item)=>{
+					// 	return item.id == this.bandId
+					// })
 					
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
