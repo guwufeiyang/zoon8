@@ -16,7 +16,7 @@
 								<view class="info-label">当前排名</view>
 							</view>
 							<view class="integral-info-item">
-								<view class="info-val">{{bandInfo.integral || "--"}}</view>
+								<view class="info-val">{{bandInfo.amountToday || "--"}}</view>
 								<view class="info-label">本日积分</view>
 							</view>
 						</view>
@@ -33,8 +33,8 @@
 				<view class="contribute-box-r">
 					<view class="label">贡献榜</view>
 					<view class="img-list">
-						<view class="img-wrap" v-for="(item,index) in contributeList" :key="index">
-							<image class="contribute-img"  :src="item.img"></image>
+						<view class="img-wrap" v-for="(item, index) in contributeList" :key="index">
+							<image class="contribute-img" :src="item.avatar"></image>
 							<view class="index" :style="{backgroundColor: item.bg}">{{index+1}}</view>
 						</view>
 					</view>
@@ -158,9 +158,8 @@
 					var loadBandDetailRes = await arequest('/loadBandDetail', { id: this.bandId }, {})
 					this.bandInfo = loadBandDetailRes.data
 					
-					// this.bandInfo = this.bands.find((item)=>{
-					// 	return item.id == this.bandId
-					// })
+					// 获取贡献榜
+					this.contributeList = this.bandInfo.topContributeFans;
 					
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
@@ -178,8 +177,6 @@
 					}
 				}
 
-				// 获取贡献榜
-				this.contributeList = await this.$api.json('contributeList');
 				
 				// 获取道具
 				let propList = await this.$api.json('propList');

@@ -37,7 +37,7 @@
 						</view>
 						<view class="name">{{item.name}}</view>
 						<view class="integral">
-							{{item.integral}}
+							{{item.totalAmount}}
 							<image src="../../static/icon-integral.png" class="icon-integral"></image>
 						</view>
 						<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
@@ -53,7 +53,7 @@
 							<view>
 								<view class="name">{{item.name}}</view>
 								<view class="integral">
-									{{item.integral}}
+									{{item.totalAmount}}
 									<image src="../../static/icon-integral.png" class="icon-integral"></image>
 								</view>
 							</view>
@@ -70,6 +70,7 @@
 <script>
 	import { mapState, mapMutations } from 'vuex'
 	import { arequest } from '../../room8Util.js'
+	import _ from "lodash"
 	
 	export default {
 		data() {
@@ -95,12 +96,17 @@
 				this.carouselList = bannerRes.data
 				
 				// 获取榜单
-				var bands = await arequest('/loadBands', null, {})
-				this.setBands(bands.data)
-				if(bands.data) {
-					this.swapArr(bands.data, 0, 1);
-					this.billboardListTop3 = bands.data.slice(0,3);
-					this.billboardListOthers = bands.data.slice(3,10);
+				var bandsRes = await arequest('/loadBands', null, {})
+				var bands = bandsRes.data;
+				_.each(bands, (band, index)=>{
+					band.rank = index + 1;
+				})
+				this.setBands(bands)
+
+				if(this.bands) {
+					this.swapArr(this.bands, 0, 1);
+					this.billboardListTop3 = this.bands.slice(0,3);
+					this.billboardListOthers = this.bands.slice(3,10);
 				}
 			},
 			//轮播图切换修改背景色
