@@ -68,6 +68,11 @@
 	padding-right: 32upx;
 	display: flex;
 	align-items: center;
+	&.disabled {
+		.img {
+			-webkit-filter: grayscale(1);
+		}
+	}
 	.img {
 		width: 100upx;
 		height: 100upx;
