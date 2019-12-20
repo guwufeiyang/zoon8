@@ -9,7 +9,7 @@
 		
 		<view class="content-wrap">
 			<view class="fans-info">
-				<image class="portrait" :src="bandInfo.portrait || '/static/missing-face.png'"></image>
+				<image class="portrait" :src="bandInfo.logo || '/static/missing-face.png'"></image>
 				<view class="info-m">
 					<view class="username">{{bandInfo.name}}</view>
 					<view class="rank-info">
@@ -80,33 +80,8 @@
 </template>
 
 <script>
-	var dateFormat = {
-	    padLeftZero: function (str) {
-	        return ('00' + str).substr(str.length)
-	    },
-	    formatDate: function (date, fmt) {
-	        if (/(y+)/.test(fmt)) {
-	            fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
-	        }
-	        let o = {
-	            'M+': date.getMonth() + 1,
-	            'd+': date.getDate(),
-	            'h+': date.getHours(),
-	            'm+': date.getMinutes(),
-	            's+': date.getSeconds()
-	        }
-	        for (let k in o) {
-	            if (new RegExp(`(${k})`).test(fmt)) {
-	                let str = o[k] + ''
-	                fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? str : this.padLeftZero(str))
-	            }
-	        }
-	        return fmt
-	    }
-	}
-	
 	import { mapState, mapMutations } from 'vuex'
-	import { arequest } from '../../room8Util.js'
+	import { arequest, dateFormat } from '../../room8Util.js'
 
 	import uniStatusBar from '@/components/uni-status-bar.vue'
 	import uniPopup from '@/components/uni-popup.vue'
@@ -157,11 +132,13 @@
 
 				this.bandId = this.currentBand
 				if(this.bandId) {
-					var loadBandDetailRes = await arequest('/loadBandDetail', { id: this.bandId }, {})
-					this.bandInfo = loadBandDetailRes.data
-					
+					this.bandInfo = this.bands.find((item)=>{
+						return item.id == this.bandId
+					})
+
 					// 获取贡献榜
-					this.contributeList = this.bandInfo.topContributeFans;
+					var getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {})
+					this.contributeList = getBandContributeRankRes.data
 					
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
