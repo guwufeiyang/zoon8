@@ -15,26 +15,26 @@ const store = new Vuex.Store({
 	mutations: {
 		login(state, userInfo) {
 			state.userInfo = userInfo;
-			uni.setStorage({
-				key: 'userInfo',
-				data: userInfo
-			})
+			// uni.setStorage({
+			// 	key: 'userInfo',
+			// 	data: userInfo
+			// })
 		},
 		logout(state) {
 			state.userInfo = {
 				name: "",
 				token: null
 			};
-			uni.removeStorage({
-				key: 'userInfo'
-			})
+			// uni.removeStorage({
+			// 	key: 'userInfo'
+			// })
 		},
 		setBands(state, bands) {
 			state.bands = bands
-			uni.setStorage({
-				key: 'bands',
-				data: bands
-			})
+			// uni.setStorage({
+			// 	key: 'bands',
+			// 	data: bands
+			// })
 		},
 		setCurrentBand(state, currentBand) {
 			state.currentBand = currentBand

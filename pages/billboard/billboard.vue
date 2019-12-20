@@ -115,9 +115,9 @@
 			},
 			navToFansPage(item) {
 				this.setCurrentBand(item.id)
-				uni.switchTab({
-					url: "/pages/fans/fans"
-				})
+				uni.navigateTo({
+					url: "../toBeFans/toBeFans"
+				});
 			}
 		},
 		onLoad() {

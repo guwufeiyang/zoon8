@@ -114,21 +114,18 @@
 			<view class="uni-tip uni-tip-contribute-intergral">
 				<image class="icon-close" @click="closeContributeIntegralPop()" src="../../static/icon-close.png"></image>
 				<view class="prop-list">
-					<view class="prop-box" v-for="(item,index) in propList" 
-						:key="index"
-						:class="{'is-select': item.selected}"
-						@click="selectProp(item)">
+					<view class="prop-box" :class="{'is-select': item.selected}" @click="selectProp(item)" v-for="(item, index) in propList" :key="index" >
 						<image :src="item.img" class="img"></image>
 						<view class="name">{{item.name}}</view>
 						<view class="integral">
-							{{item.integral}}
+							{{item.price}}
 							<image class="icon-integral " src="../../static/icon-integral.png"></image> 
 						</view>
 					</view>
 				</view>
 				<view class="tip-bottom-area">
 					<view class="left-content">
-						可用积分: <text class="val">30000</text> 
+						可用积分: <text class="val">{{userInfo.amount}}</text> 
 						<text @click="getIntegral()">获取积分 ></text>
 					</view>
 					<button class="btn-join" @click="confirmContribute()">
@@ -156,7 +153,7 @@
 					<button class="btn" @click="cancelSendMsg()">取消</button>
 					<button class="btn" @click="confirmSendMsg()">确定</button>
 				</view>
-				<textarea class="textarea" placeholder="写入留言" />
+				<textarea class="textarea" v-model="commentContent" placeholder="写入留言" />
 			</view>
 		</uni-popup>
 		
@@ -233,11 +230,12 @@
 				comments: [],
 				commentPage: 0,
 				commentPageSize: 10,
-				selectedProp: {}
+				selectedProp: {},
+				commentContent: ""
 			}
 		},
 		computed: {
-			...mapState(['userInfo', 'bands', 'currentBand']),
+			...mapState(['userInfo', 'bands']),
 			statusBarColor() {
 				return this.userInfo.bindedBand ? "#fff": "#000"
 			},
@@ -260,15 +258,14 @@
 			}
 		},
 		methods: {
-			...mapMutations(['login', 'setBands', 'setCurrentBand']),
+			...mapMutations(['login', 'setBands']),
 			async loadData() {
 				if(!this.bands) {
 					var bands = await arequest('/loadBands', null, {})
 					this.setBands(bands.data)
 				}
 
-				this.bandId = this.currentBand || this.userInfo.bindedBand
-				this.setCurrentBand(null)
+				this.bandId = this.userInfo.bindedBand
 
 				if(this.bandId) {
 					this.bandInfo = this.bands.find((item)=>{
@@ -295,13 +292,14 @@
 				this.contributeList = await this.$api.json('contributeList');
 				
 				// 获取道具
-				let propList = await this.$api.json('propList');
-				let newPropList = propList.map(item => {
-					item.selected = false;
-					return item;
-				})
-				this.propList  = newPropList;
-				
+				if(this.userInfo.id) {
+					var propListRes = await arequest('/loadAllGifts', null, {})
+					var propList = propListRes.data
+					propList = propList.forEach(item=>{
+						item.selected = false
+					})
+					this.propList = propList
+				}
 			},
 			selectFans(item, idx) {
 				this.bandInfo = item;
@@ -340,9 +338,25 @@
 					this.$refs.contributeIntegralPop.open();
 				});
 			},
-			confirmContribute() {
+			async confirmContribute() {
 				this.$refs.contributeIntegralPop.close();
 				this.type = 'center';
+				
+				var gifts = this.propList.filter(item=>{
+					return item.selected
+				}).map(item=>{
+					return {
+						"id": item.id,
+						"price": item.price
+					}
+				})
+				var contributeRes = await arequest('/contribute', gifts, {})
+				
+				uni.showToast({
+					title: "" + this.propList.reduce((sum, item) =>{ return sum + parseInt(item.selected ? item.price : 0)}, 0)
+				})
+				
+				
 				this.$nextTick(() => {
 					setTimeout(() => {
 						this.$refs.confirmContributeIntegralPop.open()
@@ -394,7 +408,18 @@
 			cancelSendMsg() {
 				this.$refs.showSendCommentPop.close();
 			},
-			confirmSendMsg() {
+			async confirmSendMsg() {
+				var addCommentRes = await arequest('/addComment', {
+					content: this.commentContent
+				}, {})
+				
+				var commentsRes = await arequest('/loadComment', {
+					id: this.bandId, 
+					offset: this.commentPage * this.commentPageSize, 
+					limit: this.commentPageSize,
+				}, {})
+				this.comments = commentsRes.data
+				
 				this.$refs.showSendCommentPop.close();
 			}
 		},

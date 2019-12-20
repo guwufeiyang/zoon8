@@ -22,11 +22,11 @@
 							<view class="info-label">本日积分</view>
 						</view>
 					</view>
-				</view>
+				</view>	
 				<view class="info-r">
-					<button class="btn-join" @click="joinFansGroup()">加入粉丝团</button>
+					<button class="btn-join" v-if="!userInfo.bindedBand" @click="joinFansGroup()">加入粉丝团</button>
 				</view>
-			</view>
+			</view>	
 			
 			<view class="contribute-box" @click="gotoContribute()">
 				<image class="contribute-box-l" src="../../static/contribute-box-border.png"></image>
@@ -155,15 +155,14 @@
 					this.setBands(bands.data)
 				}
 
-				this.bandId = this.currentBand || this.userInfo.bindedBand
+				this.bandId = this.currentBand
 				if(this.bandId) {
-					this.bandInfo = this.bands.find((item)=>{
-						return item.id == this.bandId
-					})
-				}
-				
-				if(this.userInfo.bindedBand) {
-					this.comments = await arequest('/loadComment', {offset: this.commentPage * this.commentPageSize, limit: this.commentPageSize}, {});
+					var loadBandDetailRes = await arequest('/loadBandDetail', { id: this.bandId }, {})
+					this.bandInfo = loadBandDetailRes.data
+					
+					// this.bandInfo = this.bands.find((item)=>{
+					// 	return item.id == this.bandId
+					// })
 					
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
@@ -193,48 +192,33 @@
 				this.propList  = newPropList;
 				
 			},
-			selectFans(item, idx) {
-				this.bandInfo = item;
-				this.comments.forEach(item=>{
-					item.selected = false;
-				});
-				item.selected = true;
-				this.bandInfo.rank = idx;
-			},
+			
 			navBack(){
 				uni.navigateBack();
 			},
-			joinFansGroup(open) {
-				this.type = 'center';
-				this.$nextTick(() => {
-					this.$refs.showtip.open();
-				});
-			},
-			// 贡献积分
-			contributeIntergral() {
-				// 如果积分不足
-				
-				// 如果积分充足
-				this.type = 'bottom';
-				this.$nextTick(() => {
-					this.$refs.showtipbottom.open();
-				})
+			 joinFansGroup() {
+				if(this.userInfo.id) {		
+					this.type = 'center';
+					this.$nextTick(() => {
+						this.$refs.showtip.open();
+					});
+				} else {
+					uni.navigateTo({
+						url: "../login/login"
+					})
+				}
 			},
 			cancel() {
 				this.$refs.showtip.close();
 			},
-			confirmJoin() {
-				this.$refs.showtip.close();
-			},
-			closeBottomPop() {
-				this.$refs.showtipbottom.close();
-			},
-			selectProp(item) {
-				item.selected = !item.selected;
-			},
-			
-			getIntegral() {
+			async confirmJoin() {
+				var bindToBandRes = await arequest('/bindToBand', {
+					id: this.bandId
+				}, {});
+				var meRes = await arequest('/me', null, {})
+				this.login(meRes.data);
 				
+				this.$refs.showtip.close();
 			}
 		},
 		onShow() {
