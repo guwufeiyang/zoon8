@@ -95,6 +95,24 @@ const propList = [
 	}
 ]
 
+const achievementList = [
+	{
+		image: '/static/icon-music.png',
+		name: '音乐达人',
+		desc: '成就详情成就详情'
+	},
+	{
+		image: '/static/icon-fans.png',
+		name: '狂热粉丝',
+		desc: '成就详情成就详情'
+	},
+	{
+		image: '/static/icon-achievement.png',
+		name: '挥金如图',
+		desc: '成就详情成就详情'
+	}
+]
+
 /*订单列表*/
 const orderList = [
 	{
@@ -143,5 +161,6 @@ export default {
 	contributeList,
 	contributeAllList,
 	propList,
-	orderList
+	orderList,
+	achievementList
 }

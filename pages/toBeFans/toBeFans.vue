@@ -1,29 +1,30 @@
 <template>
 	<view class="container">
+		<view class="header-bg"></view>
+		<image class="header-img" src="../../static/fans-bg.png"></image>
+		
 		<view class="status_bar">
 			<text>{{bandInfo.name}}</text>粉丝团
 		</view>
-		<view class="content">
-			<view class="header-bg">
-				<image class="header-img" src="../../static/fans-bg.png"></image>
-				<view class="fans-info">
-					<image class="portrait" :src="bandInfo.logo || '/static/missing-face.png'"></image>
-					<view class="info-m">
-						<view class="username">{{bandInfo.name}}</view>
-						<view class="rank-info">
-							<view class="rank-info-item">
-								<view class="info-val">No.{{bandInfo.rank || '--'}}</view>
-								<view class="info-label">当前排名</view>
-							</view>
-							<view class="integral-info-item">
-								<view class="info-val">{{bandInfo.amountToday || "--"}}</view>
-								<view class="info-label">本日积分</view>
-							</view>
+		
+		<view class="content-wrap">
+			<view class="fans-info">
+				<image class="portrait" :src="bandInfo.portrait || '/static/missing-face.png'"></image>
+				<view class="info-m">
+					<view class="username">{{bandInfo.name}}</view>
+					<view class="rank-info">
+						<view class="rank-info-item">
+							<view class="info-val">No.{{bandInfo.rank || '--'}}</view>
+							<view class="info-label">当前排名</view>
+						</view>
+						<view class="integral-info-item">
+							<view class="info-val">{{bandInfo.amountToday || "--"}}</view>
+							<view class="info-label">本日积分</view>
 						</view>
 					</view>
-					<view class="info-r">
-						<button class="btn-join" v-if="!userInfo.bindedBand" @click="joinFansGroup()">加入粉丝团</button>
-					</view>
+				</view>	
+				<view class="info-r">
+					<button class="btn-join" v-if="!userInfo.bindedBand" @click="joinFansGroup()">加入粉丝团</button>
 				</view>
 			</view>	
 			
@@ -41,24 +42,25 @@
 				</view>
 			</view>
 			
-			<view class="section">
-				<view class="message-list">
-					<view class="message-item-wrap" :class="{'active': item.selected}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item)">
-						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
-						<view class="message-item" >
-							<image class="img" :src="item.fanAvatar"></image>
-							<view class="item-right">
-								<view class="item-top">
-									<text class="name">{{ item.fanName }}</text>
-									<text class="time">{{ item.time | formatDate('hh:mm:ss') }}</text>
+			<scroll-view class="view-content" scroll-y >
+				<view class="section">
+					<view class="message-list">
+						<view class="message-item-wrap" :class="{'active': item.selected}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item)">
+							<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
+							<view class="message-item" >
+								<image class="img" :src="item.fanAvatar"></image>
+								<view class="item-right">
+									<view class="item-top">
+										<text class="name">{{ item.fanName }}</text>
+										<text class="time">{{ item.time | formatDate('hh:mm:ss') }}</text>
+									</view>
+									<view class="message">{{item.content}}</view>
 								</view>
-								<view class="message">{{item.content}}</view>
 							</view>
 						</view>
 					</view>
-					
 				</view>
-			</view>
+			</scroll-view>
 		</view>
 		
 		<!--确认加入弹窗  -->
@@ -187,25 +189,12 @@
 				this.propList  = newPropList;
 				
 			},
-			selectFans(item, idx) {
-				this.bandInfo = item;
-				this.comments.forEach(item=>{
-					item.selected = false;
-				});
-				item.selected = true;
-				this.bandInfo.rank = idx;
-			},
+			
 			navBack(){
 				uni.navigateBack();
 			},
-			async joinFansGroup(open) {
-				if(this.userInfo.id) {
-					var bindToBandRes = await arequest('/bindToBand', {
-						id: this.bandId
-					}, {})
-					var meRes = await arequest('/me', null, {})
-					this.login(meRes.data)
-									
+			 joinFansGroup() {
+				if(this.userInfo.id) {		
 					this.type = 'center';
 					this.$nextTick(() => {
 						this.$refs.showtip.open();
@@ -216,31 +205,17 @@
 					})
 				}
 			},
-			// 贡献积分
-			contributeIntergral() {
-				// 如果积分不足
-				
-				// 如果积分充足
-				this.type = 'bottom';
-				this.$nextTick(() => {
-					this.$refs.showtipbottom.open();
-				})
-			},
 			cancel() {
 				this.$refs.showtip.close();
 			},
-			confirmJoin() {
-				this.$refs.showtip.close();
-			},
-			closeBottomPop() {
-				this.$refs.showtipbottom.close();
-			},
-			selectProp(item) {
-				item.selected = !item.selected;
-			},
-			
-			getIntegral() {
+			async confirmJoin() {
+				var bindToBandRes = await arequest('/bindToBand', {
+					id: this.bandId
+				}, {});
+				var meRes = await arequest('/me', null, {})
+				this.login(meRes.data);
 				
+				this.$refs.showtip.close();
 			}
 		},
 		onShow() {
@@ -251,6 +226,9 @@
 
 <style lang="less">
 	@import url('../fans/fans.less');
+	.content-wrap {
+		bottom: 0;
+	}
 </style>
 
 

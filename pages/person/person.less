@@ -1,13 +1,9 @@
 .header-bg {
 	position: absolute;
 	left: 0;
-	top: -126upx;
+	top: -60upx;
 	width: 750upx;
 	height: 336upx;
-	border-radius: 50%;
-	transform: scale(1.5);
-	overflow: hidden;
-	background: linear-gradient(127deg, rgba(250,114,104,1) 0%, rgba(117,96,249,1) 100%);
 }
 .userinfo-box {
 	position: relative;
@@ -16,7 +12,7 @@
 	background: #fff;
 	background-size: 100% 62upx;
 	border-radius: 16upx;
-	margin: 0 auto 20upx;
+	margin: 22upx auto 20upx;
 	padding: 36upx 0 0 32upx;
 	overflow: hidden;
 	.box-bg {
@@ -72,6 +68,11 @@
 	padding-right: 32upx;
 	display: flex;
 	align-items: center;
+	&.disabled {
+		.img {
+			-webkit-filter: grayscale(1);
+		}
+	}
 	.img {
 		width: 100upx;
 		height: 100upx;

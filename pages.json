@@ -59,6 +59,12 @@
 				}
 			}
         }
+        ,{
+            "path" : "pages/welfare/welfare",
+            "style" : {
+				"navigationBarTitleText": "榜单福利"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
