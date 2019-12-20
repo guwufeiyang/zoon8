@@ -23,7 +23,7 @@
 				</view>
 			</view>
 			<view class="billboard-title">
-				<button @click="jumpTo">
+				<button @click="jumpToWelfare">
 					榜单福利
 					<image class="icon-tip" src="../../static/icon-tip.png"></image>
 				</button>
@@ -124,7 +124,12 @@
 				uni.navigateTo({
 					url: "../toBeFans/toBeFans"
 				});
-			}
+			},
+			jumpToWelfare() {
+				uni.navigateTo({
+					url: "../welfare/welfare"
+				});
+			},
 		},
 		onLoad() {
 			this.loadData();
