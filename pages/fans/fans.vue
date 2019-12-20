@@ -1,46 +1,49 @@
 <template>
 	<view class="container">
+		<view v-if="bandId">
+			<view class="header-bg"></view>
+			<image class="header-img" src="../../static/fans-bg.png"></image>
+		</view>
 		<view class="status_bar" :style="{color: statusBarColor}">
 			<text v-if="bandId">{{bandInfo.name}}</text>粉丝团
 		</view>
 		
-		<view class="content" v-if="!bandId">
+		<view class="content-wrap" v-if="!bandId">
 			<view class="not-fans-wrap">
 				<image class="not-fans-img" src="../../static/not-fans.png"></image>
 				<text class="not-fans-text">你还没有加入粉丝团哦 快去榜单选择心仪爱豆加入粉丝团</text>
-				<text class="task-txt"  @click="sendMessage()">发留言</text>
-				<text class="task-txt"  @click="getIntegral()">获取积分</text>
+				<!-- 为了调试样式，后面会删除 -->
+				<button @click="sendMessage()">发留言</button>
+				<button @click="getIntegral()">获取积分</button>
+				<button @click="contributeIntergral()">贡献积分</button>
 			</view>
 		</view>
-		<view class="content" v-if="bandId">
-			<view class="header-bg">
-				<image class="header-img" src="../../static/fans-bg.png"></image>
-				<view class="fans-info">
-					<image class="portrait" :src="bandInfo.logo || '/static/missing-face.png'"></image>
-					<view class="info-m">
-						<view class="username">{{bandInfo.name}}</view>
-						<view class="rank-info">
-							<view class="rank-info-item">
-								<view class="info-val">No.{{bandInfo.rank || '--'}}</view>
-								<view class="info-label">当前排名</view>
-							</view>
-							<view class="integral-info-item">
-								<view class="info-val">{{bandInfo.integral || "--"}}</view>
-								<view class="info-label">本日积分</view>
-							</view>
+		
+		<view class="content-wrap" v-if="bandId">
+			<view class="fans-info">
+				<image class="portrait" :src="bandInfo.logo || '/static/missing-face.png'"></image>
+				<view class="info-m">
+					<view class="username">{{bandInfo.name}}</view>
+					<view class="rank-info">
+						<view class="rank-info-item">
+							<view class="info-val">No.{{bandInfo.rank || '--'}}</view>
+							<view class="info-label">当前排名</view>
+						</view>
+						<view class="integral-info-item">
+							<view class="info-val">{{bandInfo.integral || "--"}}</view>
+							<view class="info-label">本日积分</view>
 						</view>
 					</view>
-					<view class="info-r">
-						<button v-if="!userInfo.bindedBand" class="btn-join" @click="joinFansGroup()">加入粉丝团</button>
-						
-						<button v-if="userInfo.bindedBand == bandId" class="btn-join" @click="contributeIntergral()">
-							贡献积分
-							<image class="icon-integral" src="../../static/icon-contribute-intergral.png"></image>
-						</button>
-
-					</view>
 				</view>
-			</view>	
+				<view class="info-r">
+					<button v-if="!userInfo.bindedBand" class="btn-join" @click="joinFansGroup()">加入粉丝团</button>
+					
+					<button v-if="userInfo.bindedBand == bandId" class="btn-join" @click="contributeIntergral()">
+						贡献积分
+						<image class="icon-integral" src="../../static/icon-contribute-intergral.png"></image>
+					</button>
+				</view>
+			</view>
 			
 			<view class="contribute-box" @click="gotoContribute()">
 				<image class="contribute-box-l" src="../../static/contribute-box-border.png"></image>
@@ -70,24 +73,27 @@
 					<text class="task-txt">去抽奖</text>
 				</view>
 			</view>
-				
-			<view class="section">
-				<view class="message-list">
-					<view class="message-item-wrap" :class="{'active': item.selected}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item)">
-						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
-						<view class="message-item" >
-							<image class="img" :src="item.fanAvatar"></image>
-							<view class="item-right">
-								<view class="item-top">
-									<text class="name">{{ item.fanName }}</text>
-									<text class="time">{{ item.time | formatDate('hh:mm:ss') }}</text>
+			
+			
+			<scroll-view class="view-content" scroll-y :style="{top: setTopVal}">	
+				<view class="section">
+					<view class="message-list">
+						<view class="message-item-wrap" :class="{'active': item.selected}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item)">
+							<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
+							<view class="message-item" >
+								<image class="img" :src="item.fanAvatar"></image>
+								<view class="item-right">
+									<view class="item-top">
+										<text class="name">{{ item.fanName }}</text>
+										<text class="time">{{ item.time | formatDate('hh:mm:ss') }}</text>
+									</view>
+									<view class="message">{{item.content}}</view>
 								</view>
-								<view class="message">{{item.content}}</view>
 							</view>
 						</view>
 					</view>
 				</view>
-			</view>
+			</scroll-view>
 		</view>
 		
 		<!--确认加入弹窗  -->
@@ -133,6 +139,16 @@
 			</view>
 		</uni-popup>
 		
+		<!--贡献积分确认弹窗  -->
+		<uni-popup ref="confirmContributeIntegralPop" :type="type" :mask-click="false">
+			<view class="uni-tip uni-confirm-contribute-intergral">
+				<image :src="selectedProp.img" class="img"></image>
+				<view class="integral">
+					+ {{selectedProp.integral}} 
+				</view>
+			</view>
+		</uni-popup>
+		
 		<!--评论弹窗弹窗  -->
 		<uni-popup ref="showSendCommentPop" :type="type" :mask-click="false">
 			<view class="uni-tip uni-tip-comment">
@@ -167,7 +183,6 @@
 				</view>
 			</view>
 		</uni-popup>
-		
 	</view>
 </template>
 
@@ -217,13 +232,18 @@
 				propList: [],
 				comments: [],
 				commentPage: 0,
-				commentPageSize: 10
+				commentPageSize: 10,
+				selectedProp: {}
 			}
 		},
 		computed: {
 			...mapState(['userInfo', 'bands', 'currentBand']),
 			statusBarColor() {
 				return this.userInfo.bindedBand ? "#fff": "#000"
+			},
+			setTopVal() {
+				// 此处值有两个 308+192 upx
+				return uni.upx2px(308) + 'px'
 			}
 		},
 		filters:{
@@ -313,14 +333,35 @@
 				
 				// 如果积分充足
 				this.type = 'bottom';
+				this.propList.forEach(item=>{
+					item.selected = false;
+				});
 				this.$nextTick(() => {
 					this.$refs.contributeIntegralPop.open();
+				});
+			},
+			confirmContribute() {
+				this.$refs.contributeIntegralPop.close();
+				this.type = 'center';
+				this.$nextTick(() => {
+					setTimeout(() => {
+						this.$refs.confirmContributeIntegralPop.open()
+					}, 0);
+
+					setTimeout( ()=> {
+						this.$refs.confirmContributeIntegralPop.close()
+					}, 1500);
 				});
 			},
 			closeContributeIntegralPop() {
 				this.$refs.contributeIntegralPop.close();
 			},
+			// 选择道具
 			selectProp(item) {
+				this.propList.forEach(item=>{
+					item.selected = false;
+				});
+				this.selectedProp = item;
 				item.selected = !item.selected;
 			},
 			gotoContribute() {

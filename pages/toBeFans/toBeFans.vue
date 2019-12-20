@@ -1,31 +1,32 @@
 <template>
 	<view class="container">
+		<view class="header-bg"></view>
+		<image class="header-img" src="../../static/fans-bg.png"></image>
+		
 		<view class="status_bar">
 			<text>{{bandInfo.name}}</text>粉丝团
 		</view>
-		<view class="content">
-			<view class="header-bg">
-				<image class="header-img" src="../../static/fans-bg.png"></image>
-				<view class="fans-info">
-					<image class="portrait" :src="bandInfo.portrait || '/static/missing-face.png'"></image>
-					<view class="info-m">
-						<view class="username">{{bandInfo.name}}</view>
-						<view class="rank-info">
-							<view class="rank-info-item">
-								<view class="info-val">No.{{bandInfo.rank || '--'}}</view>
-								<view class="info-label">当前排名</view>
-							</view>
-							<view class="integral-info-item">
-								<view class="info-val">{{bandInfo.integral || "--"}}</view>
-								<view class="info-label">本日积分</view>
-							</view>
+		
+		<view class="content-wrap">
+			<view class="fans-info">
+				<image class="portrait" :src="bandInfo.portrait || '/static/missing-face.png'"></image>
+				<view class="info-m">
+					<view class="username">{{bandInfo.name}}</view>
+					<view class="rank-info">
+						<view class="rank-info-item">
+							<view class="info-val">No.{{bandInfo.rank || '--'}}</view>
+							<view class="info-label">当前排名</view>
+						</view>
+						<view class="integral-info-item">
+							<view class="info-val">{{bandInfo.integral || "--"}}</view>
+							<view class="info-label">本日积分</view>
 						</view>
 					</view>
-					<view class="info-r">
-						<button class="btn-join" @click="joinFansGroup()">加入粉丝团</button>
-					</view>
 				</view>
-			</view>	
+				<view class="info-r">
+					<button class="btn-join" @click="joinFansGroup()">加入粉丝团</button>
+				</view>
+			</view>
 			
 			<view class="contribute-box" @click="gotoContribute()">
 				<image class="contribute-box-l" src="../../static/contribute-box-border.png"></image>
@@ -41,24 +42,25 @@
 				</view>
 			</view>
 			
-			<view class="section">
-				<view class="message-list">
-					<view class="message-item-wrap" :class="{'active': item.selected}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item)">
-						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
-						<view class="message-item" >
-							<image class="img" :src="item.fanAvatar"></image>
-							<view class="item-right">
-								<view class="item-top">
-									<text class="name">{{ item.fanName }}</text>
-									<text class="time">{{ item.time | formatDate('hh:mm:ss') }}</text>
+			<scroll-view class="view-content" scroll-y >
+				<view class="section">
+					<view class="message-list">
+						<view class="message-item-wrap" :class="{'active': item.selected}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item)">
+							<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
+							<view class="message-item" >
+								<image class="img" :src="item.fanAvatar"></image>
+								<view class="item-right">
+									<view class="item-top">
+										<text class="name">{{ item.fanName }}</text>
+										<text class="time">{{ item.time | formatDate('hh:mm:ss') }}</text>
+									</view>
+									<view class="message">{{item.content}}</view>
 								</view>
-								<view class="message">{{item.content}}</view>
 							</view>
 						</view>
 					</view>
-					
 				</view>
-			</view>
+			</scroll-view>
 		</view>
 		
 		<!--确认加入弹窗  -->
@@ -243,6 +245,9 @@
 
 <style lang="less">
 	@import url('../fans/fans.less');
+	.content-wrap {
+		bottom: 0;
+	}
 </style>
 
 

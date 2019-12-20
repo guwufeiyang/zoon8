@@ -1,15 +1,17 @@
 <template>
 	<view class="container">
-		<view class="status_bar">
-			新秀榜单
-		</view>
-		<view class="content">
-			<image class="header-bg" src="../../static/header-bg.png"></image>
+		<image class="header-bg" src="../../static/header-bg.png"></image>
+		<view class="status_bar">新秀榜单</view>
+		
+		<view class="content-wrap">
 			<!-- 头部轮播 -->
 			<view class="carousel-section">
 				<image class="carousel-shadow" src="../../static/banner-bg.png"></image>
 				<swiper class="carousel" circular @change="swiperChange" :autoplay="true" >
-					<swiper-item v-for="(img, index) in carouselList" :key="index" class="carousel-item" @click="navToDetailPage({title: '轮播广告'})">
+					<swiper-item 
+						v-for="(img, index) in carouselList" 
+						:key="index" class="carousel-item" 
+						@click="navToDetailPage({title: '轮播广告'})">
 						<image :src="img" />
 					</swiper-item>
 				</swiper>
@@ -21,49 +23,52 @@
 				</view>
 			</view>
 			<view class="billboard-title">
-				<button>
+				<button @click="jumpTo">
 					榜单福利
 					<image class="icon-tip" src="../../static/icon-tip.png"></image>
 				</button>
 			</view>
-			<view class="section top-3">
-				<view class="billboard-list-top-3">
-					<view class="billboard-item" v-for="(item, index) in billboardListTop3" :key="index" >
-						<image class="portrait-bg" src="../../static/person-bg-s.png"></image>
-
-						<view class="portrait">
-							<image class="img" :src="item.logo" >
-							<text class="rank">{{item.rank}}</text>
+			
+			<scroll-view class="view-content" scroll-y>
+				<view class="section top-3">
+					<view class="billboard-list-top-3">
+						<view class="billboard-item" v-for="(item, index) in billboardListTop3" :key="index" >
+							<image class="portrait-bg" src="../../static/person-bg-s.png"></image>
+							<view class="portrait">
+								<image class="img" :src="item.logo" >
+								<text class="rank">{{item.rank}}</text>
+							</view>
+							<view class="name">{{item.name}}</view>
+							<view class="integral">
+								{{item.integral}}
+								<image src="../../static/icon-integral.png" class="icon-integral"></image>
+							</view>
+							<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
 						</view>
-						<view class="name">{{item.name}}</view>
-						<view class="integral">
-							{{item.integral}}
-							<image src="../../static/icon-integral.png" class="icon-integral"></image>
-						</view>
-						<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
 					</view>
 				</view>
-			</view>
-			<view class="section top-others">
-				<view class="billboard-list-others">
-					<view class="billboard-item" v-for="(item, index) in billboardListOthers" :key="index">
-						<view class="billboard-item-l">
-							<text class="rank">{{item.rank}}</text>
-							<image class="img" :src="item.logo"></image>
-							<view>
-								<view class="name">{{item.name}}</view>
-								<view class="integral">
-									{{item.integral}}
-									<image src="../../static/icon-integral.png" class="icon-integral"></image>
+			
+				<view class="section top-others">
+					<view class="billboard-list-others">
+						<view class="billboard-item" v-for="(item, index) in billboardListOthers" :key="index">
+							<view class="billboard-item-l">
+								<text class="rank">{{item.rank}}</text>
+								<image class="img" :src="item.logo"></image>
+								<view>
+									<view class="name">{{item.name}}</view>
+									<view class="integral">
+										{{item.integral}}
+										<image src="../../static/icon-integral.png" class="icon-integral"></image>
+									</view>
 								</view>
 							</view>
+							<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
 						</view>
-						<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
 					</view>
 				</view>
-			</view>
+			</scroll-view>
+
 		</view>
-		
 	</view>
 </template>
 
@@ -103,7 +108,7 @@
 					this.billboardListOthers = bands.data.slice(3,10);
 				}
 			},
-			//轮播图切换修改背景色
+			//轮播图切换
 			swiperChange(e) {
 				const index = e.detail.current;
 				this.swiperCurrent = index;

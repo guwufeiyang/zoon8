@@ -1,10 +1,10 @@
 <template>
 	<view class="container">
-		<view class="status_bar">
-			个人中心
-		</view>
-		<view class="content">
-			<view class="header-bg"></view>
+		<image class="header-bg" src="../../static/header-bg.png"></image>
+		<view class="status_bar">个人中心</view>
+		
+		<view class="content-wrap">
+			
 			<view class="userinfo-box">
 				<image src="../../static/person-info-bg.png" class="box-bg"></image>
 				<view class="userinfo-box-top">
