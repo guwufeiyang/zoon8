@@ -287,11 +287,12 @@
 						});
 						this.comments[0].selected = true;
 					}
+
+					// 获取贡献榜
+					var getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {})
+					this.contributeList = getBandContributeRankRes.data
 				}
 
-				// 获取贡献榜
-				this.contributeList = await this.$api.json('contributeList');
-				
 				// 获取道具
 				if(this.userInfo.id) {
 					let propListRes = await arequest('/loadAllGifts', null, {})

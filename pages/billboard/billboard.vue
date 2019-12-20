@@ -103,9 +103,6 @@
 				// 获取榜单
 				var bandsRes = await arequest('/loadBands', null, {})
 				var bands = bandsRes.data;
-				_.each(bands, (band, index)=>{
-					band.rank = index + 1;
-				})
 				this.setBands(bands)
 
 				if(this.bands) {
