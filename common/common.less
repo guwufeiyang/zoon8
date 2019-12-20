@@ -15,7 +15,8 @@ body, html {
 }
 .status_bar	{
 	position: fixed;
-	height: var(--status-bar-height);
+	height: 44px;
+	line-height: 44px;
 	width: 100%;
 	color: #fff;
 	font-size: 14px;
@@ -96,8 +97,6 @@ page {
 // 兼容性处理
 /* #ifdef MP */
 .status_bar {
-	height: 44px;
-	line-height: 44px;
 	top: 20px;
 }
 .content-wrap {
@@ -108,11 +107,15 @@ page {
 
 /* #ifdef H5 */
 .status_bar {
-	height: 44px;
-	line-height: 44px;
 	top: 0;
 	font-size: 16px;
 	font-weight: 700;
 }
 /* #endif */
 	
+	
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis; // 文本溢出显示省略号
+	white-space: nowrap; // 文本不会换行（单行文本溢出）
+}

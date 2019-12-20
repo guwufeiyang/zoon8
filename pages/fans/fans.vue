@@ -61,7 +61,7 @@
 			
 			<view class="task-box" v-if="userInfo.bindedBand == bandId">
 				<view class="task-item" @click="doTask()">
-					<image class="task-img" src="../../static/icon-task.png"></image>
+					<image class="task-img" src="../../static/icon-sign.png"></image>
 					<text class="task-txt">做任务</text>
 				</view>
 				<view class="task-item" @click="sendMessage()">
