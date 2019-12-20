@@ -13,38 +13,15 @@ form, input, label, radio, slider, switch, textarea, navigator, audio, camera, i
 body, html {
 	overflow-x: hidden;
 }
-	
-/* #ifdef MP */
-.status_bar {
+.status_bar	{
 	position: fixed;
 	height: var(--status-bar-height);
 	width: 100%;
-	line-height: 25px;
-	top: 0;
 	color: #fff;
 	font-size: 14px;
 	z-index: 99;
 	text-align: center;
 }
-
-/* #endif */
-
-/* #ifdef H5 */
-.status_bar {
-	position: fixed;
-	height: var(--status-bar-height);
-	width: 100%;
-	height: 44px;
-	line-height: 44px;
-	top: 0;
-	color: #fff;
-	font-size: 16px;
-	font-weight: 700;
-	z-index: 99;
-	text-align: center;
-}
-/* #endif */
-	
 page {
 	height: 100%;
 	background: #FAF9F9;
@@ -115,3 +92,27 @@ page {
 		}
 	}
 }
+
+// ºÊ»›–‘¥¶¿Ì
+/* #ifdef MP */
+.status_bar {
+	height: 44px;
+	line-height: 44px;
+	top: 20px;
+}
+.content-wrap {
+	top: 60px;
+	bottom: 0;
+}
+/* #endif */
+
+/* #ifdef H5 */
+.status_bar {
+	height: 44px;
+	line-height: 44px;
+	top: 0;
+	font-size: 16px;
+	font-weight: 700;
+}
+/* #endif */
+	
