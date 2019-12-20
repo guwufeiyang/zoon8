@@ -18,7 +18,7 @@ function arequest(url, data, header) {
 				resolve(res);
 			},
 			fail: (err) => {
-				if(err.message.contains("JWT expired") || err.message.contains("authentication required")) {
+				if( err && err.message && err.message.contains("JWT expired" || "authentication required") ) {
 					uni.navigateTo({
 						url: "/pages/login/login"
 					})
