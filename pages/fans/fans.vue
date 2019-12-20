@@ -211,6 +211,7 @@
 	
 	import { mapState, mapMutations } from 'vuex'
 	import { arequest } from '../../room8Util.js'
+	import _ from "lodash"
 
 	import uniStatusBar from '@/components/uni-status-bar.vue'
 	import uniPopup from '@/components/uni-popup.vue'
@@ -293,9 +294,9 @@
 				
 				// 获取道具
 				if(this.userInfo.id) {
-					var propListRes = await arequest('/loadAllGifts', null, {})
-					var propList = propListRes.data
-					propList = propList.forEach(item=>{
+					let propListRes = await arequest('/loadAllGifts', null, {})
+					let propList = propListRes.data || []
+					_.each(propList, item=>{
 						item.selected = false
 					})
 					this.propList = propList
