@@ -201,7 +201,7 @@
 <style>
 	.uni-transition {
 		transition-timing-function: ease;
-		transition-duration: 0.3s;
+		transition-duration: 0.1s;
 		transition-property: transform, opacity;
 	}
 

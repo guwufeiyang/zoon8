@@ -1,5 +1,5 @@
 view, scroll-view, swiper, swiper-item, cover-view, cover-image, icon, text, rich-text, progress, button, checkbox,
-form, input, label, radio, slider, switch, textarea, navigator, audio, camera, image, video,ul,li,body, html, 
+form, input, label, radio, slider, switch, textarea, navigator, audio, camera, image, video,ul,li,
 .container, page, .content  {
 	box-sizing: border-box;
 	padding: 0;
@@ -9,9 +9,6 @@ form, input, label, radio, slider, switch, textarea, navigator, audio, camera, i
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	-webkit-overflow-scrolling: touch;
-}
-body, html {
-	overflow-x: hidden;
 }
 .status_bar	{
 	position: fixed;
@@ -26,6 +23,7 @@ body, html {
 page {
 	height: 100%;
 	background: #FAF9F9;
+	overflow-x: hidden;
 }
 .container {
 	position: relative;
@@ -118,4 +116,20 @@ page {
 	overflow: hidden;
 	text-overflow: ellipsis; // 文本溢出显示省略号
 	white-space: nowrap; // 文本不会换行（单行文本溢出）
+}
+
+.empty-box {
+	padding: 60rpx 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	.empty-img {
+		width: 366rpx;
+		height: 308rpx;
+		// margin: 30rpx auto;
+	}
+	.empty-txt {
+		margin-top: 20rpx;
+		color: #999;
+	}
 }

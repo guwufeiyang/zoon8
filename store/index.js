@@ -15,16 +15,21 @@ const store = new Vuex.Store({
 	mutations: {
 		login(state, userInfo) {
 			state.userInfo = userInfo;
+			uni.setStorageSync('userInfo', userInfo);
 			// uni.setStorage({
 			// 	key: 'userInfo',
 			// 	data: userInfo
 			// })
+		},
+		getUserInfo(state) {
+			state.userInfo = uni.getStorageSync("userInfo");
 		},
 		logout(state) {
 			state.userInfo = {
 				name: "",
 				token: null
 			};
+			uni.removeStorageSync('userInfo');
 			// uni.removeStorage({
 			// 	key: 'userInfo'
 			// })

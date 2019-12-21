@@ -83,7 +83,8 @@
 				swiperCurrent: 0,
 				carouselList: [],
 				billboardListTop3: [],
-				billboardListOthers: []
+				billboardListOthers: [],
+				timer: 0,
 			}
 		},
 		computed: {
@@ -117,10 +118,27 @@
 				this.swiperCurrent = index;
 			},
 			navToFansPage(item) {
-				this.setCurrentBand(item.id)
-				uni.navigateTo({
-					url: "../toBeFans/toBeFans"
-				});
+				console.log(uni.getStorageSync("userInfo").token);
+				
+				// 防止高频点击
+				if(this.timer == 1) {
+					return;
+				}
+				setTimeout(()=> {
+					this.timer = 0;
+				}, 500);
+				
+				if(uni.getStorageSync("userInfo").token) {
+					this.setCurrentBand(item.id);
+					uni.navigateTo({
+						url: "../toBeFans/toBeFans"
+					});
+				} else {
+					uni.navigateTo({
+						url: "../login/login"
+					})
+				}
+				
 			},
 			jumpToWelfare() {
 				uni.navigateTo({

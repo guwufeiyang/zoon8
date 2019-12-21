@@ -6,7 +6,7 @@
 		<view class="content-box">
 			<view class="tip1">申请获取以下权限</view>
 			<view class="tip2">获取你的公开信息(昵称，头像)</view>
-			<button class="btn-login" @click="doLogin">登录授权</button>
+			<button class="btn-login" @click="doLogin" :disabled="loading">登录授权</button>
 		</view>
 	</view>
 </template>
@@ -18,7 +18,7 @@
 	export default {
 		data() {
 			return {
-				
+				loading: false
 			}
 		}, 
 		computed: {
@@ -27,16 +27,26 @@
         methods: {
 			...mapMutations(['login']),
 			async doLogin(){
+				this.loading = true;
+				
 				console.log("this.userInfo.token " + this.userInfo.token)
+				
 				if(!this.userInfo.token) {
 					var loginRes = await arequest('/mockLogin', {code: ""}, {
 					})
 					var userInfo = loginRes.data
 					userInfo.roles = JSON.parse(userInfo.roles || "[]")
 					userInfo.achievements = JSON.parse(userInfo.achievements || "[]")
-					this.login(userInfo)
+					this.login(userInfo);
+					
+					this.loading = false;
+					console.log("this.userInfo " + JSON.stringify(userInfo));
 				}
-				uni.navigateBack();	
+				setTimeout(()=> {
+					this.$api.msg("授权登录成功");
+					uni.navigateBack();	
+				}, 500);
+				
 			}
 		}
 	}

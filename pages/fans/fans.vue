@@ -12,14 +12,15 @@
 			<view class="not-fans-wrap">
 				<image class="not-fans-img" src="../../static/not-fans.png"></image>
 				<text class="not-fans-text">你还没有加入粉丝团哦 快去榜单选择心仪爱豆加入粉丝团</text>
-				<!-- 为了调试样式，后面会删除 -->
+				<button class="btn-red" @click="jumpToBillboard">去榜单页面</button>
+				<!-- 为了调试样式，后面会删除 
 				<button @click="sendMessage()">发留言</button>
 				<button @click="getIntegral()">获取积分</button>
-				<button @click="contributeIntergral()">贡献积分</button>
+				<button @click="contributeIntergral()">贡献积分</button>-->
 			</view>
 		</view>
 		
-		<view class="content-wrap" v-if="bandId">
+		<view class="content-wrap" v-if="userInfo.token && bandId">
 			<view class="fans-info">
 				<image class="portrait" :src="bandInfo.logo || '/static/missing-face.png'"></image>
 				<view class="info-m">
@@ -36,7 +37,7 @@
 					</view>
 				</view>
 				<view class="info-r">
-					<button v-if="!userInfo.bindedBand" class="btn-join" @click="joinFansGroup()">加入粉丝团</button>
+					<!--<button v-if="!userInfo.bindedBand" class="btn-join" @click="joinFansGroup()">加入粉丝团</button>-->
 					
 					<button v-if="userInfo.bindedBand == bandId" class="btn-join" @click="contributeIntergral()">
 						贡献积分
@@ -52,7 +53,7 @@
 					<view class="label">贡献榜</view>
 					<view class="img-list">
 						<view class="img-wrap" v-for="(item,index) in contributeList" :key="index">
-							<image class="contribute-img"  :src="item.img"></image>
+							<image class="contribute-img"  :src="item.avatar"></image>
 							<view class="index" :style="{backgroundColor: item.bg}">{{index+1}}</view>
 						</view>
 					</view>
@@ -78,7 +79,11 @@
 			<scroll-view class="view-content" scroll-y :style="{top: setTopVal}">	
 				<view class="section">
 					<view class="message-list">
-						<view class="message-item-wrap" :class="{'active': item.selected}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item)">
+						<view class="message-item-wrap" 
+							
+							v-for="(item, index) in comments" 
+							:key="index" 
+						>
 							<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
 							<view class="message-item" >
 								<image class="img" :src="item.fanAvatar"></image>
@@ -114,7 +119,11 @@
 			<view class="uni-tip uni-tip-contribute-intergral">
 				<image class="icon-close" @click="closeContributeIntegralPop()" src="../../static/icon-close.png"></image>
 				<view class="prop-list">
-					<view class="prop-box" :class="{'is-select': item.selected}" @click="selectProp(item)" v-for="(item, index) in propList" :key="index" >
+					<view class="prop-box" 
+						:class="{'is-select': item.selected}" 
+						@click="selectProp(item)" 
+						v-for="(item, index) in propList" 
+						:key="index" >
 						<image :src="item.img" class="img"></image>
 						<view class="name">{{item.name}}</view>
 						<view class="integral">
@@ -141,7 +150,7 @@
 			<view class="uni-tip uni-confirm-contribute-intergral">
 				<image :src="selectedProp.img" class="img"></image>
 				<view class="integral">
-					+ {{selectedProp.integral}} 
+					+ {{selectedProp.price}} 
 				</view>
 			</view>
 		</uni-popup>
@@ -163,7 +172,7 @@
 				<image class="icon-close" @click="closeGetTntegralPop()" src="../../static/close.png"></image>
 				<view class="tip">积分不足，可通过以下方式获取</view>
 				<view class="box-list">
-					<view class="box-item">
+					<view class="box-item" @click="doTask()">
 						<image src="../../static/img-task.png" class="box-bg"></image>
 						<view class="box-content">
 							<view class="label">做任务</view>
@@ -184,40 +193,13 @@
 </template>
 
 <script>
-	var dateFormat = {
-	    padLeftZero: function (str) {
-	        return ('00' + str).substr(str.length)
-	    },
-	    formatDate: function (date, fmt) {
-	        if (/(y+)/.test(fmt)) {
-	            fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
-	        }
-	        let o = {
-	            'M+': date.getMonth() + 1,
-	            'd+': date.getDate(),
-	            'h+': date.getHours(),
-	            'm+': date.getMinutes(),
-	            's+': date.getSeconds()
-	        }
-	        for (let k in o) {
-	            if (new RegExp(`(${k})`).test(fmt)) {
-	                let str = o[k] + ''
-	                fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? str : this.padLeftZero(str))
-	            }
-	        }
-	        return fmt
-	    }
-	}
-	
 	import { mapState, mapMutations } from 'vuex'
-	import { arequest } from '../../room8Util.js'
+	import { arequest, dateFormat } from '../../room8Util.js'
 	import _ from "lodash"
 
-	import uniStatusBar from '@/components/uni-status-bar.vue'
 	import uniPopup from '@/components/uni-popup.vue'
 	export default {
 		components: {
-			uniStatusBar,
 			uniPopup
 		},
 		data() {
@@ -236,13 +218,18 @@
 			}
 		},
 		computed: {
-			...mapState(['userInfo', 'bands']),
+			...mapState(['userInfo', 'bands', 'currentBand']),
 			statusBarColor() {
 				return this.userInfo.bindedBand ? "#fff": "#000"
 			},
 			setTopVal() {
 				// 此处值有两个 308+192 upx
-				return uni.upx2px(308) + 'px'
+				if(this.userInfo.bindedBand == this.bandId) {
+					return uni.upx2px(500) + 'px'
+				} else {
+					return uni.upx2px(308) + 'px'
+				}
+				
 			}
 		},
 		filters:{
@@ -278,19 +265,39 @@
 						offset: this.commentPage * this.commentPageSize, 
 						limit: this.commentPageSize,
 					}, {})
-					this.comments = commentsRes.data
+					this.comments = commentsRes.data;
 					
-					if(this.comments) {
+					console.log(this.comments)
+					
+					if(this.comments && this.comments.length > 0) {
 						this.comments.forEach(item=>{
 							item.time = new Date(item.createTimestamp)
 							item.selected = false;
 						});
-						this.comments[0].selected = true;
+						// this.comments[0].selected = true;
 					}
 
 					// 获取贡献榜
-					var getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {})
-					this.contributeList = getBandContributeRankRes.data
+					let getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {});
+					let getBandContributeRank = getBandContributeRankRes.data;
+					
+					let colorList = ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"];
+					let colorLists = colorList.splice(0, getBandContributeRank.length);
+					
+					console.log("颜色");
+					console.log(colorLists);
+					console.log("贡献榜");
+					console.log(getBandContributeRank);
+					
+					getBandContributeRank.forEach(item=> {
+						colorLists.forEach(bg => {
+							item.bg = bg
+						})
+						
+					});
+					
+					this.contributeList = getBandContributeRank;
+					console.log(this.contributeList);
 				}
 
 				// 获取道具
@@ -303,16 +310,15 @@
 					this.propList = propList
 				}
 			},
-			selectFans(item, idx) {
-				this.bandInfo = item;
-				this.comments.forEach(item=>{
-					item.selected = false;
-				});
-				item.selected = true;
-				this.bandInfo.rank = idx;
+			toLogin() {
+				uni.navigateTo({
+					url: "../login/login"
+				})
 			},
-			navBack(){
-				uni.navigateBack();
+			jumpToBillboard() {
+				uni.switchTab({
+					url: "/pages/billboard/billboard"
+				})
 			},
 			joinFansGroup() {
 				this.type = 'center';
@@ -342,6 +348,7 @@
 			},
 			async confirmContribute() {
 				this.$refs.contributeIntegralPop.close();
+				
 				this.type = 'center';
 				
 				var gifts = this.propList.filter(item=>{
@@ -354,9 +361,9 @@
 				})
 				var contributeRes = await arequest('/contribute', gifts, {})
 				
-				uni.showToast({
-					title: "" + this.propList.reduce((sum, item) =>{ return sum + parseInt(item.selected ? item.price : 0)}, 0)
-				})
+				// uni.showToast({
+					//title: "" + this.propList.reduce((sum, item) =>{ return sum + parseInt(item.selected ? item.price : 0)}, 0)
+				// })
 				
 				
 				this.$nextTick(() => {
@@ -392,6 +399,8 @@
 			},
 			// 获取积分弹窗
 			getIntegral() {
+				this.$refs.contributeIntegralPop.close();
+				
 				this.type = 'center';
 				this.$nextTick(() => {
 					this.$refs.showGetTntegralPop.open();
@@ -411,6 +420,10 @@
 				this.$refs.showSendCommentPop.close();
 			},
 			async confirmSendMsg() {
+				if(!this.commentContent){
+					this.$api.msg('评论不能为空');
+					return;
+				}
 				var addCommentRes = await arequest('/addComment', {
 					content: this.commentContent
 				}, {})
