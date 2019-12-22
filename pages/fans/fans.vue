@@ -280,24 +280,12 @@
 					// 获取贡献榜
 					let getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {});
 					let getBandContributeRank = getBandContributeRankRes.data;
-					
 					let colorList = ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"];
-					let colorLists = colorList.splice(0, getBandContributeRank.length);
 					
-					console.log("颜色");
-					console.log(colorLists);
-					console.log("贡献榜");
-					console.log(getBandContributeRank);
-					
-					getBandContributeRank.forEach(item=> {
-						colorLists.forEach(bg => {
-							item.bg = bg
-						})
-						
+					getBandContributeRank.forEach((item, i)=> {
+						item.bg = colorList[i];
 					});
-					
 					this.contributeList = getBandContributeRank;
-					console.log(this.contributeList);
 				}
 
 				// 获取道具
