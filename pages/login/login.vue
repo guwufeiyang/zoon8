@@ -29,15 +29,45 @@
 			async doLogin(){
 				console.log("this.userInfo.token " + this.userInfo.token)
 				if(!this.userInfo.token) {
-					var loginRes = await arequest('/mockLogin', {code: ""}, {
-					})
-					var userInfo = loginRes.data
-					userInfo.roles = JSON.parse(userInfo.roles || "[]")
-					userInfo.achievements = JSON.parse(userInfo.achievements || "[]")
-					this.login(userInfo)
+					// uni.login({
+					//     provider: "weixin",
+					//     success: (res) => {
+					// 		console.log(res)
+					// 		// uni.getUserInfo({
+					//         //     provider: value,
+					//         //     success: (infoRes) => {
+					//         //         /**
+					//         //          * 实际开发中，获取用户信息后，需要将信息上报至服务端。
+					//         //          * 服务端可以用 userInfo.openId 作为用户的唯一标识新增或绑定用户信息。
+					//         //          */
+					//         //         this.toMain(infoRes.userInfo.nickName);
+					//         //     }
+					//         // });
+					//     },
+					//     fail: (err) => {
+					//         console.error('授权登录失败：' + JSON.stringify(err));
+					//     }
+					// });
+					
+					var getCodeRes = await arequest('/getCode', null, {})
+					window.location.href = getCodeRes.data
+					
+					// var loginRes = await arequest('/mockLogin', {code: ""}, {
+					// })
+					// var userInfo = loginRes.data
+					// userInfo.roles = JSON.parse(userInfo.roles || "[]")
+					// userInfo.achievements = JSON.parse(userInfo.achievements || "[]")
+					// this.login(userInfo)
 				}
-				uni.navigateBack();	
+				uni.navigateBack();
 			}
+		},
+		onLoad(option) {
+			_that = this;
+			console.log("code is " + option.code);
+			uni.showToast({
+				title: option.code
+			})
 		}
 	}
 </script>

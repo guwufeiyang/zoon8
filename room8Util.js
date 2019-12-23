@@ -27,7 +27,7 @@ var jwt = "";
 function arequest(url, data, header) {
 	return new Promise((resolve, reject) => {
 		uni.request({
-			url: 'http://www.valuations.cn:38080/room8' + url,
+			url: 'https://www.valuations.cn/room8' + url,
 			method: data ? "POST" : "GET",
 			data: data,
 			header: {

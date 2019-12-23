@@ -51,8 +51,14 @@
 		computed: {
 			...mapState(['userInfo'])
 		},
-		onLoad() {
+		onLoad(option) {
+			_that = this;
 			this.loadData();
+
+			console.log("code is " + option.code);
+			uni.showToast({
+				title: option.code
+			})
 		},
 		methods:{
 			gotoLogin(){
