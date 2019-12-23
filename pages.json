@@ -9,18 +9,21 @@
 					"titleNView": true
 				}
 			}
-		},
-		{
+		}, {
+		    "path" : "pages/toBeFans/toBeFans",
+		    "style" : {
+		       "navigationBarTextStyle" : "white",
+		       "navigationBarTitleText" : "粉丝团",
+		       "navigationBarBackgroundColor" : "#d36d93"
+		    }
+		}, {
 			"path": "pages/fans/fans",
 			"style": {
-				"navigationBarTitleText": "粉丝团",
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": true
-				}
+				"navigationBarTextStyle" : "white",
+				"navigationBarTitleText" : "粉丝团",
+				"navigationBarBackgroundColor" : "#d36d93"
 			}
-		},
-		{
+		}, {
 			"path": "pages/person/person",
 			"style": {
 				"navigationBarTitleText": "个人中心",
@@ -48,18 +51,7 @@
 					"titleNView": true
 				}
             }
-        }
-        ,{
-            "path" : "pages/toBeFans/toBeFans",
-            "style" : {
-				"navigationBarTitleText": "粉丝团",
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": true
-				}
-			}
-        }
-        ,{
+        } ,{
             "path" : "pages/welfare/welfare",
             "style" : {
 				"navigationBarTitleText": "榜单福利"

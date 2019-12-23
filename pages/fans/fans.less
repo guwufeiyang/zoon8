@@ -1,4 +1,6 @@
-
+.content-wrap {
+	position: static;
+}
 .btn-join {
 	width: 200upx;
 	height: 64upx;
@@ -48,14 +50,14 @@
 .header-bg {
 	position: absolute;
 	width: 750upx;
-	height: 154px;
+	height: 182upx;
 	overflow: hidden;
-	background: linear-gradient(127deg,rgba(250,114,104,1) 0%, rgba(117,96,249,1) 100%);	
+	background: linear-gradient(180deg, #d36d93 30%, #9A65D2 100%);	
 }
 .header-img {
 	position: absolute;
 	right: -120upx;
-	top: 80upx;
+	top: 8upx;
 	width: 462upx;
 	height: 152upx;
 }
@@ -64,7 +66,7 @@
 	padding-top: 40rpx;
 	display: flex;
 	width: 100%;
-	height: 110px;
+	height: 182rpx;
 	.portrait {
 		width: 120rpx;
 		height: 120rpx;
@@ -118,29 +120,30 @@
 .contribute-box {
 	position: relative;
 	width: 100%;
-	height: 44px;
+	height: 88rpx;
 	.contribute-box-l { 
 		position: absolute;
 		left: 0;
 		top: 0;
 		width: 8rpx;
-		height: 44px;
+		height: 88rpx;
 	}
 	.contribute-box-r-bg {
 		position: absolute;
 		right: 0;
 		top: 0;
 		width: calc(100% - 8rpx);
-		height: 44px;
-		background: linear-gradient(127deg, rgba(250,114,104,1) 0%,rgba(117,96,249,1) 100%);
-		opacity: 0.5;
+		height: 88rpx;
+		background:linear-gradient(127deg,rgba(250,114,104,1) 0%,rgba(117,96,249,1) 100%);
+		opacity:0.5;
+		
 	}
 	.contribute-box-r {
 		position: absolute;
 		right: 0;
 		top: 0;
 		width: 742upx;
-		height: 44px;
+		height: 88rpx;
 		flex: 1;
 		display: flex;
 		justify-content: space-between;
@@ -194,7 +197,7 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 10px;
+	margin-bottom: 20upx;
 	padding: 0 114upx;
 	.task-item {
 		// flex: 1;
@@ -214,11 +217,7 @@
 	}
 }
 .view-content {
-	position: absolute;
-	bottom: 0;
-	top: 308rpx;
-	width: 100%;
-	// padding-top: 20rpx;
+	
 }
 .message-list { 
 	padding: 20upx 0;
@@ -507,6 +506,9 @@
 		padding: 10rpx;
 		background: #FAF9F9;
 		border-radius: 16rpx;
+	}
+	.graywords {
+		color: #EAEAEA;
 	}
 }
 

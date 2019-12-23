@@ -4,7 +4,6 @@ form, input, label, radio, slider, switch, textarea, navigator, audio, camera, i
 	box-sizing: border-box;
 	padding: 0;
 	margin: 0;
-	font-family: PingFangSC-Medium,PingFang SC;
 	list-style: none;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
@@ -119,7 +118,7 @@ page {
 }
 
 .empty-box {
-	padding: 60rpx 0;
+	padding: 100rpx 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -129,7 +128,11 @@ page {
 		// margin: 30rpx auto;
 	}
 	.empty-txt {
-		margin-top: 20rpx;
-		color: #999;
+		line-height: 24px;
+		color: #C8C7CC;
+		font-size: 16px;
 	}
+}
+uni-button:after {
+	border: 0 none;
 }

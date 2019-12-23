@@ -1,26 +1,24 @@
 <template>
 	<view class="container">
-		<view v-if="bandId">
+		<!-- <view v-if="bandId">
 			<view class="header-bg"></view>
 			<image class="header-img" src="../../static/fans-bg.png"></image>
 		</view>
 		<view class="status_bar" :style="{color: statusBarColor}">
 			<text v-if="bandId">{{bandInfo.name}}</text>粉丝团
-		</view>
+		</view> -->
 		
 		<view class="content-wrap" v-if="!bandId">
 			<view class="not-fans-wrap">
 				<image class="not-fans-img" src="../../static/not-fans.png"></image>
 				<text class="not-fans-text">你还没有加入粉丝团哦 快去榜单选择心仪爱豆加入粉丝团</text>
 				<button class="btn-red" @click="jumpToBillboard">去榜单页面</button>
-				<!-- 为了调试样式，后面会删除 
-				<button @click="sendMessage()">发留言</button>
-				<button @click="getIntegral()">获取积分</button>
-				<button @click="contributeIntergral()">贡献积分</button>-->
 			</view>
 		</view>
 		
 		<view class="content-wrap" v-if="userInfo.token && bandId">
+			<view class="header-bg"></view>
+			<image class="header-img" src="../../static/fans-bg.png"></image>
 			<view class="fans-info">
 				<image class="portrait" :src="bandInfo.logo || '/static/missing-face.png'"></image>
 				<view class="info-m">
@@ -38,7 +36,6 @@
 				</view>
 				<view class="info-r">
 					<!--<button v-if="!userInfo.bindedBand" class="btn-join" @click="joinFansGroup()">加入粉丝团</button>-->
-					
 					<button v-if="userInfo.bindedBand == bandId" class="btn-join" @click="contributeIntergral()">
 						贡献积分
 						<image class="icon-integral" src="../../static/icon-contribute-intergral.png"></image>
@@ -75,29 +72,27 @@
 				</view>
 			</view>
 			
-			
-			<scroll-view class="view-content" scroll-y :style="{top: setTopVal}">	
-				<view class="section">
-					<view class="message-list">
-						<view class="message-item-wrap" 
-							:class="{'active': item.id == item.bandId}" 
-							v-for="(item, index) in comments" 
-							:key="index">
-							<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
-							<view class="message-item" >
-								<image class="img" :src="item.fanAvatar"></image>
-								<view class="item-right">
-									<view class="item-top">
-										<text class="name">{{ item.fanName }}</text>
-										<text class="time">{{ item.time | formatDate('hh:mm:ss') }}</text>
-									</view>
-									<view class="message">{{item.content}}</view>
+			<view class="section">
+				<view class="message-list">
+					<view class="message-item-wrap" 
+						:class="{'active': item.id == item.bandId}" 
+						v-for="(item, index) in comments" 
+						:key="index">
+						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
+						<view class="message-item" >
+							<image class="img" :src="item.fanAvatar"></image>
+							<view class="item-right">
+								<view class="item-top">
+									<text class="name">{{ item.fanName }}</text>
+									<text class="time">{{ item.time | formatDate('hh:mm:ss') }}</text>
 								</view>
+								<view class="message">{{item.content}}</view>
 							</view>
 						</view>
 					</view>
 				</view>
-			</scroll-view>
+			</view>
+			
 		</view>
 		
 		<!--确认加入弹窗  -->
@@ -161,7 +156,7 @@
 					<button class="btn" @click="cancelSendMsg()">取消</button>
 					<button class="btn" @click="confirmSendMsg()">确定</button>
 				</view>
-				<textarea class="textarea" v-model="commentContent" placeholder="写入留言" />
+				<textarea class="textarea" v-model="commentContent" placeholder="写入留言" placeholder-class="graywords"/>
 			</view>
 		</uni-popup>
 		
@@ -220,14 +215,6 @@
 			...mapState(['userInfo', 'bands', 'currentBand']),
 			statusBarColor() {
 				return this.userInfo.bindedBand ? "#fff": "#000"
-			},
-			setTopVal() {
-				if(this.userInfo.bindedBand == this.bandId) {
-					return uni.upx2px(498) + 'px'
-				} else {
-					return uni.upx2px(308) + 'px'
-				}
-				
 			}
 		},
 		filters:{

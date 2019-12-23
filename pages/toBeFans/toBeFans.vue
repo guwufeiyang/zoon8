@@ -1,14 +1,15 @@
 <template>
 	<view class="container">
-		<view class="header-bg"></view>
-		<image class="header-img" src="../../static/fans-bg.png"></image>
+		<!-- <view class="header-bg"></view> -->
+		<!-- <image class="header-img" src="../../static/fans-bg.png"></image> -->
 		
-		<view class="status_bar">
+		<!-- <view class="status_bar">
 			<image class="icon-back" @click="returnBack" src="../../static/icon-back.png"></image>
 			<text>{{bandInfo.name}}</text>粉丝团
-		</view>
-		
+		</view> -->
 		<view class="content-wrap">
+			<view class="header-bg"></view>
+			<image class="header-img" src="../../static/fans-bg.png"></image>
 			<view class="fans-info">
 				<image class="portrait" :src="bandInfo.logo || '/static/missing-face.png'"></image>
 				<view class="info-m">
@@ -178,8 +179,7 @@
 			returnBack() {
 				uni.switchTab({
 					url: "/pages/billboard/billboard"
-				})
-				// uni.navigateBack();	
+				});
 			},
 			joinFansGroup() {
 				this.type = 'center';
@@ -210,6 +210,9 @@
 	@import url('../fans/fans.less');
 	.content-wrap {
 		bottom: 0;
+	}
+	.contribute-box {
+		margin-bottom: 20rpx;
 	}
 </style>
 
