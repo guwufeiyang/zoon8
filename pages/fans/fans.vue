@@ -80,10 +80,9 @@
 				<view class="section">
 					<view class="message-list">
 						<view class="message-item-wrap" 
-							
+							:class="{'active': item.id == item.bandId}" 
 							v-for="(item, index) in comments" 
-							:key="index" 
-						>
+							:key="index">
 							<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
 							<view class="message-item" >
 								<image class="img" :src="item.fanAvatar"></image>
@@ -223,9 +222,8 @@
 				return this.userInfo.bindedBand ? "#fff": "#000"
 			},
 			setTopVal() {
-				// 此处值有两个 308+192 upx
 				if(this.userInfo.bindedBand == this.bandId) {
-					return uni.upx2px(500) + 'px'
+					return uni.upx2px(498) + 'px'
 				} else {
 					return uni.upx2px(308) + 'px'
 				}

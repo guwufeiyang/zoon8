@@ -47,10 +47,9 @@
 				<view class="section">
 					<view class="message-list" v-if="comments&& comments.length>0">
 						<view class="message-item-wrap" 
-							:class="{'active': item.selected}" 
+							:class="{'active': item.id == item.bandId}" 
 							v-for="(item, index) in comments" 
-							:key="index" 
-						>
+							:key="index" >
 							<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
 							<view class="message-item" >
 								<image class="img" :src="item.fanAvatar"></image>
@@ -146,8 +145,14 @@
 					})
 
 					// 获取贡献榜
-					var getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {})
-					this.contributeList = getBandContributeRankRes.data
+					var getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {});
+					let getBandContributeRank = getBandContributeRankRes.data;
+					let colorList = ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"];
+					
+					getBandContributeRank.forEach((item, i)=> {
+						item.bg = colorList[i];
+					});
+					this.contributeList = getBandContributeRank;
 					
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
@@ -171,7 +176,10 @@
 				})
 			},
 			returnBack() {
-				uni.navigateBack();	
+				uni.switchTab({
+					url: "/pages/billboard/billboard"
+				})
+				// uni.navigateBack();	
 			},
 			joinFansGroup() {
 				this.type = 'center';
@@ -188,6 +196,7 @@
 				}, {});
 				var meRes = await arequest('/me', null, {})
 				this.login(meRes.data);
+				this.$api.msg("加入粉丝团成功！");
 				this.$refs.showtip.close();
 			}
 		},
