@@ -28,12 +28,13 @@
 		color: #656976;
 		text-align: center;
 		line-height: 18px;
+		margin-bottom: 30rpx;
 	}
 	.btn-red {
 		width: 300upx;
 		height: 68upx;
 		line-height: 68upx;
-		margin-top: 30upx;
+		// margin-top: 30upx;
 		padding: 0;
 		background: rgba(250, 104, 137, 1);
 		box-shadow: 0upx 4upx 18upx 0upx rgba(250, 104, 137, 0.6);
@@ -47,7 +48,7 @@
 .header-bg {
 	position: absolute;
 	width: 750upx;
-	height: 308upx;
+	height: 154px;
 	overflow: hidden;
 	background: linear-gradient(127deg,rgba(250,114,104,1) 0%, rgba(117,96,249,1) 100%);	
 }
@@ -63,7 +64,7 @@
 	padding-top: 40rpx;
 	display: flex;
 	width: 100%;
-	height: 220rpx;
+	height: 110px;
 	.portrait {
 		width: 120rpx;
 		height: 120rpx;
@@ -117,20 +118,20 @@
 .contribute-box {
 	position: relative;
 	width: 100%;
-	height: 88rpx;
+	height: 44px;
 	.contribute-box-l { 
 		position: absolute;
 		left: 0;
 		top: 0;
 		width: 8rpx;
-		height: 88rpx;
+		height: 44px;
 	}
 	.contribute-box-r-bg {
 		position: absolute;
 		right: 0;
 		top: 0;
 		width: calc(100% - 8rpx);
-		height: 88rpx;
+		height: 44px;
 		background: linear-gradient(127deg, rgba(250,114,104,1) 0%,rgba(117,96,249,1) 100%);
 		opacity: 0.5;
 	}
@@ -139,7 +140,7 @@
 		right: 0;
 		top: 0;
 		width: 742upx;
-		height: 88upx;
+		height: 44px;
 		flex: 1;
 		display: flex;
 		justify-content: space-between;
@@ -162,18 +163,18 @@
 			}
 		}
 		.contribute-img {
-			width: 60upx;
-			height: 60upx;
+			width: 30px;
+			height: 30px;
 			border-radius: 50%;
 		}
 		.index {
 			position: absolute;
 			bottom: 0;
 			right: 0;
-			width: 28upx;
-			height: 28upx;
+			width: 14px;
+			height: 14px;
 			border-radius: 50%;
-			line-height: 28upx;
+			line-height: 14px;
 			font-size: 12px;
 			color: #fff;
 			font-family: arial;
@@ -186,14 +187,14 @@
 
 .task-box {
 	width: 100%;
-	height: 192upx;
+	height: 96px;
 	background: rgba(255, 255, 255, 1);
 	box-shadow: 0px 0px 40upx 0px rgba(0, 0, 0, 0.04);
 	border-radius: 0px 0px 16upx 16upx;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 20upx;
+	margin-bottom: 10px;
 	padding: 0 114upx;
 	.task-item {
 		// flex: 1;
@@ -202,8 +203,8 @@
 		align-items: center;
 	}
 	.task-img {
-		width: 100upx;
-		height: 100upx;
+		width: 50px;
+		height: 50px;
 		margin-bottom: 8upx;
 	}
 	.task-txt {
@@ -211,15 +212,13 @@
 		color: #414348;
 		line-height: 14px;
 	}
-
 }
-
 .view-content {
 	position: absolute;
 	bottom: 0;
 	top: 308rpx;
 	width: 100%;
-	// background: #ccc;
+	// padding-top: 20rpx;
 }
 .message-list { 
 	padding: 20upx 0;
@@ -311,6 +310,7 @@
 	text-align: center;
 	line-height: 42upx;
 	color: #656976;
+	padding: 0 90rpx;
 	border-bottom: 1upx solid #F4F5F7;
 }
 
@@ -480,6 +480,7 @@
 	position: relative;
 	width: 750upx;
 	height: 420rpx;
+	border-radius: 10rpx 10rpx 0 0;
 	.btn-area {
 		width: 100%;
 		height: 84rpx;
@@ -518,15 +519,16 @@
 	right: 0;
 	background-color: rgba(0, 0, 0, 0.4);
 }
+/* #ifdef H5 */
+.view-content {
+	top: 164px;
+}
+/* #endif */
+
 
 /* #ifdef MP */ 
-.contribute-box {
-	position: relative;
-	top: -50upx;
-}
-.task-box {
-	position: relative;
-	top: -50rpx;
+.fans-info {
+	height: 94px;
 }
 .uni-tip-contribute-intergral  {
 	height: 652upx;
@@ -535,10 +537,6 @@
 	position: relative;
 	width: 750upx;
 	height: 320rpx;
-}
-.section {
-	position: relative;
-	top: -50rpx;
 }
 /* #endif */
 	

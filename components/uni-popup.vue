@@ -107,7 +107,7 @@
 				this.$nextTick(() => {
 					setTimeout(() => {
 						this.showTrans = true
-					}, 50);
+					}, 0);
 				})
 				this.$emit('change', {
 					show: true
@@ -122,7 +122,7 @@
 							show: false
 						})
 						this.showPopup = false
-					}, 300)
+					}, 0)
 				})
 			},
 			onTap() {

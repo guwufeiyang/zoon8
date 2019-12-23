@@ -18,7 +18,7 @@
 	export default {
 		data() {
 			return {
-				
+				loading: false
 			}
 		}, 
 		computed: {
@@ -58,8 +58,10 @@
 					// userInfo.roles = JSON.parse(userInfo.roles || "[]")
 					// userInfo.achievements = JSON.parse(userInfo.achievements || "[]")
 					// this.login(userInfo)
+					// this.$api.msg("授权登录成功");
+					// console.log("this.userInfo " + JSON.stringify(userInfo));
 				}
-				uni.navigateBack();
+				setTimeout(()=> { uni.navigateBack(); }, 500);
 			}
 		},
 		onLoad(option) {

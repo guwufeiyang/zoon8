@@ -4,6 +4,7 @@
 		<image class="header-img" src="../../static/fans-bg.png"></image>
 		
 		<view class="status_bar">
+			<image class="icon-back" @click="returnBack" src="../../static/icon-back.png"></image>
 			<text>{{bandInfo.name}}</text>粉丝团
 		</view>
 		
@@ -44,8 +45,11 @@
 			
 			<scroll-view class="view-content" scroll-y >
 				<view class="section">
-					<view class="message-list">
-						<view class="message-item-wrap" :class="{'active': item.selected}" v-for="(item, index) in comments" :key="index" @tap="selectFans(item)">
+					<view class="message-list" v-if="comments&& comments.length>0">
+						<view class="message-item-wrap" 
+							:class="{'active': item.id == item.bandId}" 
+							v-for="(item, index) in comments" 
+							:key="index" >
 							<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
 							<view class="message-item" >
 								<image class="img" :src="item.fanAvatar"></image>
@@ -59,6 +63,10 @@
 							</view>
 						</view>
 					</view>
+					<view class="empty-box" v-else>
+						<image src="../../static/empty-bg.png" class="empty-img"></image>
+						<text class="empty-txt">暂无数据</text>
+					</view>
 				</view>
 			</scroll-view>
 		</view>
@@ -67,7 +75,7 @@
 		<uni-popup ref="showtip" :type="type" :mask-click="false">
 			<view class="uni-tip">
 				<text class="uni-tip-content">
-					您将加入王一博的粉丝团，<br />暂不提供退团功能哦！
+					您将加入{{bandInfo.name}}的粉丝团，<br />暂不提供退团功能哦！
 				</text>
 				<view class="uni-tip-group-button">
 					<text class="uni-tip-button" @click="cancel()">再看看</text>
@@ -97,7 +105,7 @@
 
 				contributeList: [],
 				type: '',
-				propList: [],
+				
 				comments: [],
 				commentPage: 0,
 				commentPageSize: 10
@@ -137,8 +145,14 @@
 					})
 
 					// 获取贡献榜
-					var getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {})
-					this.contributeList = getBandContributeRankRes.data
+					var getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {});
+					let getBandContributeRank = getBandContributeRankRes.data;
+					let colorList = ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"];
+					
+					getBandContributeRank.forEach((item, i)=> {
+						item.bg = colorList[i];
+					});
+					this.contributeList = getBandContributeRank;
 					
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
@@ -147,7 +161,7 @@
 					}, {})
 					this.comments = commentsRes.data
 					
-					if(this.comments) {
+					if(this.comments && this.comments.length > 0) {
 						this.comments.forEach(item=>{
 							item.time = new Date(item.createTimestamp)
 							item.selected = false;
@@ -155,32 +169,23 @@
 						this.comments[0].selected = true;
 					}
 				}
-
-				
-				// 获取道具
-				let propList = await this.$api.json('propList');
-				let newPropList = propList.map(item => {
-					item.selected = false;
-					return item;
+			},
+			gotoContribute() {
+				uni.navigateTo({
+					url: "/pages/contribute/contribute"
 				})
-				this.propList  = newPropList;
-				
 			},
-			
-			navBack(){
-				uni.navigateBack();
+			returnBack() {
+				uni.switchTab({
+					url: "/pages/billboard/billboard"
+				})
+				// uni.navigateBack();	
 			},
-			 joinFansGroup() {
-				if(this.userInfo.id) {		
-					this.type = 'center';
-					this.$nextTick(() => {
-						this.$refs.showtip.open();
-					});
-				} else {
-					uni.navigateTo({
-						url: "../login/login"
-					})
-				}
+			joinFansGroup() {
+				this.type = 'center';
+				this.$nextTick(() => {
+					this.$refs.showtip.open();
+				});
 			},
 			cancel() {
 				this.$refs.showtip.close();
@@ -191,7 +196,7 @@
 				}, {});
 				var meRes = await arequest('/me', null, {})
 				this.login(meRes.data);
-				
+				this.$api.msg("加入粉丝团成功！");
 				this.$refs.showtip.close();
 			}
 		},

@@ -1,5 +1,5 @@
 view, scroll-view, swiper, swiper-item, cover-view, cover-image, icon, text, rich-text, progress, button, checkbox,
-form, input, label, radio, slider, switch, textarea, navigator, audio, camera, image, video,ul,li,body, html, 
+form, input, label, radio, slider, switch, textarea, navigator, audio, camera, image, video,ul,li,
 .container, page, .content  {
 	box-sizing: border-box;
 	padding: 0;
@@ -10,12 +10,10 @@ form, input, label, radio, slider, switch, textarea, navigator, audio, camera, i
 	box-sizing: border-box;
 	-webkit-overflow-scrolling: touch;
 }
-body, html {
-	overflow-x: hidden;
-}
 .status_bar	{
 	position: fixed;
-	height: var(--status-bar-height);
+	height: 44px;
+	line-height: 44px;
 	width: 100%;
 	color: #fff;
 	font-size: 14px;
@@ -25,6 +23,7 @@ body, html {
 page {
 	height: 100%;
 	background: #FAF9F9;
+	overflow: hidden;
 }
 .container {
 	position: relative;
@@ -41,7 +40,7 @@ page {
 }
 .section {
 	width: 686upx;
-	margin: 20upx auto;
+	margin: 0 auto 20upx;
 	background: rgba(255,255,255,1);
 	box-shadow: 0px 2upx 40upx 0px rgba(0,0,0,0.04);
 	border-radius: 16upx;
@@ -96,8 +95,6 @@ page {
 // 兼容性处理
 /* #ifdef MP */
 .status_bar {
-	height: 44px;
-	line-height: 44px;
 	top: 20px;
 }
 .content-wrap {
@@ -108,11 +105,31 @@ page {
 
 /* #ifdef H5 */
 .status_bar {
-	height: 44px;
-	line-height: 44px;
 	top: 0;
 	font-size: 16px;
 	font-weight: 700;
 }
 /* #endif */
 	
+	
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis; // 文本溢出显示省略号
+	white-space: nowrap; // 文本不会换行（单行文本溢出）
+}
+
+.empty-box {
+	padding: 60rpx 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	.empty-img {
+		width: 366rpx;
+		height: 308rpx;
+		// margin: 30rpx auto;
+	}
+	.empty-txt {
+		margin-top: 20rpx;
+		color: #999;
+	}
+}
