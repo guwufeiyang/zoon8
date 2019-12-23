@@ -2,7 +2,7 @@
 	<view class="container">
 		<image class="header-bg" src="../../static/header-bg.png"></image>
 		<view class="status_bar">个人中心</view>
-		
+
 		<view class="content-wrap">
 			<view class="userinfo-box">
 				<image src="../../static/person-info-bg.png" class="box-bg"></image>
@@ -10,7 +10,7 @@
 					<image class="portrait" v-bind:src='userInfo.avatar || "/static/missing-face.png"'></image>
 					<view class="userinfo-r">
 						<button class="login-btn" v-if="!userInfo.token" @tap="gotoLogin">登录</button>
-						<view  class="login-name" v-if="userInfo.token">{{userInfo.name}}</view>
+						<view class="login-name" v-if="userInfo.token">{{userInfo.name}}</view>
 						<view class="rank-info">
 							<view class="rank-info-item">
 								<view class="info-val">{{userInfo.rank || '--'}}</view>
@@ -24,9 +24,10 @@
 					</view>
 				</view>
 			</view>
-			
+
 			<view class="section-list">
-				<view class="section notLogin-item" :class="{'disabled': (userInfo.achievements || []).includes(item.id)}" v-for="(item, index) in achievementList" :key="index">
+				<view class="section notLogin-item" :class="{'disabled': (userInfo.achievements || []).includes(item.id)}" v-for="(item, index) in achievementList"
+				 :key="index">
 					<image :src="item.image" class="img"></image>
 					<view class="section-txt">
 						<view class="info-label">{{item.name}}</view>
@@ -39,8 +40,13 @@
 </template>
 
 <script>
-	import { mapState, mapMutations } from 'vuex'
-	import { arequest } from '../../room8Util.js'
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
+	import {
+		arequest
+	} from '../../room8Util.js'
 	export default {
 		data() {
 			return {
@@ -51,26 +57,38 @@
 		computed: {
 			...mapState(['userInfo'])
 		},
-		onLoad(option) {
-			_that = this;
-			this.loadData();
-
-			console.log("code is " + option.code);
-			uni.showToast({
-				title: option.code
-			})
-		},
-		methods:{
-			gotoLogin(){
+		methods: {
+			...mapMutations(['login']),
+			gotoLogin() {
 				uni.navigateTo({
-				    url: '../login/login',
+					url: '../login/login',
 				});
 			},
-			async loadData() {
-				// this.achievementList = await this.$api.json('achievementList');
+			async loadData(option) {
+				var _that = this;
+				if (option.code) { // from callback
+					var loginRes = await arequest('/wechatLogin', {
+						code: option.code,
+						state: option.state
+					}, {})
+					console.log("loginRes " + loginRes)
+					
+					var userInfo = loginRes.data
+					userInfo.roles = JSON.parse(userInfo.roles || "[]")
+					userInfo.achievements = JSON.parse(userInfo.achievements || "[]")
+					this.login(userInfo)
+					
+					uni.reLaunch({
+					    url: '../person/person'
+					});
+				}
+
 				let loadAllGainsRes = await arequest('/loadAllGains', null, {})
 				this.achievementList = loadAllGainsRes.data
 			}
+		},
+		onLoad(option) {
+			this.loadData(option);
 		}
 	}
 </script>

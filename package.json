@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/guwufeiyang/zoon8#readme",
   "dependencies": {
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "vuex-persist": "^2.2.0"
   }
 }

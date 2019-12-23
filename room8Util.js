@@ -1,8 +1,8 @@
 var dateFormat = {
-	padLeftZero: function (str) {
+	padLeftZero: function(str) {
 		return ('00' + str).substr(str.length)
 	},
-	formatDate: function (date, fmt) {
+	formatDate: function(date, fmt) {
 		if (/(y+)/.test(fmt)) {
 			fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
 		}
@@ -23,8 +23,11 @@ var dateFormat = {
 	}
 }
 
-var jwt = "";
+var jwt;
+
 function arequest(url, data, header) {
+	jwt = jwt || uni.getStorageSync("jwt") || "";
+
 	return new Promise((resolve, reject) => {
 		uni.request({
 			url: 'https://www.valuations.cn/room8' + url,
@@ -37,18 +40,21 @@ function arequest(url, data, header) {
 				'Content-Type': 'application/json; charset=UTF-8'
 			},
 			success: (res) => {
-				if( res && res.message && res.message.contains("JWT expired" || "authentication required") ) {
+				if ('/wechatLogin' == url) {
+					uni.setStorageSync("jwt", res.data.token)
+				}
+
+				if (res && res.message && res.message.contains("JWT expired" || "authentication required")) {
+					uni.removeStorageSync("jwt")
 					uni.navigateTo({
 						url: "/pages/login/login"
 					})
 				}
-				if('/mockLogin' == url) {
-					jwt = res.data.token
-				}
 				resolve(res);
 			},
 			fail: (err) => {
-				if( err && err.message && err.message.contains("JWT expired" || "authentication required") ) {
+				if (err && err.message && err.message.contains("JWT expired" || "authentication required")) {
+					uni.removeStorageSync("jwt")
 					uni.navigateTo({
 						url: "/pages/login/login"
 					})
