@@ -67,7 +67,6 @@
 					</view>
 				</view>
 			</scroll-view>
-
 		</view>
 	</view>
 </template>
@@ -128,7 +127,7 @@
 					this.timer = 0;
 				}, 500);
 				
-				if(uni.getStorageSync("userInfo").token) {
+				if(uni.getStorageSync("userInfo").id) {
 					this.setCurrentBand(item.id);
 					uni.navigateTo({
 						url: "../toBeFans/toBeFans"

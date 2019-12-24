@@ -65,16 +65,18 @@
 		color: #95989c;
 	}
 	.btn-login {
+		position: absolute;
+		left: 50%;
+		bottom: 240rpx;
 		width: 332upx;
 		height: 100upx;
 		line-height: 100upx;
-		margin: 360upx auto 0;
+		margin-left: -166upx;
 		color: #fff;
 		font-size: 16px;
 		background: linear-gradient(127deg,rgba(250,114,104,1) 0%,rgba(117,96,249,1) 100%);
 		box-shadow: 0px 12upx 20upx 0px rgba(184,105,176,0.54);
 		border-radius: 100upx;
-
 	}	
 }
 </style>
