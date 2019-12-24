@@ -31,8 +31,8 @@
 							<view class="info-label">当前排名</view>
 						</view>
 						<view class="integral-info-item">
-							<view class="info-val">{{bandInfo.integral || "--"}}</view>
-							<view class="info-label">本日积分</view>
+							<view class="info-val">{{bandInfo.totalAmount || "--"}}</view>
+							<view class="info-label">累计积分</view>
 						</view>
 					</view>
 				</view>
@@ -245,18 +245,19 @@
 		},
 		methods: {
 			...mapMutations(['login', 'setBands']),
+			async reloadBand(){
+				var bands = await arequest('/loadBands', null, {})
+				this.setBands(bands.data)
+				
+				this.bandInfo = this.bands.find((item)=>{
+					return item.id == this.bandId
+				})
+			},
 			async loadData() {
-				if(!this.bands) {
-					var bands = await arequest('/loadBands', null, {})
-					this.setBands(bands.data)
-				}
-
 				this.bandId = this.userInfo.bindedBand
 
 				if(this.bandId) {
-					this.bandInfo = this.bands.find((item)=>{
-						return item.id == this.bandId
-					})
+					await this.reloadBand()
 
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
@@ -265,14 +266,11 @@
 					}, {})
 					this.comments = commentsRes.data;
 					
-					console.log(this.comments)
-					
 					if(this.comments && this.comments.length > 0) {
 						this.comments.forEach(item=>{
 							item.time = new Date(item.createTimestamp)
 							item.selected = false;
 						});
-						// this.comments[0].selected = true;
 					}
 
 					// 获取贡献榜
@@ -345,12 +343,10 @@
 						"price": item.price
 					}
 				})
-				var contributeRes = await arequest('/contribute', gifts, {})
+				var contributeRes = await arequest('/contribute', {gifts: gifts}, {})
 				
-				// uni.showToast({
-					//title: "" + this.propList.reduce((sum, item) =>{ return sum + parseInt(item.selected ? item.price : 0)}, 0)
-				// })
-				
+				// 
+				await this.reloadBand()
 				
 				this.$nextTick(() => {
 					setTimeout(() => {
@@ -420,6 +416,12 @@
 					limit: this.commentPageSize,
 				}, {})
 				this.comments = commentsRes.data
+				if(this.comments && this.comments.length > 0) {
+					this.comments.forEach(item=>{
+						item.time = new Date(item.createTimestamp)
+					});
+				}
+				this.commentContent = ""
 				
 				this.$refs.showSendCommentPop.close();
 			}

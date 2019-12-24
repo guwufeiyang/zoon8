@@ -146,7 +146,7 @@
 				});
 			},
 		},
-		onLoad() {
+		onShow() {
 			this.loadData();
 		}
 	}

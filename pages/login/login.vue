@@ -27,11 +27,8 @@
         methods: {
 			...mapMutations(['login']),
 			async doLogin(){
-				if(!this.userInfo.token) {
-					var getCodeRes = await arequest('/getWechatCodeUrl', null, {})
-					window.location.href = getCodeRes.data
-				}
-				setTimeout(()=> { uni.navigateBack(); }, 500);
+				var getCodeRes = await arequest('/getWechatCodeUrl', null, {})
+				window.location.href = getCodeRes.data
 			}
 		}
 	}

@@ -44,8 +44,12 @@ function arequest(url, data, header) {
 					uni.setStorageSync("jwt", res.data.token)
 				}
 
-				if (res && res.message && res.message.contains("JWT expired" || "authentication required")) {
+				if (res && res.data && res.data.message && (
+						res.data.message.indexOf("JWT expired") !== -1 || 
+						res.data.message.indexOf("authentication required") !== -1
+					)) {
 					uni.removeStorageSync("jwt")
+					uni.removeStorageSync("vuex")
 					uni.navigateTo({
 						url: "/pages/login/login"
 					})
@@ -53,12 +57,6 @@ function arequest(url, data, header) {
 				resolve(res);
 			},
 			fail: (err) => {
-				if (err && err.message && err.message.contains("JWT expired" || "authentication required")) {
-					uni.removeStorageSync("jwt")
-					uni.navigateTo({
-						url: "/pages/login/login"
-					})
-				}
 				reject(err)
 			}
 		});
