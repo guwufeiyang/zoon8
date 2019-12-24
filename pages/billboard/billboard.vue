@@ -115,8 +115,6 @@
 				this.swiperCurrent = index;
 			},
 			navToFansPage(item) {
-				console.log(uni.getStorageSync("userInfo").token);
-				
 				// 防止高频点击
 				if(this.timer == 1) {
 					return;
@@ -125,7 +123,7 @@
 					this.timer = 0;
 				}, 500);
 				
-				if(uni.getStorageSync("userInfo").id) {
+				if(this.userInfo.id) {
 					this.setCurrentBand(item.id);
 					uni.navigateTo({
 						url: "../toBeFans/toBeFans"
