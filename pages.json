@@ -4,33 +4,29 @@
 			"path": "pages/billboard/billboard",
 			"style": {
 				"navigationBarTitleText": "新秀榜单",
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": true
-				}
+				"navigationBarTextStyle" : "white",
+				"navigationBarBackgroundColor" : "#FA6889"
 			}
 		}, {
 		    "path" : "pages/toBeFans/toBeFans",
 		    "style" : {
 		       "navigationBarTextStyle" : "white",
 		       "navigationBarTitleText" : "粉丝团",
-		       "navigationBarBackgroundColor" : "#d36d93"
+		       "navigationBarBackgroundColor" : "#FA6889"
 		    }
 		}, {
 			"path": "pages/fans/fans",
 			"style": {
 				"navigationBarTextStyle" : "white",
 				"navigationBarTitleText" : "粉丝团",
-				"navigationBarBackgroundColor" : "#d36d93"
+				"navigationBarBackgroundColor" : "#FA6889"
 			}
 		}, {
 			"path": "pages/person/person",
 			"style": {
-				"navigationBarTitleText": "个人中心",
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": true
-				}
+				"navigationBarTextStyle" : "white",
+				"navigationBarTitleText" : "个人中心",
+				"navigationBarBackgroundColor" : "#FA6889"
 			}
 		}, {
 			"path": "pages/login/login",
