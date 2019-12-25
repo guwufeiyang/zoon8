@@ -12,20 +12,26 @@ const store = new Vuex.Store({
   plugins: [vuexLocal.plugin],
 	state: {
 		userInfo: {
-			name: "",
-			token: null
+			name: ""
 		},
 		bands: [],
 		currentBand: null
 	},
 	mutations: {
 		login(state, userInfo) {
-			state.userInfo = userInfo;
+			if(userInfo.id) {
+				userInfo.roles = JSON.parse(userInfo.roles || "[]")
+				userInfo.achievements = JSON.parse(userInfo.achievements || "[]")
+				state.userInfo = userInfo;
+			} else {
+				state.userInfo = {
+					name: ""
+				}
+			}
 		},
 		logout(state) {
 			state.userInfo = {
-				name: "",
-				token: null
+				name: ""
 			}
 		},
 		setBands(state, bands) {

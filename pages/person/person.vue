@@ -2,7 +2,7 @@
 	<view class="container">
 		<!-- <image class="header-bg" src="../../static/header-bg.png"></image>
 		<view class="status_bar">个人中心</view> -->
-		
+
 		<view class="content-wrap">
 			<image class="header-bg" src="../../static/header-bg.png"></image>
 			<view class="userinfo-box">
@@ -11,23 +11,24 @@
 					<image class="portrait" v-bind:src='userInfo.avatar || "/static/missing-face.png"'></image>
 					<view class="userinfo-r">
 						<view class="login-name" v-if="!userInfo.id" @tap="gotoLogin">点我登录</view>
-						<view  class="login-name" v-if="userInfo.id">{{userInfo.name}}</view>
+						<view class="login-name" v-if="userInfo.id">{{userInfo.name}}</view>
 						<view class="rank-info">
 							<view class="rank-info-item">
-								<view class="info-val">{{userInfo.rank || '--'}}</view>
+								<view class="info-val">{{(userInfo.totalRank.rankValue + 1) || '--'}}</view>
 								<view class="info-label">当前排名</view>
 							</view>
 							<view class="integral-info-item">
-								<view class="info-val">{{userInfo.amountToday || '--'}}</view>
+								<view class="info-val">{{userInfo.totalRank.amount || '--'}}</view>
 								<view class="info-label">本日积分</view>
 							</view>
 						</view>
 					</view>
 				</view>
 			</view>
-			
+
 			<view class="section-list">
-				<view class="section notLogin-item" :class="{'disabled': (userInfo.achievements || []).includes(item.id)}" v-for="(item, index) in achievementList" :key="index">
+				<view class="section notLogin-item" :class="{'disabled': (userInfo.achievements || []).includes(item.id)}" v-for="(item, index) in achievementList"
+				 :key="index">
 					<image :src="item.image" class="img"></image>
 					<view class="section-txt">
 						<view class="info-label">{{item.name}}</view>
@@ -40,8 +41,13 @@
 </template>
 
 <script>
-	import { mapState, mapMutations } from 'vuex'
-	import { arequest } from '../../room8Util.js'
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
+	import {
+		arequest
+	} from '../../room8Util.js'
 	export default {
 		data() {
 			return {
@@ -66,12 +72,7 @@
 						code: option.code,
 						state: option.state
 					}, {})
-					console.log("loginRes " + loginRes)
-
-					var userInfo = loginRes.data
-					userInfo.roles = JSON.parse(userInfo.roles || "[]")
-					userInfo.achievements = JSON.parse(userInfo.achievements || "[]")
-					this.login(userInfo)
+					this.login(loginRes.data)
 
 					uni.reLaunch({
 						url: '../person/person'
@@ -83,12 +84,7 @@
 			},
 			async reloadUserInfo() {
 				var meRes = await arequest('/me', null, {})
-				console.log("meRes " + meRes)
-
-				var userInfo = meRes.data
-				userInfo.roles = JSON.parse(userInfo.roles || "[]")
-				userInfo.achievements = JSON.parse(userInfo.achievements || "[]")
-				this.login(userInfo)
+				this.login(meRes.data)
 			}
 		},
 		onShow() {

@@ -35,11 +35,11 @@
 						<image class="portrait-bg" src="../../static/person-bg-s.png"></image>
 						<view class="portrait">
 							<image class="img" :src="item.logo" >
-							<text class="rank">{{item.rank}}</text>
+							<text class="rank">{{item.totalRank.rankValue + 1}}</text>
 						</view>
 						<view class="name">{{item.name}}</view>
 						<view class="integral">
-							{{item.totalAmount}}
+							{{item.totalRank.amount}}
 							<image src="../../static/icon-integral.png" class="icon-integral"></image>
 						</view>
 						<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
@@ -51,12 +51,12 @@
 				<view class="billboard-list-others">
 					<view class="billboard-item" v-for="(item, index) in billboardListOthers" :key="index">
 						<view class="billboard-item-l">
-							<text class="rank">{{item.rank}}</text>
+							<text class="rank">{{item.totalRank.rankValue + 1}}</text>
 							<image class="img" :src="item.logo"></image>
 							<view>
 								<view class="name">{{item.name}}</view>
 								<view class="integral">
-									{{item.totalAmount}}
+									{{item.totalRank.amount}}
 									<image src="../../static/icon-integral.png" class="icon-integral"></image>
 								</view>
 							</view>

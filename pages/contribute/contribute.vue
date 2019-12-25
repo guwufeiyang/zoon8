@@ -15,8 +15,8 @@
 		<view class="section contribute-list">
 			<view class="contribute-item" v-for="item in contributeList" :key="item.id">
 				<view class="item-l">
-					<text class="rank">{{item.rank}}</text>
-					<image class="img" :src="item.img"></image>
+					<text class="rank">{{item.totalRank.rankValue + 1}}</text>
+					<image class="img" :src="item.avatar"></image>
 					<view class="name">{{item.name}}</view>
 				</view>
 				<view class="item-r">
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+	import { mapState, mapMutations } from 'vuex'
+	import { arequest, dateFormat } from '../../room8Util.js'
 	export default {
 		data() {
 			return {
@@ -39,16 +41,21 @@
 				contributeList: []
 			};
 		},
-		onLoad() {
-			this.loadData();
+		computed: {
+			...mapState(['currentBand'])
 		},
 		methods: {
 			tabSwitch(n) {
 				this.active = n;
 			},
 			async loadData() {
-				this.contributeList = await this.$api.json('contributeAllList');
+				var rankType = "" // this.active
+				let fanRankRes = await arequest('/getBandContributeRank?rankType='+rankType, { id: this.currentBand }, {});
+				this.contributeList = fanRankRes.data
 			},
+		},
+		onLoad() {
+			this.loadData();
 		}
 	}
 </script>
