@@ -48,8 +48,10 @@
 							</view>
 						</view>
 						<view class="task-r">
-							<image src="../../static/task-btn.png" v-if="userInfo.dailyShareCount < userInfo.shareTimes" class="task-btn"></image>
-							<image src="../../static/task-btn-disabled.png" v-if="userInfo.dailyShareCount >= userInfo.shareTimes"  class="task-btn"></image>
+							<template>
+								<image src="../../static/task-btn-disabled.png" v-if="userInfo.dailyShareCount >= userInfo.shareTimes"  class="task-btn"></image>
+								<image src="../../static/task-btn.png" v-else class="task-btn"></image>
+							</template>
 							<view class="task-txt"> {{userInfo.dailyShareCount >= userInfo.shareTimes ? '已完成' : '待完成'}} </view>
 							<view class="has-finish">
 								已完成

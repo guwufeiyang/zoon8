@@ -1,9 +1,9 @@
 <template>
 	<view class="container">
-		<image class="header-bg" src="../../static/header-bg.png"></image>
-		<view class="status_bar">新秀榜单</view>
+		<!-- <view class="status_bar">新秀榜单</view> -->
 		
 		<view class="content-wrap">
+			<image class="header-bg" src="../../static/header-bg.png"></image>
 			<!-- 头部轮播 -->
 			<view class="carousel-section">
 				<image class="carousel-shadow" src="../../static/banner-bg.png"></image>
@@ -29,44 +29,42 @@
 				</button>
 			</view>
 			
-			<scroll-view class="view-content" scroll-y>
-				<view class="section top-3">
-					<view class="billboard-list-top-3">
-						<view class="billboard-item" v-for="(item, index) in billboardListTop3" :key="index" >
-							<image class="portrait-bg" src="../../static/person-bg-s.png"></image>
-							<view class="portrait">
-								<image class="img" :src="item.logo" >
-								<text class="rank">{{item.rank}}</text>
-							</view>
-							<view class="name">{{item.name}}</view>
-							<view class="integral">
-								{{item.totalAmount}}
-								<image src="../../static/icon-integral.png" class="icon-integral"></image>
-							</view>
-							<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
+			<view class="section top-3" v-if="billboardListTop3 && billboardListTop3.length>0">
+				<view class="billboard-list-top-3">
+					<view class="billboard-item" v-for="(item, index) in billboardListTop3" :key="index" >
+						<image class="portrait-bg" src="../../static/person-bg-s.png"></image>
+						<view class="portrait">
+							<image class="img" :src="item.logo" >
+							<text class="rank">{{item.rank}}</text>
 						</view>
+						<view class="name">{{item.name}}</view>
+						<view class="integral">
+							{{item.totalAmount}}
+							<image src="../../static/icon-integral.png" class="icon-integral"></image>
+						</view>
+						<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
 					</view>
 				</view>
+			</view>
 			
-				<view class="section top-others">
-					<view class="billboard-list-others">
-						<view class="billboard-item" v-for="(item, index) in billboardListOthers" :key="index">
-							<view class="billboard-item-l">
-								<text class="rank">{{item.rank}}</text>
-								<image class="img" :src="item.logo"></image>
-								<view>
-									<view class="name">{{item.name}}</view>
-									<view class="integral">
-										{{item.totalAmount}}
-										<image src="../../static/icon-integral.png" class="icon-integral"></image>
-									</view>
+			<view class="section top-others">
+				<view class="billboard-list-others">
+					<view class="billboard-item" v-for="(item, index) in billboardListOthers" :key="index">
+						<view class="billboard-item-l">
+							<text class="rank">{{item.rank}}</text>
+							<image class="img" :src="item.logo"></image>
+							<view>
+								<view class="name">{{item.name}}</view>
+								<view class="integral">
+									{{item.totalAmount}}
+									<image src="../../static/icon-integral.png" class="icon-integral"></image>
 								</view>
 							</view>
-							<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
 						</view>
+						<button class="btn-pick" @tap="navToFansPage(item)">PICK</button>
 					</view>
 				</view>
-			</scroll-view>
+			</view>
 		</view>
 	</view>
 </template>

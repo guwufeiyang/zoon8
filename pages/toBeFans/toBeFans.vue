@@ -45,32 +45,30 @@
 				</view>
 			</view>
 			
-			<scroll-view class="view-content" scroll-y >
-				<view class="section">
-					<view class="message-list" v-if="comments&& comments.length>0">
-						<view class="message-item-wrap" 
-							:class="{'active': item.id == item.bandId}" 
-							v-for="(item, index) in comments" 
-							:key="index" >
-							<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
-							<view class="message-item" >
-								<image class="img" :src="item.fanAvatar"></image>
-								<view class="item-right">
-									<view class="item-top">
-										<text class="name">{{ item.fanName }}</text>
-										<text class="time">{{ item.time | formatDate('hh:mm:ss') }}</text>
-									</view>
-									<view class="message">{{item.content}}</view>
+			<view class="section">
+				<view class="message-list" v-if="comments&& comments.length>0">
+					<view class="message-item-wrap" 
+						:class="{'active': item.id == item.bandId}" 
+						v-for="(item, index) in comments" 
+						:key="index" >
+						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
+						<view class="message-item" >
+							<image class="img" :src="item.fanAvatar"></image>
+							<view class="item-right">
+								<view class="item-top">
+									<text class="name">{{ item.fanName }}</text>
+									<text class="time">{{ item.time | formatDate('hh:mm:ss') }}</text>
 								</view>
+								<view class="message">{{item.content}}</view>
 							</view>
 						</view>
 					</view>
-					<view class="empty-box" v-else>
-						<image src="../../static/empty-bg.png" class="empty-img"></image>
-						<text class="empty-txt">暂无数据</text>
-					</view>
 				</view>
-			</scroll-view>
+				<view class="empty-box" v-else>
+					<image src="../../static/empty-bg.png" class="empty-img"></image>
+					<text class="empty-txt">暂无数据</text>
+				</view>
+			</view>
 		</view>
 		
 		<!--确认加入弹窗  -->
@@ -114,10 +112,7 @@
 			}
 		},
 		computed: {
-			...mapState(['userInfo', 'bands', 'currentBand']),
-			statusBarColor() {
-				return this.userInfo.bindedBand ? "#fff": "#000"
-			}
+			...mapState(['userInfo', 'bands', 'currentBand'])
 		},
 		filters:{
 			formatDate(time, format="yyyy.MM.dd") {
@@ -151,10 +146,12 @@
 					let getBandContributeRank = getBandContributeRankRes.data;
 					let colorList = ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"];
 					
-					getBandContributeRank.forEach((item, i)=> {
-						item.bg = colorList[i];
-					});
-					this.contributeList = getBandContributeRank;
+					if(getBandContributeRank && getBandContributeRank.length>0 ) {
+						getBandContributeRank.forEach((item, i)=> {
+							item.bg = colorList[i];
+						});
+						this.contributeList = getBandContributeRank;
+					}
 					
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
@@ -168,7 +165,7 @@
 							item.time = new Date(item.createTimestamp)
 							item.selected = false;
 						});
-						this.comments[0].selected = true;
+						// this.comments[0].selected = true;
 					}
 				}
 			},

@@ -211,6 +211,15 @@
 				commentContent: ""
 			}
 		},
+		async onLoad(){
+			if(this.bandInfo.name) {
+				uni.setNavigationBarTitle({
+					title: this.bandInfo.name+'粉丝团'
+				});
+			}
+			
+			
+		},
 		computed: {
 			...mapState(['userInfo', 'bands', 'currentBand']),
 			statusBarColor() {

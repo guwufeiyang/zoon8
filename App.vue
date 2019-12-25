@@ -8,6 +8,8 @@
 			...mapState(['userInfo'])
 		},
 		onLaunch: async function() {
+			plus.screen.lockOrientation('portrait-primary'); // 锁定竖屏
+			
 			console.log('App onLaunch')
 			
 			//
