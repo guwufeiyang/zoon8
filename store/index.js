@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
+import { localStorage } from 'mp-storage'
 
 Vue.use(Vuex)
 
 const vuexLocal = new VuexPersistence({
-    storage: window.localStorage
+    storage: localStorage
 })
 const store = new Vuex.Store({
   plugins: [vuexLocal.plugin],

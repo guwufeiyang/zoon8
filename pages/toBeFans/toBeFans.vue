@@ -27,6 +27,7 @@
 				</view>	
 				<view class="info-r">
 					<button class="btn-join" v-if="!userInfo.bindedBand" @click="joinFansGroup()">加入粉丝团</button>
+					<button class="btn-join" v-if="userInfo.id && userInfo.bindedBand != bandId" @click="steal()">偷积分</button>
 				</view>
 			</view>	
 			
@@ -170,6 +171,12 @@
 						this.comments[0].selected = true;
 					}
 				}
+			},
+			async steal(){
+				var stealRes = await arequest('/steal', { id: this.bandId }, {});
+				uni.showToast({
+					title: stealRes.data
+				})
 			},
 			gotoContribute() {
 				uni.navigateTo({

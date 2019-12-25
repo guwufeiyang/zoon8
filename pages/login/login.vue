@@ -28,7 +28,12 @@
 			...mapMutations(['login']),
 			async doLogin(){
 				var getCodeRes = await arequest('/getWechatCodeUrl', null, {})
-				window.location.href = getCodeRes.data
+				var getCodeUrl = getCodeRes.data
+				// if(plus && plus.runtime) {
+				// 	plus.runtime.openURL(getCodeUrl);
+				// } else {
+					window.location.href = getCodeUrl
+				// }
 			}
 		}
 	}

@@ -16,7 +16,7 @@
 			</view>
 		</view>
 		
-		<view class="content-wrap" v-if="userInfo.token && bandId">
+		<view class="content-wrap" v-if="userInfo.id && bandId">
 			<view class="header-bg"></view>
 			<image class="header-img" src="../../static/fans-bg.png"></image>
 			<view class="fans-info">
@@ -68,7 +68,7 @@
 				</view>
 				<view class="task-item">
 					<image class="task-img" src="../../static/icon-lottery.png"></image>
-					<text class="task-txt">去抽奖</text>
+					<text class="task-txt" @tap="goLottery()">去抽奖</text>
 				</view>
 			</view>
 			
@@ -261,7 +261,7 @@
 					}
 
 					// 获取贡献榜
-					let getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {});
+					let getBandContributeRankRes = await arequest('/getBandContributeRank?rankType=', { id: this.bandId }, {});
 					let getBandContributeRank = getBandContributeRankRes.data;
 					let colorList = ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"];
 					
@@ -280,6 +280,12 @@
 					})
 					this.propList = propList
 				}
+			},
+			async goLottery(){
+				let lotteryRes = await arequest('/lottery', { }, {});
+				uni.showToast({
+					title: lotteryRes.data
+				})
 			},
 			toLogin() {
 				uni.navigateTo({

@@ -9,8 +9,8 @@
 				<view class="userinfo-box-top">
 					<image class="portrait" v-bind:src='userInfo.avatar || "/static/missing-face.png"'></image>
 					<view class="userinfo-r">
-						<button class="login-btn" v-if="!userInfo.token" @tap="gotoLogin">登录</button>
-						<view class="login-name" v-if="userInfo.token">{{userInfo.name}}</view>
+						<button class="login-btn" v-if="!userInfo.id" @tap="gotoLogin">登录</button>
+						<view class="login-name" v-if="userInfo.id">{{userInfo.name}}</view>
 						<view class="rank-info">
 							<view class="rank-info-item">
 								<view class="info-val">{{userInfo.rank || '--'}}</view>
@@ -72,20 +72,32 @@
 						state: option.state
 					}, {})
 					console.log("loginRes " + loginRes)
-					
+
 					var userInfo = loginRes.data
 					userInfo.roles = JSON.parse(userInfo.roles || "[]")
 					userInfo.achievements = JSON.parse(userInfo.achievements || "[]")
 					this.login(userInfo)
-					
+
 					uni.reLaunch({
-					    url: '../person/person'
+						url: '../person/person'
 					});
 				}
 
 				let loadAllGainsRes = await arequest('/loadAllGains', null, {})
 				this.achievementList = loadAllGainsRes.data
+			},
+			async reloadUserInfo() {
+				var meRes = await arequest('/me', null, {})
+				console.log("meRes " + meRes)
+
+				var userInfo = meRes.data
+				userInfo.roles = JSON.parse(userInfo.roles || "[]")
+				userInfo.achievements = JSON.parse(userInfo.achievements || "[]")
+				this.login(userInfo)
 			}
+		},
+		onShow() {
+			this.reloadUserInfo()
 		},
 		onLoad(option) {
 			this.loadData(option);
