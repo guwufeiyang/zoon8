@@ -16,7 +16,7 @@
 			</view>
 		</view>
 		
-		<view class="content-wrap" v-if="userInfo.token && bandId">
+		<view class="content-wrap" v-if="userInfo.id && bandId">
 			<view class="header-bg"></view>
 			<image class="header-img" src="../../static/fans-bg.png"></image>
 			<view class="fans-info">
@@ -25,11 +25,11 @@
 					<view class="username">{{bandInfo.name}}</view>
 					<view class="rank-info">
 						<view class="rank-info-item">
-							<view class="info-val">No.{{bandInfo.rank || '--'}}</view>
+							<view class="info-val">No.{{bandInfo.totalRank.rankValue + 1 || '--'}}</view>
 							<view class="info-label">当前排名</view>
 						</view>
 						<view class="integral-info-item">
-							<view class="info-val">{{bandInfo.totalAmount || "--"}}</view>
+							<view class="info-val">{{bandInfo.totalRank.amount || "--"}}</view>
 							<view class="info-label">累计积分</view>
 						</view>
 					</view>
@@ -68,7 +68,7 @@
 				</view>
 				<view class="task-item" @click="drawLottery()">
 					<image class="task-img" src="../../static/icon-lottery.png"></image>
-					<text class="task-txt">去抽奖</text>
+					<text class="task-txt" @tap="goLottery()">去抽奖</text>
 				</view>
 			</view>
 			
@@ -238,7 +238,7 @@
 			}
 		},
 		methods: {
-			...mapMutations(['login', 'setBands']),
+			...mapMutations(['login', 'setBands', 'setCurrentBand']),
 			async reloadBand(){
 				var bands = await arequest('/loadBands', null, {})
 				this.setBands(bands.data)
@@ -253,10 +253,11 @@
 				if(this.bandId) {
 					await this.reloadBand()
 
+
+						// offset: this.commentPage * this.commentPageSize, 
+						// limit: this.commentPageSize,
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
-						offset: this.commentPage * this.commentPageSize, 
-						limit: this.commentPageSize,
 					}, {})
 					this.comments = commentsRes.data;
 					
@@ -268,7 +269,7 @@
 					}
 
 					// 获取贡献榜
-					let getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {});
+					let getBandContributeRankRes = await arequest('/getBandContributeRank?rankType=', { id: this.bandId }, {});
 					let getBandContributeRank = getBandContributeRankRes.data;
 					let colorList = ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"];
 					
@@ -287,6 +288,12 @@
 					})
 					this.propList = propList
 				}
+			},
+			async goLottery(){
+				let lotteryRes = await arequest('/lottery', { }, {});
+				uni.showToast({
+					title: lotteryRes.data
+				})
 			},
 			toLogin() {
 				uni.navigateTo({
@@ -369,6 +376,7 @@
 				item.selected = !item.selected;
 			},
 			gotoContribute() {
+				this.setCurrentBand(this.bandId);
 				uni.navigateTo({
 					url: "/pages/contribute/contribute"
 				})
@@ -409,10 +417,10 @@
 					content: this.commentContent
 				}, {})
 				
+				// offset: this.commentPage * this.commentPageSize, 
+				// limit: this.commentPageSize,
 				var commentsRes = await arequest('/loadComment', {
 					id: this.bandId, 
-					offset: this.commentPage * this.commentPageSize, 
-					limit: this.commentPageSize,
 				}, {})
 				this.comments = commentsRes.data
 				if(this.comments && this.comments.length > 0) {

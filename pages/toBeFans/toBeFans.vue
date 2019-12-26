@@ -16,17 +16,18 @@
 					<view class="username">{{bandInfo.name}}</view>
 					<view class="rank-info">
 						<view class="rank-info-item">
-							<view class="info-val">No.{{bandInfo.rank || '--'}}</view>
+							<view class="info-val">No.{{bandInfo.totalRank.rankValue + 1 || '--'}}</view>
 							<view class="info-label">当前排名</view>
 						</view>
 						<view class="integral-info-item">
-							<view class="info-val">{{bandInfo.amountToday || "--"}}</view>
-							<view class="info-label">本日积分</view>
+							<view class="info-val">{{bandInfo.totalRank.amount || "--"}}</view>
+							<view class="info-label">累计积分</view>
 						</view>
 					</view>
 				</view>	
 				<view class="info-r">
 					<button class="btn-join" v-if="!userInfo.bindedBand" @click="joinFansGroup()">加入粉丝团</button>
+					<button class="btn-join" v-if="userInfo.id && userInfo.bindedBand != bandId" @click="steal()">偷积分</button>
 				</view>
 			</view>	
 			
@@ -127,7 +128,7 @@
 			}
 		},
 		methods: {
-			...mapMutations(['login', 'setBands']),
+			...mapMutations(['login', 'setBands', 'setCurrentBand']),
 			async loadData() {
 				if(!this.bands) {
 					var bands = await arequest('/loadBands', null, {})
@@ -152,10 +153,10 @@
 						this.contributeList = getBandContributeRank;
 					}
 					
+					// offset: this.commentPage * this.commentPageSize, 
+					// limit: this.commentPageSize,
 					var commentsRes = await arequest('/loadComment', {
 						id: this.bandId, 
-						offset: this.commentPage * this.commentPageSize, 
-						limit: this.commentPageSize,
 					}, {})
 					this.comments = commentsRes.data
 					
@@ -168,7 +169,14 @@
 					}
 				}
 			},
+			async steal(){
+				var stealRes = await arequest('/steal', { id: this.bandId }, {});
+				uni.showToast({
+					title: stealRes.data
+				})
+			},
 			gotoContribute() {
+				this.setCurrentBand(this.bandId);
 				uni.navigateTo({
 					url: "/pages/contribute/contribute"
 				})
@@ -193,6 +201,7 @@
 				}, {});
 				var meRes = await arequest('/me', null, {})
 				this.login(meRes.data);
+
 				this.$api.msg("加入粉丝团成功！");
 				this.$refs.showtip.close();
 			}

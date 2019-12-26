@@ -13,7 +13,7 @@
 			console.log('App onLaunch')
 			
 			//
-			if(this.userInfo.token){
+			if(this.userInfo.id){
 				// uni.redirectTo({url: '/pages/billboard/billboard'})
 			} else {
 				// uni.redirectTo({url: '/pages/login/login'})
