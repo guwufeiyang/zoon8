@@ -41,18 +41,26 @@
         }, {
             "path" : "pages/doTask/doTask",
             "style" : {
-            	"navigationBarTitleText": "做任务",
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleNView": true
-				}
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "做任务",
+				"navigationBarBackgroundColor": "#FA6889"
             }
         } ,{
-            "path" : "pages/welfare/welfare",
-            "style" : {
+            "path": "pages/welfare/welfare",
+            "style": {
 				"navigationBarTitleText": "榜单福利"
 			}
-        }
+        }, {
+			"path": "pages/drawLottery/drawLottery",
+			"style": {
+				"navigationBarTitleText": "抽奖",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
+			}
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

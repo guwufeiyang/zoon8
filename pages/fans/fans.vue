@@ -66,7 +66,7 @@
 					<image class="task-img" src="../../static/icon-message.png"></image>
 					<text class="task-txt">发留言</text>
 				</view>
-				<view class="task-item">
+				<view class="task-item" @click="drawLottery()">
 					<image class="task-img" src="../../static/icon-lottery.png"></image>
 					<text class="task-txt">去抽奖</text>
 				</view>
@@ -216,9 +216,7 @@
 				uni.setNavigationBarTitle({
 					title: this.bandInfo.name+'粉丝团'
 				});
-			}
-			
-			
+			}	
 		},
 		computed: {
 			...mapState(['userInfo', 'bands', 'currentBand']),
@@ -298,6 +296,11 @@
 			jumpToBillboard() {
 				uni.switchTab({
 					url: "/pages/billboard/billboard"
+				})
+			},
+			drawLottery() {
+				uni.navigateTo({
+					url: "../drawLottery/drawLottery"
 				})
 			},
 			joinFansGroup() {
