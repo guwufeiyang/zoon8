@@ -284,12 +284,6 @@
 					return item
 				})
 			},
-			async goLottery(){
-				let lotteryRes = await arequest('/lottery', { }, {});
-				uni.showToast({
-					title: lotteryRes.data
-				})
-			},
 			toLogin() {
 				uni.navigateTo({
 					url: "../login/login"

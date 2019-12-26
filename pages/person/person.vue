@@ -14,12 +14,16 @@
 						<view class="login-name" v-if="userInfo.id">{{userInfo.name}}</view>
 						<view class="rank-info">
 							<view class="rank-info-item">
+								<view class="info-val">{{userInfo.amount || '--'}}</view>
+								<view class="info-label">积分余额</view>
+							</view>
+							<view class="rank-info-item">
 								<view class="info-val">{{(userInfo.totalRank && (userInfo.totalRank.rankValue + 1)) || '--'}}</view>
-								<view class="info-label">当前排名</view>
+								<view class="info-label">贡献排名</view>
 							</view>
 							<view class="integral-info-item">
 								<view class="info-val">{{userInfo.totalRank && userInfo.totalRank.amount || '--'}}</view>
-								<view class="info-label">本日积分</view>
+								<view class="info-label">贡献积分</view>
 							</view>
 						</view>
 					</view>
