@@ -68,7 +68,7 @@
 				</view>
 				<view class="task-item" @click="drawLottery()">
 					<image class="task-img" src="../../static/icon-lottery.png"></image>
-					<text class="task-txt" @tap="goLottery()">去抽奖</text>
+					<text class="task-txt">去抽奖</text>
 				</view>
 			</view>
 			
