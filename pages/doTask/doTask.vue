@@ -109,7 +109,7 @@
 				var signRes = await arequest('/sign', {}, {})
 				
 				var meRes = await arequest('/me', null, {})
-				this.login(meRes.data)
+				this.login(meRes.data.me || meRes.data)
 			}
 		}
 	}

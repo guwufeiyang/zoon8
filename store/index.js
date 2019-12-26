@@ -11,13 +11,23 @@ const vuexLocal = new VuexPersistence({
 const store = new Vuex.Store({
   plugins: [vuexLocal.plugin],
 	state: {
+		gifts: null,
+		gains: null,
+		tasks: null,
 		userInfo: {
-			name: ""
+			name: "",
+			band: {
+			}
 		},
-		bands: [],
+		
 		currentBand: null
 	},
 	mutations: {
+		setCommon(state, common) {
+			state.gifts = common.gifts
+			state.gains = common.gains
+			state.tasks = common.tasks
+		},
 		login(state, userInfo) {
 			if(userInfo.id) {
 				userInfo.roles = JSON.parse(userInfo.roles || "[]")
@@ -25,17 +35,11 @@ const store = new Vuex.Store({
 				state.userInfo = userInfo;
 			} else {
 				state.userInfo = {
-					name: ""
+					name: "",
+					band: {
+					}
 				}
 			}
-		},
-		logout(state) {
-			state.userInfo = {
-				name: ""
-			}
-		},
-		setBands(state, bands) {
-			state.bands = bands
 		},
 		setCurrentBand(state, currentBand) {
 			state.currentBand = currentBand

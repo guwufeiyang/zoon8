@@ -14,11 +14,11 @@
 						<view class="login-name" v-if="userInfo.id">{{userInfo.name}}</view>
 						<view class="rank-info">
 							<view class="rank-info-item">
-								<view class="info-val">{{(userInfo.totalRank.rankValue + 1) || '--'}}</view>
+								<view class="info-val">{{(userInfo.totalRank && (userInfo.totalRank.rankValue + 1)) || '--'}}</view>
 								<view class="info-label">当前排名</view>
 							</view>
 							<view class="integral-info-item">
-								<view class="info-val">{{userInfo.totalRank.amount || '--'}}</view>
+								<view class="info-val">{{userInfo.totalRank && userInfo.totalRank.amount || '--'}}</view>
 								<view class="info-label">本日积分</view>
 							</view>
 						</view>
@@ -27,7 +27,7 @@
 			</view>
 
 			<view class="section-list">
-				<view class="section notLogin-item" :class="{'disabled': (userInfo.achievements || []).includes(item.id)}" v-for="(item, index) in achievementList"
+				<view class="section notLogin-item" :class="{'disabled': !(userInfo.achievements || []).includes(item.id)}" v-for="(item, index) in gains"
 				 :key="index">
 					<image :src="item.image" class="img"></image>
 					<view class="section-txt">
@@ -51,12 +51,11 @@
 	export default {
 		data() {
 			return {
-				hasLogin: false,
-				achievementList: []
+				hasLogin: false
 			};
 		},
 		computed: {
-			...mapState(['userInfo'])
+			...mapState(['userInfo', 'gains'])
 		},
 		methods: {
 			...mapMutations(['login']),
@@ -78,13 +77,10 @@
 						url: '../person/person'
 					});
 				}
-
-				let loadAllGainsRes = await arequest('/loadAllGains', null, {})
-				this.achievementList = loadAllGainsRes.data
 			},
 			async reloadUserInfo() {
 				var meRes = await arequest('/me', null, {})
-				this.login(meRes.data)
+				this.login(meRes.data.me || meRes.data)
 			}
 		},
 		onShow() {

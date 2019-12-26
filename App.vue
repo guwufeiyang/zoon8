@@ -1,26 +1,28 @@
 <script>
-	import { mapState } from 'vuex'
+	import { mapState, mapMutations } from 'vuex'
+	import { arequest } from './room8Util.js'
 	export default {
 		globalData: {  
 			bandInfo: {}
 		},
 		computed: {
-			...mapState(['userInfo'])
+			...mapState(['gifts'])
+		},
+		methods: {
+			...mapMutations(['setCommon']),
+			async loadCommon() {
+				if(!this.gifts){
+					let commonRes = await arequest('/common', null, {})
+					this.setCommon(commonRes.data)
+				}
+			}
 		},
 		onLaunch: async function() {
 			plus.screen.lockOrientation('portrait-primary'); // 锁定竖屏
-			
-			console.log('App onLaunch')
-			
-			//
-			if(this.userInfo.id){
-				// uni.redirectTo({url: '/pages/billboard/billboard'})
-			} else {
-				// uni.redirectTo({url: '/pages/login/login'})
-			}
+			this.loadCommon()
 		},
 		onShow: function() {
-			// console.log('App Show')
+			this.loadCommon()
 		},
 		onHide: function() {
 			// console.log('App Hide')

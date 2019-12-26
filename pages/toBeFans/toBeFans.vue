@@ -26,8 +26,8 @@
 					</view>
 				</view>	
 				<view class="info-r">
-					<button class="btn-join" v-if="!userInfo.bindedBand" @click="joinFansGroup()">加入粉丝团</button>
-					<button class="btn-join" v-if="userInfo.id && userInfo.bindedBand != bandId" @click="steal()">偷积分</button>
+					<button class="btn-join" v-if="!userInfo.band.id" @click="joinFansGroup()">加入粉丝团</button>
+					<button class="btn-join" v-if="userInfo.id && userInfo.band.id != bandId" @click="steal()">偷积分</button>
 				</view>
 			</view>	
 			
@@ -112,7 +112,7 @@
 			}
 		},
 		computed: {
-			...mapState(['userInfo', 'bands', 'currentBand'])
+			...mapState(['userInfo', 'currentBand'])
 		},
 		filters:{
 			formatDate(time, format="yyyy.MM.dd") {
@@ -128,15 +128,12 @@
 			}
 		},
 		methods: {
-			...mapMutations(['login', 'setBands', 'setCurrentBand']),
+			...mapMutations(['login', 'setCurrentBand']),
 			async loadData() {
-				if(!this.bands) {
-					var bands = await arequest('/loadBands', null, {})
-					this.setBands(bands.data)
-				}
-
 				this.bandId = this.currentBand
 				if(this.bandId) {
+					var bandsRes = await arequest('/loadBands', null, {})
+					this.bands = bandsRes.data
 					this.bandInfo = this.bands.find((item)=>{
 						return item.id == this.bandId
 					})
@@ -171,8 +168,11 @@
 			},
 			async steal(){
 				var stealRes = await arequest('/steal', { id: this.bandId }, {});
-				uni.showToast({
-					title: stealRes.data
+
+				var bandsRes = await arequest('/loadBands', null, {})
+				var bands = bandsRes.data
+				this.bandInfo = bands.find((item)=>{
+					return item.id == this.bandId
 				})
 			},
 			gotoContribute() {
@@ -200,7 +200,7 @@
 					id: this.bandId
 				}, {});
 				var meRes = await arequest('/me', null, {})
-				this.login(meRes.data);
+				this.login(meRes.data.me || meRes.data);
 
 				this.$api.msg("加入粉丝团成功！");
 				this.$refs.showtip.close();
