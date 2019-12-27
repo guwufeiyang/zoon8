@@ -27,7 +27,8 @@
 				</view>	
 				<view class="info-r">
 					<button class="btn-join" v-if="!(userInfo.id && userInfo.band && userInfo.band.id)" @click="joinFansGroup()">加入粉丝团</button>
-					<button class="btn-join" v-if="userInfo.id && userInfo.band && userInfo.band.id != bandId" @click="steal()">偷积分</button>
+					<button class="btn-join" v-if="userInfo.id && userInfo.band && userInfo.band.id != bandId" 
+						:disabled="stealedBand.includes(bandId)" @click="steal()">偷积分</button>
 				</view>
 			</view>	
 			
@@ -86,7 +87,7 @@
 			<view class="uni-tip uni-confirm-contribute-intergral">
 				<image src="../../static/steal-integral.png" class="img"></image>
 				<view class="integral">
-					偷取5积分
+					偷取{{stealResult}}积分
 				</view>
 			</view>
 		</uni-popup>
@@ -115,11 +116,13 @@
 				
 				comments: [],
 				commentPage: 0,
-				commentPageSize: 10
+				commentPageSize: 10,
+				
+				stealResult: 0
 			}
 		},
 		computed: {
-			...mapState(['userInfo', 'currentBand'])
+			...mapState(['userInfo', 'stealedBand', 'currentBand'])
 		},
 		filters:{
 			formatDate(time, format="yyyy.MM.dd") {
@@ -135,7 +138,7 @@
 			}
 		},
 		methods: {
-			...mapMutations(['login', 'setCurrentBand']),
+			...mapMutations(['login', 'addToStealedBand', 'setCurrentBand']),
 			async loadFansRank() {
 				var getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {});
 				let getBandContributeRank = getBandContributeRankRes.data;
@@ -177,13 +180,17 @@
 				}
 			},
 			async steal(){
+				this.addToStealedBand(this.bandId)
+				
 				var stealRes = await arequest('/steal', { id: this.bandId }, {});
-
+				this.stealResult = stealRes.data
+				
 				var bandsRes = await arequest('/loadBands', null, {})
 				var bands = bandsRes.data
 				this.bandInfo = bands.find((item)=>{
 					return item.id == this.bandId
 				});
+				
 				this.type = 'center';
 				this.$nextTick(() => {
 					setTimeout(() => {

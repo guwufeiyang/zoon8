@@ -19,6 +19,7 @@ const store = new Vuex.Store({
 			band: {
 			}
 		},
+		stealedBand: [],
 		
 		currentBand: null
 	},
@@ -41,6 +42,9 @@ const store = new Vuex.Store({
 					}
 				}
 			}
+		},
+		addToStealedBand(state, bandId) {
+			state.stealedBand.push(bandId)
 		},
 		setCurrentBand(state, currentBand) {
 			state.currentBand = currentBand
