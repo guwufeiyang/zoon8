@@ -219,7 +219,7 @@
 			}	
 		},
 		computed: {
-			...mapState(['userInfo', 'bands', 'currentBand']),
+			...mapState(['userInfo', 'gifts', 'currentBand']),
 			statusBarColor() {
 				return this.userInfo.bindedBand ? "#fff": "#000"
 			}
@@ -238,17 +238,17 @@
 			}
 		},
 		methods: {
-			...mapMutations(['login', 'setBands', 'setCurrentBand']),
+			...mapMutations(['login', 'setCurrentBand']),
 			async reloadBand(){
-				var bands = await arequest('/loadBands', null, {})
-				this.setBands(bands.data)
+				var bandsRes = await arequest('/loadBands', null, {})
+				var bands = bandsRes.data
 				
-				this.bandInfo = this.bands.find((item)=>{
+				this.bandInfo = bands.find((item)=>{
 					return item.id == this.bandId
 				})
 			},
 			async loadData() {
-				this.bandId = this.userInfo.bindedBand
+				this.bandId = this.userInfo.band.id
 
 				if(this.bandId) {
 					await this.reloadBand()
@@ -278,21 +278,10 @@
 					});
 					this.contributeList = getBandContributeRank;
 				}
-
-				// 获取道具
-				if(this.userInfo.id) {
-					let propListRes = await arequest('/loadAllGifts', null, {})
-					let propList = propListRes.data || []
-					_.each(propList, item=>{
-						item.selected = false
-					})
-					this.propList = propList
-				}
-			},
-			async goLottery(){
-				let lotteryRes = await arequest('/lottery', { }, {});
-				uni.showToast({
-					title: lotteryRes.data
+				
+				this.propList = _.map(this.gifts, item=>{
+					item.selected = false
+					return item
 				})
 			},
 			toLogin() {

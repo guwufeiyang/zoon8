@@ -81,14 +81,14 @@
 				carouselList: [],
 				billboardListTop3: [],
 				billboardListOthers: [],
-				timer: 0,
+				timer: 0
 			}
 		},
 		computed: {
-			...mapState(['userInfo', 'bands'])
+			...mapState(['userInfo'])
 		},
 		methods: {
-			...mapMutations(['login', 'setBands', 'setCurrentBand']),
+			...mapMutations(['login', 'setCurrentBand']),
 			swapArr(arr, index1, index2) {
 			    arr[index1] = arr.splice(index2, 1, arr[index1])[0];
 			    return arr;
@@ -101,13 +101,10 @@
 				// 获取榜单
 				var bandsRes = await arequest('/loadBands', null, {})
 				var bands = bandsRes.data;
-				this.setBands(bands)
 
-				if(this.bands) {
-					this.swapArr(this.bands, 0, 1);
-					this.billboardListTop3 = this.bands.slice(0,3);
-					this.billboardListOthers = this.bands.slice(3,10);
-				}
+				this.swapArr(bands, 0, 1);
+				this.billboardListTop3 = bands.slice(0,3);
+				this.billboardListOthers = bands.slice(3,10);
 			},
 			//轮播图切换
 			swiperChange(e) {
