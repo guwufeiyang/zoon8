@@ -19,6 +19,7 @@ const store = new Vuex.Store({
 			band: {
 			}
 		},
+		stealedBand: [],
 		
 		currentBand: null
 	},
@@ -35,12 +36,16 @@ const store = new Vuex.Store({
 				state.userInfo = userInfo;
 			} else {
 				uni.removeStorageSync("jwt")
+				state.stealedBand = []
 				state.userInfo = {
 					name: "",
 					band: {
 					}
 				}
 			}
+		},
+		addToStealedBand(state, bandId) {
+			state.stealedBand.push(bandId)
 		},
 		setCurrentBand(state, currentBand) {
 			state.currentBand = currentBand

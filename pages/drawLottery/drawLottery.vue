@@ -66,8 +66,7 @@
 		mapMutations
 	} from 'vuex'
 	import {
-		arequest,
-		dateFormat
+		arequest
 	} from '../../room8Util.js'
 
 	import uniPopup from '@/components/uni-popup.vue'

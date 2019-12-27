@@ -39,7 +39,7 @@
 
 <script>
 	import { mapState, mapMutations } from 'vuex'
-	import { arequest, dateFormat } from '../../room8Util.js'
+	import { arequest } from '../../room8Util.js'
 	export default {
 		data() {
 			return {
