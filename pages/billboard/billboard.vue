@@ -34,7 +34,7 @@
 					<view class="billboard-item" v-for="(item, index) in billboardListTop3" :key="index" >
 						<image class="portrait-bg" src="../../static/person-bg-s.png"></image>
 						<view class="portrait">
-							<image class="img" :src="item.logo" >
+							<image class="img" :src="item.logo" ></image>
 							<text class="rank">{{item.totalRank.rankValue + 1}}</text>
 						</view>
 						<view class="name">{{item.name}}</view>

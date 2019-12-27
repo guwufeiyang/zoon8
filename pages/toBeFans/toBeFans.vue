@@ -84,6 +84,16 @@
 			</view>
 		</uni-popup>
 		
+		<!--偷积分弹窗  -->
+		<uni-popup ref="stealIntegralPop" :type="type" :mask-click="false">
+			<view class="uni-tip uni-confirm-contribute-intergral">
+				<image src="../../static/steal-integral.png" class="img"></image>
+				<view class="integral">
+					偷取5积分
+				</view>
+			</view>
+		</uni-popup>
+		
 	</view>
 </template>
 
@@ -173,7 +183,16 @@
 				var bands = bandsRes.data
 				this.bandInfo = bands.find((item)=>{
 					return item.id == this.bandId
-				})
+				});
+				this.type = 'center';
+				this.$nextTick(() => {
+					setTimeout(() => {
+						this.$refs.stealIntegralPop.open()
+					}, 0);
+					setTimeout( ()=> {
+						this.$refs.stealIntegralPop.close()
+					}, 1500);
+				});
 			},
 			gotoContribute() {
 				this.setCurrentBand(this.bandId);
