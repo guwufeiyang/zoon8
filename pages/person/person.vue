@@ -14,11 +14,11 @@
 						<view class="login-name" v-if="userInfo.id">{{userInfo.name}}</view>
 						<view class="rank-info">
 							<view class="rank-info-item">
-								<view class="info-val">{{userInfo.amount || '--'}}</view>
+								<view class="info-val">{{userInfo.amount == null ? '--' : userInfo.amount}}</view>
 								<view class="info-label">积分余额</view>
 							</view>
 							<view class="rank-info-item">
-								<view class="info-val">{{(userInfo.totalRank && (userInfo.totalRank.rankValue + 1)) || '--'}}</view>
+								<view class="info-val">{{(userInfo.totalRank && (userInfo.totalRank.rankValue)) || '--'}}</view>
 								<view class="info-label">贡献排名</view>
 							</view>
 							<view class="integral-info-item">
@@ -55,7 +55,7 @@
 	export default {
 		data() {
 			return {
-				hasLogin: false
+				doingLoginCallback: false
 			};
 		},
 		computed: {
@@ -69,8 +69,8 @@
 				});
 			},
 			async loadData(option) {
-				var _that = this;
 				if (option.code) { // from callback
+					this.doingLoginCallback = true
 					var loginRes = await arequest('/wechatLogin', {
 						code: option.code,
 						state: option.state
@@ -83,8 +83,10 @@
 				}
 			},
 			async reloadUserInfo() {
-				var meRes = await arequest('/me', null, {})
-				this.login(meRes.data.me || meRes.data)
+				if(!this.doingLoginCallback) {
+					var meRes = await arequest('/me', null, {})
+					this.login(meRes.data.me || meRes.data)
+				}
 			}
 		},
 		onShow() {

@@ -14,14 +14,14 @@
 			</view>
 			<view class="turntable-wrap">
 				<image src="../../static/colour-ribbon.png" class="colour-ribbon"></image>
-				<!-- <view class="prize-winner-wrap" v-if="userInfo.lotteryMessage">
+				<view class="prize-winner-wrap" v-if="userInfo.lotteryMessage">
 					<view class="prize-winner">
 						<text class="name">王一博</text> 获得10000积分
 					</view>
 					<view class="prize-winner">
 						<text class="name">王一博</text> 获得10000积分
 					</view>
-				</view> -->
+				</view>
 				<view class="turntable-box">
 					<image class="light2" src="../../static/light2.png"></image>
 					<image src="../../static/ribbon.png" class="ribbon"></image>
@@ -37,11 +37,14 @@
 					今日还可免费抽奖
 					<text class="red-txt">{{ userInfo.lottery.lotteryFreeCount - userInfo.lottery.count >=0 ? userInfo.lottery.lotteryFreeCount - userInfo.lottery.count : 0 }}</text>次
 				</view>
-				<!-- <view class="btn-wrap">
-					<button class="btn"><image class="btn-icon" src="../../static/icon-question.png"></image>活动规则</button>
-					<button class="btn"><image class="btn-icon" src="../../static/icon-reward.png"></image>我的奖品</button>
-				</view> -->
-
+				<view class="btn-wrap">
+					<button class="btn">
+						<image class="btn-icon" src="../../static/icon-question.png"></image>活动规则
+					</button>
+					<button class="btn">
+						<image class="btn-icon" src="../../static/icon-reward.png"></image>我的奖品
+					</button>
+				</view>
 			</view>
 		</view>
 		<!--抽奖确认弹窗  -->
@@ -107,7 +110,9 @@
 					this.$api.msg('积分不足！');
 					return;
 				}
-				this.userInfo.amount = this.userInfo.amount - this.userInfo.lottery.lotteryFee
+				if(this.userInfo.lottery.lotteryFreeCount <= this.userInfo.lottery.count) {
+					this.userInfo.amount = this.userInfo.amount - this.userInfo.lottery.lotteryFee
+				}
 				
 				this.isAllowClick = false;
 
@@ -181,10 +186,11 @@
 						this.lotteryTip = '恭喜您';
 						this.lotteryContent = '10000分';
 					}
+					// console.log(this.rotateDeg);
+					// console.log(this.rotate_angle);
 					
 					var meRes = await arequest('/me', null, {})
 					this.login(meRes.data.me || meRes.data)
-
 				}, 3500);
 			}
 		}
