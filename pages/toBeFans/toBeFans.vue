@@ -46,7 +46,7 @@
 			</view>
 			
 			<view class="section">
-				<view class="message-list" v-if="comments&& comments.length>0">
+				<view class="message-list" v-if="comments&& comments.length>0" >
 					<view class="message-item-wrap" :class="{'active': item.id == item.bandId}" v-for="(item, index) in comments" :key="index" >
 						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
 						<view class="message-item" >
