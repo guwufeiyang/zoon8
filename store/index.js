@@ -36,6 +36,7 @@ const store = new Vuex.Store({
 				state.userInfo = userInfo;
 			} else {
 				uni.removeStorageSync("jwt")
+				state.stealedBand = []
 				state.userInfo = {
 					name: "",
 					band: {

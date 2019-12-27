@@ -28,7 +28,7 @@
 				<view class="info-r">
 					<button class="btn-join" v-if="!(userInfo.id && userInfo.band && userInfo.band.id)" @click="joinFansGroup()">加入粉丝团</button>
 					<button class="btn-join" v-if="userInfo.id && userInfo.band && userInfo.band.id != bandId" 
-						:disabled="stealedBand.includes(bandId)" @click="steal()">偷积分</button>
+						:disabled="stealedBand.includes(bandId)" :class = "{'disabled': stealedBand.includes(bandId)}" @click="steal()">偷积分</button>
 				</view>
 			</view>	
 			
@@ -55,7 +55,7 @@
 							<view class="item-right">
 								<view class="item-top">
 									<text class="name">{{ item.fanName }}</text>
-									<text class="time">{{ item.time | formatDate('hh:mm:ss') }}</text>
+									<text class="time">{{ item.time | formatDate }}</text>
 								</view>
 								<view class="message">{{item.content}}</view>
 							</view>
@@ -97,7 +97,8 @@
 
 <script>
 	import { mapState, mapMutations } from 'vuex'
-	import { arequest, dateFormat } from '../../room8Util.js'
+	import moment from "moment"
+	import { arequest } from '../../room8Util.js'
 
 	import uniStatusBar from '@/components/uni-status-bar.vue'
 	import uniPopup from '@/components/uni-popup.vue'
@@ -132,9 +133,9 @@
 				today.setMinutes(0)
 				today.setSeconds(0)
 				if(theTime < today) {
-					return dateFormat.formatDate(theTime, "yyyy.MM.dd");
+					return moment(theTime).format('yyyy.MM.dd')
 				}
-				return dateFormat.formatDate(theTime, format);
+				return moment(theTime).format('hh:mm:ss')
 			}
 		},
 		methods: {
