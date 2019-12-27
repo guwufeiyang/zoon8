@@ -13,8 +13,10 @@
 			</view>
 		</view>
 		-->
-		<view class="section contribute-list">
-			<view class="contribute-item" v-for="item in contributeList" :key="item.id">
+		<view class="section contribute-list" v-if="contributeList && contributeList.length>0" >
+			<view class="contribute-item" 
+				v-for="item in contributeList" 
+				:key="item.id">
 				<view class="item-l">
 					<text class="rank">{{item.totalRank.rankValue }}</text>
 					<image class="img" :src="item.avatar"></image>
@@ -28,7 +30,10 @@
 				</view>
 			</view>
 		</view>
-		
+		<view class="empty-box" v-else>
+			<image src="../../static/empty-bg.png" class="empty-img"></image>
+			<text class="empty-txt">暂无数据</text>
+		</view>
 	</view>
 </template>
 
@@ -62,8 +67,9 @@
 </script>
 
 <style lang="less">
-
-
+.contribute-box {
+	padding-top: 20rpx;
+}
 .contribute-item {
 	width: 100%;
 	height: 120upx;

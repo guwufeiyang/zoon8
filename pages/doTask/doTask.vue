@@ -1,9 +1,5 @@
 <template>
 	<view class="container">
-		<!-- <view class="status_bar">
-			<image class="icon-back" @click="returnBack" src="../../static/icon-back.png"></image>
-			做任务
-		</view> -->
 		<view class="content-wrap">
 			<view class="content-bg1"></view>
 			<image class="content-bg2" src="../../static/doTaskBg.png"></image>
@@ -25,9 +21,14 @@
 								</view>
 							</view>
 							<view class="task-r">
-								<image :src="(task.finished == 1 || task.count < task.threshold) ? '../../static/task-btn-disabled.png' : '../../static/task-btn.png'"
-									class="task-btn" @tap="manualConfirm(task)"></image>
-								<view class="task-txt" >{{task.finished == 1 ? '已完成' : task.count < task.threshold ? '未完成' : '领取'}}</view>
+								<image 
+									:src="(task.finished == 1 || task.count < task.threshold) ? '../../static/task-btn-disabled.png' : '../../static/task-btn.png'"
+									class="task-btn" 
+								>
+								</image>
+								<view class="task-txt" @tap="manualConfirm(task)">
+									{{task.finished == 1 ? '已完成' : task.count < task.threshold ? '未完成' : '领取'}}
+								</view>
 								<view class="has-finish">
 									已完成
 									<text class="progress">{{task.finished == 1 ? task.threshold : task.count}}/{{task.threshold}}</text>
@@ -53,7 +54,7 @@
 								 class="task-btn" @tap="goFinish(task)"></image>
 								<view class="task-txt" >{{task.count >= task.threshold ? '已完成' : '去完成'}}</view>
 								-->
-								<view class="has-finish">
+								<view class="has-finish has-finish-no-btn">
 									已完成
 									<text class="progress">{{task.count > task.threshold ? task.threshold : task.count}}/{{task.threshold}}</text>
 								</view>
@@ -65,65 +66,10 @@
 					<view class="task-list">
 						<view class="task-bg"></view>
 						<view class="task-content">
-							<view class="task-l">
-								<image class="img" src="../../static/icon-sign.png"></image>
-								<view class="task-con">
-									<view class="task-name">签到</view>
-									<view class="task-reward">+10积分</view>
-								</view>
-							</view>
-							<view class="task-r">
-								<image src="../../static/task-btn.png" v-if="!userInfo.dailySign" class="task-btn" @tap="sign"></image>
-								<image src="../../static/task-btn-disabled.png" v-if="userInfo.dailySign"  class="task-btn"></image>
-								<view class="task-txt" >{{userInfo.dailySign ? '已完成' : '领取'}}</view>
-								<view class="has-finish">
-									已完成
-									<text class="progress">{{userInfo.dailySign ? "1" : "0" }}/1</text>
-								</view>
-							</view>
+							敬请期待
 						</view>
 					</view>
-					<view class="task-list">
-						<view class="task-bg"></view>
-						<view class="task-content">
-							<view class="task-l">
-								<image class="img" src="../../static/icon-share.png"></image>
-								<view class="task-con">
-									<view class="task-name">分享{{userInfo.shareTimes}}次</view>
-									<view class="task-reward">+100积分</view>
-								</view>
-							</view>
-							<view class="task-r">
-								<template>
-									<image src="../../static/task-btn-disabled.png" v-if="userInfo.dailyShareCount >= userInfo.shareTimes"  class="task-btn"></image>
-									<image src="../../static/task-btn.png" v-else class="task-btn"></image>
-								</template>
-								<view class="task-txt"> {{userInfo.dailyShareCount >= userInfo.shareTimes ? '已完成' : '待完成'}} </view>
-								<view class="has-finish">
-									已完成
-									<text class="progress">{{userInfo.dailyShareCount}}/{{userInfo.shareTimes}}</text>
-								</view>
-							</view>
-						</view>
-					</view>
-					<view class="task-list">
-						<view class="task-bg"></view>
-						<view class="task-content">
-							<view class="task-l">
-								<image class="img" src="../../static/icon-login.png"></image>
-								<view class="task-con">
-									<view class="task-name">登录</view>
-									<view class="task-reward">+10积分</view>
-								</view>
-							</view>
-							<view class="task-r">
-								<image src="../../static/task-btn.png" v-if="!userInfo.dailyLogin" class="task-btn"></image>
-								<image src="../../static/task-btn-disabled.png" v-if="userInfo.dailyLogin" class="task-btn"></image>
-								<view class="task-txt">已完成</view>
-								<view class="has-finish">已完成<text class="progress">1/1</text></view>
-							</view>
-						</view>
-					</view>
+					
 				</view>
 			</view>
 		</view>

@@ -73,8 +73,11 @@
 			</view>
 			
 			<view class="section">
-				<view class="message-list">
-					<view class="message-item-wrap" :class="{'active': item.id == item.bandId}" v-for="(item, index) in comments" :key="index">
+				<view class="message-list" v-if="comments && comments.length > 0">
+					<view class="message-item-wrap" 
+						:class="{'active': item.id == item.bandId}" 
+						v-for="(item, index) in comments" 
+						:key="index">
 						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
 						<view class="message-item" >
 							<image class="img" :src="item.fanAvatar"></image>
@@ -87,6 +90,10 @@
 							</view>
 						</view>
 					</view>
+				</view>
+				<view class="empty-box" v-else>
+					<image src="../../static/empty-bg.png" class="empty-img"></image>
+					<text class="empty-txt">暂无数据</text>
 				</view>
 			</view>
 			
@@ -153,7 +160,13 @@
 					<button class="btn" @click="cancelSendMsg()">取消</button>
 					<button class="btn" @click="confirmSendMsg()">确定</button>
 				</view>
-				<textarea class="textarea" v-model="commentContent" placeholder="写入留言" placeholder-class="graywords"/>
+				<textarea 
+					class="textarea" 
+					:maxlength="60"
+					v-model="commentContent" 
+					placeholder="写入留言,最多60个字" 
+					placeholder-class="graywords"
+				/>
 			</view>
 		</uni-popup>
 		
