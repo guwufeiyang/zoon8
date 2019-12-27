@@ -245,7 +245,7 @@
 				if(theTime < today) {
 					return moment(theTime).format('yyyy.MM.dd')
 				}
-				return moment(theTime).format('hh:mm:ss')
+				return moment(theTime).format('HH:mm:ss')
 			}
 		},
 		methods: {

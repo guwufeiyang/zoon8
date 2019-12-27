@@ -28,7 +28,9 @@
 				<view class="info-r">
 					<button class="btn-join" v-if="!(userInfo.id && userInfo.band && userInfo.band.id)" @click="joinFansGroup()">加入粉丝团</button>
 					<button class="btn-join" v-if="userInfo.id && userInfo.band && userInfo.band.id != bandId" 
-						:disabled="stealedBand.includes(bandId)" :class = "{'disabled': stealedBand.includes(bandId)}" @click="steal()">偷积分</button>
+						:disabled="stealedBand.includes(bandId) || (bandInfo.totalRank && bandInfo.totalRank.amount == 0)" 
+						:class = "{'disabled': stealedBand.includes(bandId) || (bandInfo.totalRank && bandInfo.totalRank.amount == 0)}"
+						@click="steal()">偷积分</button>
 				</view>
 			</view>	
 			
@@ -135,7 +137,7 @@
 				if(theTime < today) {
 					return moment(theTime).format('yyyy.MM.dd')
 				}
-				return moment(theTime).format('hh:mm:ss')
+				return moment(theTime).format('HH:mm:ss')
 			}
 		},
 		methods: {
@@ -237,6 +239,14 @@
 
 				this.$api.msg("加入粉丝团成功！");
 				this.$refs.showtip.close();
+				
+				this.$nextTick(() => {
+					setTimeout(() => {
+						uni.switchTab({
+							url: "/pages/fans/fans"
+						});
+					}, 1000);
+				});
 			}
 		},
 		onShow() {
