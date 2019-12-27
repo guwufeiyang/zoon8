@@ -160,7 +160,13 @@
 					<button class="btn" @click="cancelSendMsg()">取消</button>
 					<button class="btn" @click="confirmSendMsg()">确定</button>
 				</view>
-				<textarea class="textarea" v-model="commentContent" placeholder="写入留言" placeholder-class="graywords"/>
+				<textarea 
+					class="textarea" 
+					maxlength="60"
+					v-model="commentContent" 
+					placeholder="写入留言,最多60个字" 
+					placeholder-class="graywords"
+				/>
 			</view>
 		</uni-popup>
 		
