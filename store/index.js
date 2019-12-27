@@ -34,6 +34,7 @@ const store = new Vuex.Store({
 				userInfo.achievements = JSON.parse(userInfo.achievements || "[]")
 				state.userInfo = userInfo;
 			} else {
+				uni.removeStorageSync("jwt")
 				state.userInfo = {
 					name: "",
 					band: {

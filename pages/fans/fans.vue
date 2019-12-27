@@ -25,11 +25,11 @@
 					<view class="username">{{bandInfo.name}}</view>
 					<view class="rank-info">
 						<view class="rank-info-item">
-							<view class="info-val">No.{{bandInfo.totalRank.rankValue + 1 || '--'}}</view>
+							<view class="info-val">No.{{(bandInfo.totalRank && bandInfo.totalRank.rankValue) || '--'}}</view>
 							<view class="info-label">当前排名</view>
 						</view>
 						<view class="integral-info-item">
-							<view class="info-val">{{bandInfo.totalRank.amount || "--"}}</view>
+							<view class="info-val">{{(bandInfo.totalRank && bandInfo.totalRank.amount) || "--"}}</view>
 							<view class="info-label">累计积分</view>
 						</view>
 					</view>
@@ -50,7 +50,7 @@
 					<view class="label">贡献榜</view>
 					<view class="img-list">
 						<view class="img-wrap" v-for="(item,index) in contributeList" :key="index">
-							<image class="contribute-img"  :src="item.avatar"></image>
+							<image class="contribute-img" :src="item.avatar"></image>
 							<view class="index" :style="{backgroundColor: item.bg}">{{index+1}}</view>
 						</view>
 					</view>
@@ -74,10 +74,7 @@
 			
 			<view class="section">
 				<view class="message-list">
-					<view class="message-item-wrap" 
-						:class="{'active': item.id == item.bandId}" 
-						v-for="(item, index) in comments" 
-						:key="index">
+					<view class="message-item-wrap" :class="{'active': item.id == item.bandId}" v-for="(item, index) in comments" :key="index">
 						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
 						<view class="message-item" >
 							<image class="img" :src="item.fanAvatar"></image>
@@ -173,7 +170,7 @@
 							<view class="desc">支出你的爱豆</view>
 						</view>
 					</view>
-					<view class="box-item">
+					<view class="box-item" @click="drawLottery()">
 						<image src="../../static/img-lottery.png" class="box-bg"></image>
 						<view class="box-content">
 							<view class="label">去抽奖</view>
@@ -239,6 +236,10 @@
 		},
 		methods: {
 			...mapMutations(['login', 'setCurrentBand']),
+			async reloadMe() {
+				var meRes = await arequest('/me', null, {})
+				this.login(meRes.data.me || meRes.data)
+			},
 			async reloadBand(){
 				var bandsRes = await arequest('/loadBands', null, {})
 				var bands = bandsRes.data
@@ -247,17 +248,27 @@
 					return item.id == this.bandId
 				})
 			},
+			async reloadFansRank() {
+				let getBandContributeRankRes = await arequest('/getBandContributeRank?rankType=', { id: this.bandId }, {});
+				let getBandContributeRank = getBandContributeRankRes.data;
+				let colorList = ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"];
+				
+				getBandContributeRank.forEach((item, i)=> {
+					item.bg = colorList[i];
+				});
+				this.contributeList = getBandContributeRank;
+			},
 			async loadData() {
-				this.bandId = this.userInfo.band.id
+				this.bandId = this.userInfo.band && this.userInfo.band.id
 
-				if(this.bandId) {
+				if(this.userInfo.band) {
 					await this.reloadBand()
 
 
 						// offset: this.commentPage * this.commentPageSize, 
 						// limit: this.commentPageSize,
 					var commentsRes = await arequest('/loadComment', {
-						id: this.bandId, 
+						id: this.userInfo.band.id, 
 					}, {})
 					this.comments = commentsRes.data;
 					
@@ -269,14 +280,7 @@
 					}
 
 					// 获取贡献榜
-					let getBandContributeRankRes = await arequest('/getBandContributeRank?rankType=', { id: this.bandId }, {});
-					let getBandContributeRank = getBandContributeRankRes.data;
-					let colorList = ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"];
-					
-					getBandContributeRank.forEach((item, i)=> {
-						item.bg = colorList[i];
-					});
-					this.contributeList = getBandContributeRank;
+					this.reloadFansRank()
 				}
 				
 				this.propList = _.map(this.gifts, item=>{
@@ -339,19 +343,24 @@
 					}
 				})
 				var contributeRes = await arequest('/contribute', {gifts: gifts}, {})
-				
-				// 
-				await this.reloadBand()
-				
-				this.$nextTick(() => {
-					setTimeout(() => {
-						this.$refs.confirmContributeIntegralPop.open()
-					}, 0);
+				var contributeResult = contributeRes.data
+				if(contributeResult == 0) { // success
+					await this.reloadMe()
+					await this.reloadBand()
+					this.reloadFansRank()
+					
+					this.$nextTick(() => {
+						setTimeout(() => {
+							this.$refs.confirmContributeIntegralPop.open()
+						}, 0);
 
-					setTimeout( ()=> {
-						this.$refs.confirmContributeIntegralPop.close()
-					}, 1500);
-				});
+						setTimeout( ()=> {
+							this.$refs.confirmContributeIntegralPop.close()
+						}, 1500);
+					});
+				} else {
+					this.getIntegral()
+				}
 			},
 			closeContributeIntegralPop() {
 				this.$refs.contributeIntegralPop.close();

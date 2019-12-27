@@ -1,5 +1,6 @@
 <template>
 	<view class="contribute-box">
+		<!--
 		<view class="tab-bar">
 			<view class="tab" :class="{'active':active===0}" @click="tabSwitch(0)">
 				本日
@@ -11,17 +12,17 @@
 				历史
 			</view>
 		</view>
-		
+		-->
 		<view class="section contribute-list">
 			<view class="contribute-item" v-for="item in contributeList" :key="item.id">
 				<view class="item-l">
-					<text class="rank">{{item.totalRank.rankValue + 1}}</text>
+					<text class="rank">{{item.totalRank.rankValue }}</text>
 					<image class="img" :src="item.avatar"></image>
 					<view class="name">{{item.name}}</view>
 				</view>
 				<view class="item-r">
 					<view class="integral">
-						{{item.integral}}
+						{{item.totalRank.amount}}
 						<image class="icon-integral" src="../../static/icon-integral.png"></image>
 					</view>
 				</view>

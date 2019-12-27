@@ -25,9 +25,9 @@
 								</view>
 							</view>
 							<view class="task-r">
-								<image :src="(task.finished == 1) ? '../../static/task-btn-disabled.png' : '../../static/task-btn.png'"
+								<image :src="(task.finished == 1 || task.count < task.threshold) ? '../../static/task-btn-disabled.png' : '../../static/task-btn.png'"
 									class="task-btn" @tap="manualConfirm(task)"></image>
-								<view class="task-txt" >{{task.finished == 1 ? '已完成' : task.count < task.threshold ? '去完成' : '领取'}}</view>
+								<view class="task-txt" >{{task.finished == 1 ? '已完成' : task.count < task.threshold ? '未完成' : '领取'}}</view>
 								<view class="has-finish">
 									已完成
 									<text class="progress">{{task.count}}/{{task.threshold}}</text>
@@ -48,9 +48,11 @@
 								</view>
 							</view>
 							<view class="task-r">
+								<!--
 								<image :src=" task.count >= task.threshold ? '../../static/task-btn-disabled.png' : '../../static/task-btn.png'"
 								 class="task-btn" @tap="goFinish(task)"></image>
 								<view class="task-txt" >{{task.count >= task.threshold ? '已完成' : '去完成'}}</view>
+								-->
 								<view class="has-finish">
 									已完成
 									<text class="progress">{{task.count}}/{{task.threshold}}</text>
@@ -157,15 +159,15 @@
 				this.login(meRes.data.me || meRes.data)
 			},
 			async goFinish(task){
-				uni.navigateTo({
-					url: task.gotoUrl
-				})	
+				// uni.switchTab({
+				// 	url: task.gotoUrl
+				// })
 			},
 			async manualConfirm(task){
 				if(task.count < task.threshold) {
-					uni.navigateTo({
-						url: task.gotoUrl
-					})				
+					// uni.switchTab({
+					// 	url: task.gotoUrl
+					// })
 				} else {
 					var signRes = await arequest('/manualConfirm?task='+task.name, {}, {})
 					this.loadTabData()

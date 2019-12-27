@@ -8,10 +8,7 @@
 			<view class="carousel-section">
 				<image class="carousel-shadow" src="../../static/banner-bg.png"></image>
 				<swiper class="carousel" circular @change="swiperChange" :autoplay="true" >
-					<swiper-item 
-						v-for="(img, index) in carouselList" 
-						:key="index" class="carousel-item" 
-						@click="navToDetailPage({title: '轮播广告'})">
+					<swiper-item v-for="(img, index) in carouselList" :key="index" class="carousel-item" @click="navToDetailPage({title: '轮播广告'})">
 						<image :src="img" />
 					</swiper-item>
 				</swiper>
@@ -35,7 +32,7 @@
 						<image class="portrait-bg" src="../../static/person-bg-s.png"></image>
 						<view class="portrait">
 							<image class="img" :src="item.logo" ></image>
-							<text class="rank">{{item.totalRank.rankValue + 1}}</text>
+							<text class="rank">{{item.totalRank.rankValue }}</text>
 						</view>
 						<view class="name">{{item.name}}</view>
 						<view class="integral">
@@ -51,7 +48,7 @@
 				<view class="billboard-list-others">
 					<view class="billboard-item" v-for="(item, index) in billboardListOthers" :key="index">
 						<view class="billboard-item-l">
-							<text class="rank">{{item.totalRank.rankValue + 1}}</text>
+							<text class="rank">{{item.totalRank.rankValue }}</text>
 							<image class="img" :src="item.logo"></image>
 							<view>
 								<view class="name">{{item.name}}</view>
@@ -120,17 +117,10 @@
 					this.timer = 0;
 				}, 500);
 				
-				if(this.userInfo.id) {
-					this.setCurrentBand(item.id);
-					uni.navigateTo({
-						url: "../toBeFans/toBeFans"
-					});
-				} else {
-					uni.navigateTo({
-						url: "../login/login"
-					})
-				}
-				
+				this.setCurrentBand(item.id);
+				uni.navigateTo({
+					url: "../toBeFans/toBeFans"
+				});
 			},
 			jumpToWelfare() {
 				uni.navigateTo({
