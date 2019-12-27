@@ -162,7 +162,7 @@
 				</view>
 				<textarea 
 					class="textarea" 
-					maxlength="60"
+					:maxlength="60"
 					v-model="commentContent" 
 					placeholder="写入留言,最多60个字" 
 					placeholder-class="graywords"
