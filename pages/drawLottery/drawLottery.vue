@@ -14,14 +14,14 @@
 			</view>
 			<view class="turntable-wrap">
 				<image src="../../static/colour-ribbon.png" class="colour-ribbon"></image>
-				<!-- <view class="prize-winner-wrap" v-if="userInfo.lotteryMessage">
+				<view class="prize-winner-wrap" v-if="userInfo.lotteryMessage">
 					<view class="prize-winner">
 						<text class="name">王一博</text> 获得10000积分
 					</view>
 					<view class="prize-winner">
 						<text class="name">王一博</text> 获得10000积分
 					</view>
-				</view> -->
+				</view>
 				<view class="turntable-box">
 					<image class="light2" src="../../static/light2.png"></image>
 					<image src="../../static/ribbon.png" class="ribbon"></image>
@@ -38,19 +38,22 @@
 					<text class="red-txt">{{ userInfo.lottery.lotteryFreeCount - userInfo.lottery.count >=0 ? userInfo.lottery.lotteryFreeCount - userInfo.lottery.count : 0 }}</text>次
 				</view>
 				<!-- <view class="btn-wrap">
-					<button class="btn"><image class="btn-icon" src="../../static/icon-question.png"></image>活动规则</button>
-					<button class="btn"><image class="btn-icon" src="../../static/icon-reward.png"></image>我的奖品</button>
+					<button class="btn">
+						<image class="btn-icon" src="../../static/icon-question.png"></image>活动规则
+					</button>
+					<button class="btn">
+						<image class="btn-icon" src="../../static/icon-reward.png"></image>我的奖品
+					</button>
 				</view> -->
-
 			</view>
 		</view>
 		<!--抽奖确认弹窗  -->
 		<view class="popup lottery-pop" v-if="showTotteryPop">
 			<view class="mask"></view>
 			<view class="uni-lottery-pop">
-				<image class="icon-close" @click="closeLotteryPop()" src="../../static/close.png"></image>
 				<image v-if="lotteryType=='success'" src="../../static/lottery-model-bg.png" class="lottery-model-bg"></image>
 				<image v-if="lotteryType=='fail'" src="../../static/lottery-model-bg1.png" class="lottery-model-bg"></image>
+				<image class="icon-close" @click="closeLotteryPop()" src="../../static/close.png"></image>
 				<view class="lottery-content">
 					<view class="title">{{lotteryTip}}</view>
 					<view class="desc">{{lotteryContent}}</view>
@@ -66,7 +69,8 @@
 		mapMutations
 	} from 'vuex'
 	import {
-		arequest
+		arequest,
+		dateFormat
 	} from '../../room8Util.js'
 
 	import uniPopup from '@/components/uni-popup.vue'
@@ -156,15 +160,15 @@
 					} else if (this.rotate_angle <= this.cat * 2) {
 						this.lotteryType = 'success';
 						this.lotteryTip = '恭喜您';
-						this.lotteryContent = '520分';
+						this.lotteryContent = '获得了520积分';
 					} else if (this.rotate_angle <= this.cat * 3) {
 						this.lotteryType = 'success';
 						this.lotteryTip = '恭喜您';
-						this.lotteryContent = '5分';
+						this.lotteryContent = '获得了5积分';
 					} else if (this.rotate_angle <= this.cat * 4) {
 						this.lotteryType = 'success';
 						this.lotteryTip = '恭喜您';
-						this.lotteryContent = '6666分';
+						this.lotteryContent = '获得了6666积分';
 					} else if (this.rotate_angle <= this.cat * 5) {
 						this.lotteryType = 'fail';
 						this.lotteryTip = '很遗憾';
@@ -172,20 +176,21 @@
 					} else if (this.rotate_angle <= this.cat * 6) {
 						this.lotteryType = 'success';
 						this.lotteryTip = '恭喜您';
-						this.lotteryContent = '1314分';
+						this.lotteryContent = '获得了1314积分';
 					} else if (this.rotate_angle <= this.cat * 7) {
 						this.lotteryType = 'success';
 						this.lotteryTip = '恭喜您';
-						this.lotteryContent = '88分';
+						this.lotteryContent = '获得了88积分';
 					} else if (this.rotate_angle <= this.cat * 8) {
 						this.lotteryType = 'success';
 						this.lotteryTip = '恭喜您';
-						this.lotteryContent = '10000分';
+						this.lotteryContent = '获得了10000积分';
 					}
+					// console.log(this.rotateDeg);
+					// console.log(this.rotate_angle);
 					
 					var meRes = await arequest('/me', null, {})
 					this.login(meRes.data.me || meRes.data)
-
 				}, 3500);
 			}
 		}

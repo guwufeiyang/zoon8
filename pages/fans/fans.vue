@@ -51,7 +51,7 @@
 					<view class="img-list">
 						<view class="img-wrap" v-for="(item,index) in contributeList" :key="index">
 							<image class="contribute-img" :src="item.avatar"></image>
-							<view class="index" :style="{backgroundColor: item.bg}">{{index+1}}</view>
+							<view class="index" :style="{backgroundColor: colorList[index]}">{{index+1}}</view>
 						</view>
 					</view>
 				</view>
@@ -84,7 +84,7 @@
 							<view class="item-right">
 								<view class="item-top">
 									<text class="name">{{ item.fanName }}</text>
-									<text class="time">{{ item.time | formatDate }}</text>
+									<text class="time">{{ item.createTimestamp | formatDate }}</text>
 								</view>
 								<view class="message">{{item.content}}</view>
 							</view>
@@ -162,7 +162,7 @@
 				</view>
 				<textarea 
 					class="textarea" 
-					:maxlength="60"
+					:maxlength="59"
 					v-model="commentContent" 
 					placeholder="写入留言,最多60个字" 
 					placeholder-class="graywords"
@@ -219,7 +219,8 @@
 				commentPage: 0,
 				commentPageSize: 10,
 				selectedProp: {},
-				commentContent: ""
+				commentContent: "",
+				colorList: ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"]
 			}
 		},
 		async onLoad(){
@@ -243,7 +244,7 @@
 				today.setMinutes(0)
 				today.setSeconds(0)
 				if(theTime < today) {
-					return moment(theTime).format('yyyy.MM.dd')
+					return moment(theTime).format('YYYY.MM.DD')
 				}
 				return moment(theTime).format('HH:mm:ss')
 			}
@@ -264,13 +265,7 @@
 			},
 			async reloadFansRank() {
 				let getBandContributeRankRes = await arequest('/getBandContributeRank?rankType=', { id: this.bandId }, {});
-				let getBandContributeRank = getBandContributeRankRes.data;
-				let colorList = ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"];
-				
-				getBandContributeRank.forEach((item, i)=> {
-					item.bg = colorList[i];
-				});
-				this.contributeList = getBandContributeRank;
+				this.contributeList = getBandContributeRankRes.data.list
 			},
 			async loadData() {
 				this.bandId = this.userInfo.band && this.userInfo.band.id
@@ -284,14 +279,7 @@
 					var commentsRes = await arequest('/loadComment', {
 						id: this.userInfo.band.id, 
 					}, {})
-					this.comments = commentsRes.data;
-					
-					if(this.comments && this.comments.length > 0) {
-						this.comments.forEach(item=>{
-							item.time = new Date(item.createTimestamp)
-							item.selected = false;
-						});
-					}
+					this.comments = commentsRes.data.list
 
 					// 获取贡献榜
 					this.reloadFansRank()
@@ -434,14 +422,9 @@
 				var commentsRes = await arequest('/loadComment', {
 					id: this.bandId, 
 				}, {})
-				this.comments = commentsRes.data
-				if(this.comments && this.comments.length > 0) {
-					this.comments.forEach(item=>{
-						item.time = new Date(item.createTimestamp)
-					});
-				}
+				this.comments = commentsRes.data.list
+
 				this.commentContent = ""
-				
 				this.$refs.showSendCommentPop.close();
 			}
 		},

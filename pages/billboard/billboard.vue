@@ -67,6 +67,7 @@
 </template>
 
 <script>
+	import CoupleRegister from '../../components/couple-register.vue'
 	import { mapState, mapMutations } from 'vuex'
 	import { arequest } from '../../room8Util.js'
 	import _ from "lodash"
@@ -127,6 +128,7 @@
 					url: "../welfare/welfare"
 				});
 			},
+			
 		},
 		onShow() {
 			this.loadData();

@@ -57,7 +57,7 @@
 			async loadData() {
 				var rankType = "" // this.active
 				let fanRankRes = await arequest('/getBandContributeRank?rankType='+rankType, { id: this.currentBand }, {});
-				this.contributeList = fanRankRes.data
+				this.contributeList = fanRankRes.data.list
 			},
 		},
 		onLoad() {

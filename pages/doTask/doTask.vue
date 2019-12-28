@@ -7,7 +7,7 @@
 				<view class="tab-bar">
 					<view class="tab" :class="{'active': currentTab==='dailyTask'}" @click="tabSwitch('dailyTask')">每日任务</view>
 					<view class="tab" :class="{'active': currentTab==='achievement'}" @click="tabSwitch('achievement')">成就任务</view>
-					<view class="tab" :class="{'active': currentTab==='seasonTask'}" @click="tabSwitch('seasonTask')">赛季任务</view>
+					<!-- <view class="tab" :class="{'active': currentTab==='seasonTask'}" @click="tabSwitch('seasonTask')">赛季任务</view> -->
 				</view>
 				<view class="tab-content-wrap" v-if="currentTab==='dailyTask'">
 					<view class="task-list" v-for="(task, index) in tasks" :key="index">

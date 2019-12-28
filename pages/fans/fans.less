@@ -12,8 +12,9 @@
 	font-size: 24upx;
 	color: #fff;
 	text-align: center;
+	margin-top: 20px;
 	&.disabled {
-		background: rgba(250, 104, 137, 0.5);
+		background: rgba(250, 104, 137, 0.6);
 	}
 }
 .not-fans-wrap {
@@ -162,8 +163,8 @@
 		}
 		.index {
 			position: absolute;
-			bottom: 0;
-			right: 0;
+			bottom: -1px;
+			right: -1px;
 			width: 14px;
 			height: 14px;
 			border-radius: 50%;
@@ -210,6 +211,11 @@
 	padding: 20upx 0;
 	.message-item-wrap {
 		position: relative;
+		margin-bottom: 40rpx;
+		padding-top: 10rpx;
+		&:last-child {
+			margin-bottom: 0;
+		}
 		.portrait-bg {
 			display: none;
 			position: absolute;
@@ -237,10 +243,11 @@
 		align-items: flex-start;
 		padding: 0 30upx;
 		position: relative;
+		
 		.img{
 			width: 80upx;
 			height: 80upx;
-			margin: 0 22upx 0 0;
+			margin: 8rpx 20px 0 0;
 			border-radius: 50%;
 		}
 		.item-right {

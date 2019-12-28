@@ -2,7 +2,6 @@
 	<view class="container">
 		<!-- <image class="header-bg" src="../../static/header-bg.png"></image>
 		<view class="status_bar">个人中心</view> -->
-
 		<view class="content-wrap">
 			<image class="header-bg" src="../../static/header-bg.png"></image>
 			<view class="userinfo-box">
@@ -41,18 +40,19 @@
 				</view>
 			</view>
 		</view>
+		
+		<couple-register ref="coupleRegisterPop"></couple-register>
 	</view>
 </template>
 
 <script>
-	import {
-		mapState,
-		mapMutations
-	} from 'vuex'
-	import {
-		arequest
-	} from '../../room8Util.js'
+	import {mapState, mapMutations } from 'vuex'
+	import { arequest } from '../../room8Util.js'
+	import CoupleRegister from '../../components/couple-register.vue'
 	export default {
+		components: {
+			CoupleRegister
+		},
 		data() {
 			return {
 				doingLoginCallback: false
@@ -75,8 +75,11 @@
 						code: option.code,
 						state: option.state
 					}, {})
-					this.login(loginRes.data)
-
+					this.login(loginRes.data);
+					
+					if(loginRes.data.newFan) {
+						this.$refs.coupleRegisterPop.openCoupleRegisterPop();
+					}
 					uni.reLaunch({
 						url: '../person/person'
 					});
