@@ -12,6 +12,22 @@
 					<image src="../../static/3.png" class="three"></image>
 				</view>
 			</view>
+			<view class="turntable-bottom">
+				<uni-notice-bar :show-icon="true" :scrollable="true" :single="true" text="uni-app 1.6版正式发布，开发一次，同时发布iOS、Android、H5、微信小程序、支付宝小程序、百度小程序、头条小程序等7大平台。" />
+				<view class="tip">
+					现有积分:<text class="red-txt">{{ userInfo.amount }}</text>分
+					今日还可免费抽奖
+					<text class="red-txt">{{ userInfo.lottery.lotteryFreeCount - userInfo.lottery.count >=0 ? userInfo.lottery.lotteryFreeCount - userInfo.lottery.count : 0 }}</text>次
+				</view>
+				<!-- <view class="btn-wrap">
+					<button class="btn">
+						<image class="btn-icon" src="../../static/icon-question.png"></image>活动规则
+					</button>
+					<button class="btn">
+						<image class="btn-icon" src="../../static/icon-reward.png"></image>我的奖品
+					</button>
+				</view> -->
+			</view>
 			<view class="turntable-wrap">
 				<image src="../../static/colour-ribbon.png" class="colour-ribbon"></image>
 				<view class="prize-winner-wrap" v-if="userInfo.lotteryMessage">
@@ -31,21 +47,7 @@
 					<image src="../../static/icon-face3.png" class="icon-face3"></image>
 				</view>
 			</view>
-			<view class="turntable-bottom">
-				<view class="tip">
-					现有积分:<text class="red-txt">{{ userInfo.amount }}</text>分
-					今日还可免费抽奖
-					<text class="red-txt">{{ userInfo.lottery.lotteryFreeCount - userInfo.lottery.count >=0 ? userInfo.lottery.lotteryFreeCount - userInfo.lottery.count : 0 }}</text>次
-				</view>
-				<!-- <view class="btn-wrap">
-					<button class="btn">
-						<image class="btn-icon" src="../../static/icon-question.png"></image>活动规则
-					</button>
-					<button class="btn">
-						<image class="btn-icon" src="../../static/icon-reward.png"></image>我的奖品
-					</button>
-				</view> -->
-			</view>
+			
 		</view>
 		<!--抽奖确认弹窗  -->
 		<view class="popup lottery-pop" v-if="showTotteryPop">
@@ -64,19 +66,15 @@
 </template>
 
 <script>
-	import {
-		mapState,
-		mapMutations
-	} from 'vuex'
-	import {
-		arequest,
-		dateFormat
-	} from '../../room8Util.js'
-
+	import { mapState, mapMutations } from 'vuex'
+	import { arequest, dateFormat } from '../../room8Util.js'
+	
+	import uniNoticeBar from '@/components/uni-notice-bar.vue'
 	import uniPopup from '@/components/uni-popup.vue'
 	export default {
 		components: {
-			uniPopup
+			uniPopup,
+			uniNoticeBar
 		},
 		data() {
 			return {
