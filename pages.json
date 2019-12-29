@@ -36,7 +36,13 @@
 		}, {
             "path" : "pages/contribute/contribute",
             "style" : {
-				"navigationBarTitleText": "贡献榜"
+				"navigationBarTitleText": "贡献榜",
+				
+				"enablePullDownRefresh" : false,
+				// "disableScroll": true,
+				"app-plus" : {
+					"bounce" : "none" // 取消iOS回弹,避免和下拉刷新冲突 (小程序无法取消, 点此查看H5端的取消方法... )
+				}
 			}
         }, {
             "path" : "pages/doTask/doTask",

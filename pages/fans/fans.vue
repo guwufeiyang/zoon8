@@ -73,10 +73,10 @@
 			</view>
 			
 			<view class="section">
-				<view class="message-list" v-if="comments && comments.length > 0">
+				<view class="message-list" v-if="commentPage.list.length > 0">
 					<view class="message-item-wrap" 
 						:class="{'active': item.id == item.bandId}" 
-						v-for="(item, index) in comments" 
+						v-for="(item, index) in commentPage.list" 
 						:key="index">
 						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
 						<view class="message-item" >
@@ -215,9 +215,14 @@
 				contributeList: [],
 				type: '',
 				propList: [],
-				comments: [],
-				commentPage: 0,
-				commentPageSize: 10,
+				
+				commentPage: {
+					offset: 0,
+					limit: 10,
+					total: 0,
+					list: []
+				},
+				
 				selectedProp: {},
 				commentContent: "",
 				colorList: ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"]
@@ -251,6 +256,14 @@
 		},
 		methods: {
 			...mapMutations(['login', 'setCurrentBand']),
+			async reloadComment() {
+				var commentsRes = await arequest('/loadComment', {
+					id: this.userInfo.band.id,
+					offset: this.commentPage.offset,
+					limit: this.commentPage.limit
+				}, {})
+				this.commentPage = commentsRes.data;
+			},
 			async reloadMe() {
 				var meRes = await arequest('/me', null, {})
 				this.login(meRes.data.me || meRes.data)
@@ -273,15 +286,7 @@
 				if(this.userInfo.band) {
 					await this.reloadBand()
 
-
-						// offset: this.commentPage * this.commentPageSize, 
-						// limit: this.commentPageSize,
-					var commentsRes = await arequest('/loadComment', {
-						id: this.userInfo.band.id, 
-					}, {})
-					this.comments = commentsRes.data.list
-
-					// 获取贡献榜
+					this.reloadComment();
 					this.reloadFansRank()
 				}
 				
@@ -417,12 +422,7 @@
 					content: this.commentContent
 				}, {})
 				
-				// offset: this.commentPage * this.commentPageSize, 
-				// limit: this.commentPageSize,
-				var commentsRes = await arequest('/loadComment', {
-					id: this.bandId, 
-				}, {})
-				this.comments = commentsRes.data.list
+				this.reloadComment()
 
 				this.commentContent = ""
 				this.$refs.showSendCommentPop.close();

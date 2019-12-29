@@ -13,11 +13,10 @@
 				</view>
 			</view>
 			<view class="turntable-bottom">
-				<uni-notice-bar :show-icon="true" :scrollable="true" :single="true" text="uni-app 1.6版正式发布，开发一次，同时发布iOS、Android、H5、微信小程序、支付宝小程序、百度小程序、头条小程序等7大平台。" />
 				<view class="tip">
 					现有积分:<text class="red-txt">{{ userInfo.amount }}</text>分
 					今日还可免费抽奖
-					<text class="red-txt">{{ userInfo.lottery.lotteryFreeCount - userInfo.lottery.count >=0 ? userInfo.lottery.lotteryFreeCount - userInfo.lottery.count : 0 }}</text>次
+					<!-- <text class="red-txt">{{ userInfo.lottery.lotteryFreeCount - userInfo.lottery.count >=0 ? userInfo.lottery.lotteryFreeCount - userInfo.lottery.count : 0 }}</text> -->次
 				</view>
 				<!-- <view class="btn-wrap">
 					<button class="btn">
@@ -66,15 +65,19 @@
 </template>
 
 <script>
-	import { mapState, mapMutations } from 'vuex'
-	import { arequest, dateFormat } from '../../room8Util.js'
-	
-	import uniNoticeBar from '@/components/uni-notice-bar.vue'
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
+	import {
+		arequest,
+		dateFormat
+	} from '../../room8Util.js'
+
 	import uniPopup from '@/components/uni-popup.vue'
 	export default {
 		components: {
-			uniPopup,
-			uniNoticeBar
+			uniPopup
 		},
 		data() {
 			return {

@@ -9,7 +9,7 @@
 					<view class="tab" :class="{'active': currentTab==='achievement'}" @click="tabSwitch('achievement')">成就任务</view>
 					<!-- <view class="tab" :class="{'active': currentTab==='seasonTask'}" @click="tabSwitch('seasonTask')">赛季任务</view> -->
 				</view>
-				<view class="tab-content-wrap" v-if="currentTab==='dailyTask'">
+				<view class="tab-content-wrap" v-if="currentTab === 'dailyTask' && isShow " v-cloak>
 					<view class="task-list" v-for="(task, index) in tasks" :key="index">
 						<view class="task-bg"></view>
 						<view class="task-content">
@@ -37,7 +37,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="tab-content-wrap" v-if="currentTab==='achievement'">
+				<view class="tab-content-wrap" v-if="currentTab==='achievement' && isShow" v-cloak>
 					<view class="task-list" v-for="(task, index) in tasks" :key="index">
 						<view class="task-bg"></view>
 						<view class="task-content">
@@ -84,7 +84,8 @@
 		data() {
 			return {
 				currentTab: 'dailyTask',
-				tasks: []
+				tasks: [],
+				isShow: false
 			};
 		},
 		computed: {
@@ -125,6 +126,7 @@
 				if(this.currentTab == 'dailyTask' ||　this.currentTab == 'achievement') {
 					var loadRes = await arequest('/loadTaskProcessRate?type='+this.currentTab, {}, {})
 					this.tasks = loadRes.data
+					this.isShow = true
 				}
 			}
 		},
