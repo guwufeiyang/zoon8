@@ -65,15 +65,8 @@
 </template>
 
 <script>
-	import {
-		mapState,
-		mapMutations
-	} from 'vuex'
-	import {
-		arequest,
-		dateFormat
-	} from '../../room8Util.js'
-
+	import { mapState, mapMutations } from 'vuex'
+	import { arequest, dateFormat } from '../../room8Util.js'
 	import uniPopup from '@/components/uni-popup.vue'
 	export default {
 		components: {
@@ -187,8 +180,6 @@
 						this.lotteryTip = '恭喜您';
 						this.lotteryContent = '获得了10000积分';
 					}
-					// console.log(this.rotateDeg);
-					// console.log(this.rotate_angle);
 					
 					var meRes = await arequest('/me', null, {})
 					this.login(meRes.data.me || meRes.data)
