@@ -30,7 +30,7 @@
 			</view>
 
 			<view class="section-list">
-				<view class="section notLogin-item" :class="{'disabled': !(userInfo.achievements || []).includes(item.id)}" v-for="(item, index) in gains"
+				<view class="section notLogin-item" :class="{'disabled': item.sortHint == 0}" v-for="(item, index) in orderedGains"
 				 :key="index">
 					<image :src="item.image" class="img"></image>
 					<view class="section-txt">
@@ -48,6 +48,7 @@
 <script>
 	import {mapState, mapMutations } from 'vuex'
 	import { arequest } from '../../room8Util.js'
+	import _ from "lodash"
 	import CoupleRegister from '../../components/couple-register.vue'
 	export default {
 		components: {
@@ -55,7 +56,8 @@
 		},
 		data() {
 			return {
-				doingLoginCallback: false
+				doingLoginCallback: false,
+				orderedGains: []
 			};
 		},
 		computed: {
@@ -94,6 +96,16 @@
 		},
 		onShow() {
 			this.reloadUserInfo()
+			if(this.userInfo.achievements) {
+				this.orderedGains = _.map(this.gains, gain=>{
+					return {
+						...gain,
+						sortHint: this.userInfo.achievements.includes(gain.id) ? 1 : 0
+					}
+				}).sort((gain1, gain2)=>{
+					return gain2.sortHint - gain1.sortHint
+				})
+			}
 		},
 		onLoad(option) {
 			this.loadData(option);
