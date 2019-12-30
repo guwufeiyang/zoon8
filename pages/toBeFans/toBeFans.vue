@@ -53,8 +53,8 @@
 			</view>
 			
 			<view class="section">
-				<view class="message-list" v-if="comments&& comments.length>0" >
-					<view class="message-item-wrap" :class="{'active': item.id == item.bandId}" v-for="(item, index) in comments" :key="index" >
+				<view class="message-list" v-if="commentPage.list.length>0" >
+					<view class="message-item-wrap" :class="{'active': item.id == item.bandId}" v-for="(item, index) in commentPage.list" :key="index" >
 						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
 						<view class="message-item" >
 							<image class="img" :src="item.fanAvatar"></image>
@@ -125,6 +125,13 @@
 				commentPage: 0,
 				commentPageSize: 10,
 				
+				commentPage: {
+					offset: 0,
+					limit: 10,
+					total: 0,
+					list: []
+				},
+				
 				stealResult: 0,
 				colorList: ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"]
 			}
@@ -133,7 +140,7 @@
 			...mapState(['userInfo', 'stealedBand', 'currentBand'])
 		},
 		filters:{
-			formatDate(time, format="yyyy.MM.dd") {
+			formatDate(time, format="YYYY.MM.DD") {
 				let theTime = new Date(time)
 				let today = new Date()
 				today.setHours(0)
@@ -147,8 +154,18 @@
 		},
 		methods: {
 			...mapMutations(['login', 'addToStealedBand', 'setCurrentBand']),
+			async reloadComment() {
+				var commentsRes = await arequest('/loadComment', {
+					id: this.userInfo.band.id,
+					offset: this.commentPage.offset,
+					limit: this.commentPage.limit
+				}, {})
+				this.commentPage = commentsRes.data;
+			},
 			async loadFansRank() {
-				var getBandContributeRankRes = await arequest('/getBandContributeRank', { id: this.bandId }, {});
+				var getBandContributeRankRes = await arequest('/getBandContributeRank', { 
+					id: this.bandId,
+				}, {});
 				this.contributeList = getBandContributeRankRes.data.list;
 			},
 			async loadData() {
@@ -163,12 +180,9 @@
 					// 获取贡献榜
 					this.loadFansRank()
 					
-					// offset: this.commentPage * this.commentPageSize, 
-					// limit: this.commentPageSize,
-					var commentsRes = await arequest('/loadComment', {
-						id: this.bandId, 
-					}, {})
-					this.comments = commentsRes.data.list
+					this.reloadComment()
+				} else {
+					uni.navigateBack();	
 				}
 			},
 			async steal(){

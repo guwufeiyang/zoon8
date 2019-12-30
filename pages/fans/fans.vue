@@ -1,14 +1,14 @@
 <template>
 	<view class="container">
-		<!-- <view v-if="bandId">
+		<!-- <view v-if="userInfo.bindedBand">
 			<view class="header-bg"></view>
 			<image class="header-img" src="../../static/fans-bg.png"></image>
 		</view>
 		<view class="status_bar" :style="{color: statusBarColor}">
-			<text v-if="bandId">{{bandInfo.name}}</text>粉丝团
+			<text v-if="userInfo.bindedBand">{{bandInfo.name}}</text>粉丝团
 		</view> -->
 		
-		<view class="content-wrap" v-if="!bandId">
+		<view class="content-wrap" v-if="!userInfo.bindedBand">
 			<view class="not-fans-wrap">
 				<image class="not-fans-img" src="../../static/not-fans.png"></image>
 				<text class="not-fans-text">你还没有加入粉丝团哦 快去榜单选择心仪爱豆加入粉丝团</text>
@@ -16,7 +16,7 @@
 			</view>
 		</view>
 		
-		<view class="content-wrap" v-if="userInfo.id && bandId">
+		<view class="content-wrap" v-if="userInfo.id && userInfo.bindedBand">
 			<view class="header-bg"></view>
 			<image class="header-img" src="../../static/fans-bg.png"></image>
 			<view class="fans-info">
@@ -35,8 +35,7 @@
 					</view>
 				</view>
 				<view class="info-r">
-					<!--<button v-if="!userInfo.bindedBand" class="btn-join" @click="joinFansGroup()">加入粉丝团</button>-->
-					<button v-if="userInfo.bindedBand == bandId" class="btn-join" @click="contributeIntergral()">
+					<button class="btn-join" @click="contributeIntergral()">
 						贡献积分
 						<image class="icon-integral" src="../../static/icon-contribute-intergral.png"></image>
 					</button>
@@ -57,7 +56,7 @@
 				</view>
 			</view>
 			
-			<view class="task-box" v-if="userInfo.bindedBand == bandId">
+			<view class="task-box">
 				<view class="task-item" @click="doTask()">
 					<image class="task-img" src="../../static/icon-sign.png"></image>
 					<text class="task-txt">做任务</text>
@@ -74,10 +73,7 @@
 			
 			<view class="section">
 				<view class="message-list" v-if="commentPage.list.length > 0">
-					<view class="message-item-wrap" 
-						:class="{'active': item.id == item.bandId}" 
-						v-for="(item, index) in commentPage.list" 
-						:key="index">
+					<view class="message-item-wrap" :class="{'active': item.fanId == item.bandId}" v-for="(item, index) in commentPage.list" :key="index">
 						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
 						<view class="message-item" >
 							<image class="img" :src="item.fanAvatar"></image>
@@ -117,11 +113,7 @@
 			<view class="uni-tip uni-tip-contribute-intergral">
 				<image class="icon-close" @click="closeContributeIntegralPop()" src="../../static/icon-close.png"></image>
 				<view class="prop-list">
-					<view class="prop-box" 
-						:class="{'is-select': item.selected}" 
-						@click="selectProp(item)" 
-						v-for="(item, index) in propList" 
-						:key="index" >
+					<view class="prop-box" :class="{'is-select': item.selected}" @click="selectProp(item)" v-for="(item, index) in propList" :key="index" >
 						<image :src="item.img" class="img"></image>
 						<view class="name">{{item.name}}</view>
 						<view class="integral">
@@ -209,7 +201,6 @@
 		},
 		data() {
 			return {
-				bandId: null, //从上下文中推测出的
 				bandInfo: {},
 
 				contributeList: [],
@@ -242,7 +233,7 @@
 			}
 		},
 		filters:{
-			formatDate(time, format="yyyy.MM.dd") {
+			formatDate(time, format="YYYY.MM.DD") {
 				let theTime = new Date(time)
 				let today = new Date()
 				today.setHours(0)
@@ -258,7 +249,7 @@
 			...mapMutations(['login', 'setCurrentBand']),
 			async reloadComment() {
 				var commentsRes = await arequest('/loadComment', {
-					id: this.userInfo.band.id,
+					id: this.userInfo.bindedBand,
 					offset: this.commentPage.offset,
 					limit: this.commentPage.limit
 				}, {})
@@ -268,27 +259,22 @@
 				var meRes = await arequest('/me', null, {})
 				this.login(meRes.data.me || meRes.data)
 			},
-			async reloadBand(){
-				var bandsRes = await arequest('/loadBands', null, {})
-				var bands = bandsRes.data
-				
-				this.bandInfo = bands.find((item)=>{
-					return item.id == this.bandId
-				})
-			},
 			async reloadFansRank() {
-				let getBandContributeRankRes = await arequest('/getBandContributeRank?rankType=', { id: this.bandId }, {});
-				this.contributeList = getBandContributeRankRes.data.list
+				if(!this.userInfo.bindedBand) {
+					this.contributeList = []
+				} else {
+					let getBandContributeRankRes = await arequest('/getBandContributeRank?rankType=Total&limit=5', { 
+						id: this.userInfo.bindedBand,
+						}, {});
+					this.contributeList = getBandContributeRankRes.data.list
+				}
 			},
 			async loadData() {
-				this.bandId = this.userInfo.band && this.userInfo.band.id
-
-				if(this.userInfo.band) {
-					await this.reloadBand()
-
+				if(this.userInfo.bindedBand && this.userInfo.band) {
 					this.reloadComment();
 					this.reloadFansRank()
 				}
+				this.bandInfo = this.userInfo.band || {}
 				
 				this.propList = _.map(this.gifts, item=>{
 					item.selected = false
@@ -353,7 +339,6 @@
 				var contributeResult = contributeRes.data
 				if(contributeResult == 0) { // success
 					await this.reloadMe()
-					await this.reloadBand()
 					this.reloadFansRank()
 					
 					this.$nextTick(() => {
@@ -381,10 +366,14 @@
 				item.selected = !item.selected;
 			},
 			gotoContribute() {
-				this.setCurrentBand(this.bandId);
-				uni.navigateTo({
-					url: "/pages/contribute/contribute"
-				})
+				if(!this.userInfo.bindedBand) {
+					console.log('')
+				} else {
+					this.setCurrentBand(this.userInfo.bindedBand);
+					uni.navigateTo({
+						url: "/pages/contribute/contribute"
+					})
+				}
 			},
 			doTask() {
 				uni.navigateTo({
