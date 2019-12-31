@@ -96,6 +96,8 @@
 		},
 		onShow() {
 			this.reloadUserInfo()
+
+			this.orderedGains = this.gains
 			if(this.userInfo.achievements) {
 				this.orderedGains = _.map(this.gains, gain=>{
 					return {
