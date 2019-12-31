@@ -92,21 +92,6 @@ page {
 		}
 	}
 }
-
-// 兼容性处理
-/* #ifdef MP */
-.status_bar {
-	top: 20px;
-}
-/* #endif */
-
-/* #ifdef H5 */
-.status_bar {
-	top: 0;
-	font-size: 16px;
-	font-weight: 700;
-}
-/* #endif */
 	
 .ellipsis {
 	overflow: hidden;
@@ -134,8 +119,4 @@ page {
 }
 uni-button:after {
 	border: 0 none;
-}
-
-[v-cloak] {
-  display: none;
 }

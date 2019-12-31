@@ -77,7 +77,8 @@
             "mode" : "history"
         },
         "devServer" : {
-            "https" : false
+            "https" : false,
+            "disableHostCheck": true
         },
         "domain" : "www.valuations.cn",
         "orientation": [

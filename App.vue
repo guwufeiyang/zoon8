@@ -18,7 +18,10 @@
 			}
 		},
 		onLaunch: async function() {
-			window.screen.lockOrientation('portrait-primary'); // 锁定竖屏
+			// #ifdef APP-PLUS
+				plus.screen.lockOrientation('portrait-primary');
+			// #endif
+
 			this.loadCommon()
 		},
 		onShow: function() {
