@@ -21,7 +21,7 @@ export function parseTime(time, cFormat) {
   }
   const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
-    if (key === 'a') return ['Ò»', '¶þ', 'Èý', 'ËÄ', 'Îå', 'Áù', 'ÈÕ'][value - 1]
+    if (key === 'a') return ['ä¸€', 'äºŒ', 'ä¸‰', 'å››', 'äº”', 'å…­', 'æ—¥'][value - 1]
     if (result.length > 0 && value < 10) {
       value = '0' + value
     }
@@ -38,17 +38,17 @@ export function formatTime(time, option) {
   const diff = (now - d) / 1000
 
   if (diff < 30) {
-    return '¸Õ¸Õ'
+    return 'åˆšåˆš'
   } else if (diff < 3600) { // less 1 hour
-    return Math.ceil(diff / 60) + '·ÖÖÓÇ°'
+    return Math.ceil(diff / 60) + 'åˆ†é’Ÿå‰'
   } else if (diff < 3600 * 24) {
-    return Math.ceil(diff / 3600) + 'Ð¡Ê±Ç°'
+    return Math.ceil(diff / 3600) + 'å°æ—¶å‰'
   } else if (diff < 3600 * 24 * 2) {
-    return '1ÌìÇ°'
+    return '1å¤©å‰'
   }
   if (option) {
     return parseTime(time, option)
   } else {
-    return d.getMonth() + 1 + 'ÔÂ' + d.getDate() + 'ÈÕ' + d.getHours() + 'Ê±' + d.getMinutes() + '·Ö'
+    return d.getMonth() + 1 + 'æœˆ' + d.getDate() + 'æ—¥' + d.getHours() + 'æ—¶' + d.getMinutes() + 'åˆ†'
   }
 }
