@@ -166,7 +166,7 @@
 		<uni-popup ref="showGetTntegralPop" :type="type" :mask-click="false">
 			<view class="uni-tip uni-get-integral">
 				<image class="icon-close" @click="closeGetTntegralPop()" src="../../static/close.png"></image>
-				<view class="tip">积分不足，可通过以下方式获取</view>
+				<view class="tip">{{lackIntegralTip}}</view>
 				<view class="box-list">
 					<view class="box-item" @click="doTask()">
 						<image src="../../static/img-task.png" class="box-bg"></image>
@@ -216,7 +216,8 @@
 				
 				selectedProp: {},
 				commentContent: "",
-				colorList: ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"]
+				colorList: ["#fa6889","#f98c4e", "#eb68fa", "#8b68fa", "#68dffa"],
+				lackIntegralTip: '积分不足，可通过以下方式获取'
 			}
 		},
 		async onLoad(){
@@ -383,7 +384,7 @@
 			// 获取积分弹窗
 			getIntegral() {
 				this.$refs.contributeIntegralPop.close();
-				
+				this.lackIntegralTip = '通过以下方式获取积分';
 				this.type = 'center';
 				this.$nextTick(() => {
 					this.$refs.showGetTntegralPop.open();

@@ -49,7 +49,7 @@
 			
 		</view>
 		<!--抽奖确认弹窗  -->
-		<view class="popup lottery-pop" v-if="showTotteryPop">
+		<view class="popup lottery-pop" v-if="showTotteryPop" @click.stop.prevent = "stopPenetrate">
 			<view class="mask"></view>
 			<view class="uni-lottery-pop">
 				<image v-if="lotteryType=='success'" src="../../static/lottery-model-bg.png" class="lottery-model-bg"></image>
@@ -92,6 +92,9 @@
 		},
 		methods: {
 			...mapMutations(['login']),
+			stopPenetrate() {
+			    return;
+			},
 			startLottery() {
 				this.rotating();
 			},
