@@ -105,7 +105,7 @@
 				var meRes = await arequest('/me', null, {})
 				this.login(meRes.data.me || meRes.data)
 			},
-			async goFinish(task){
+			goFinish(task){
 				// uni.switchTab({
 				// 	url: task.gotoUrl
 				// })

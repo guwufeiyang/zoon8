@@ -312,8 +312,6 @@
 			
 			// 贡献积分
 			contributeIntergral() {
-				// 如果积分不足
-				
 				// 如果积分充足
 				this.type = 'bottom';
 				this.propList.forEach(item=>{
@@ -325,7 +323,6 @@
 			},
 			async confirmContribute() {
 				this.$refs.contributeIntegralPop.close();
-				
 				this.type = 'center';
 				
 				var gifts = this.propList.filter(item=>{
@@ -352,7 +349,11 @@
 						}, 1500);
 					});
 				} else {
-					this.getIntegral()
+					this.$refs.contributeIntegralPop.close();
+					this.type = 'center';
+					this.$nextTick(() => {
+						this.$refs.showGetTntegralPop.open();
+					});
 				}
 			},
 			closeContributeIntegralPop() {

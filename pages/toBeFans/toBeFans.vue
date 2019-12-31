@@ -1,12 +1,5 @@
 <template>
 	<view class="container">
-		<!-- <view class="header-bg"></view> -->
-		<!-- <image class="header-img" src="../../static/fans-bg.png"></image> -->
-		
-		<!-- <view class="status_bar">
-			<image class="icon-back" @click="returnBack" src="../../static/icon-back.png"></image>
-			<text>{{bandInfo.name}}</text>粉丝团
-		</view> -->
 		<view class="content-wrap">
 			<view class="header-bg"></view>
 			<image class="header-img" src="../../static/fans-bg.png"></image>
@@ -213,11 +206,7 @@
 					url: "/pages/contribute/contribute"
 				})
 			},
-			returnBack() {
-				uni.switchTab({
-					url: "/pages/billboard/billboard"
-				});
-			},
+	
 			joinFansGroup() {
 				if(this.userInfo.id) {
 					this.type = 'center';

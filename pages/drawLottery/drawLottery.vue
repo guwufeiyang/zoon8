@@ -117,7 +117,7 @@
 				var lotteryResult = lotteryRes.data
 				
 				var randomDeg = 0
-				let delta = Math.floor(Math.random() * 20);
+				let delta = Math.floor(Math.random() * 20); // 这个地方为啥不乘45？
 				if(10000 == lotteryResult.score) {
 					randomDeg = 45 * 8 - delta
 				} else if(5 == lotteryResult.score) {
