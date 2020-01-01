@@ -125,17 +125,14 @@
 				<view class="tip-bottom-area">
 					<view class="left-content">
 						可用积分: <text class="val">{{userInfo.amount}}</text> 
-					</view>
-					<view class="btn-wrap">
-						<button @click="getIntegral()" class="get-integral-btn">
+						<text @click="getIntegral()" class="get-integral-btn">
 							获取积分 >
-						</button>
-						<button class="btn-join" @click="confirmContribute()">
-							贡献积分
-							<image src="../../static/icon-contribute-intergral.png" class="icon-integral"></image>
-						</button>
+						</text>
 					</view>
-					
+					<button class="btn-join" @click="confirmContribute()">
+						贡献积分
+						<image src="../../static/icon-contribute-intergral.png" class="icon-integral"></image>
+					</button>
 				</view>
 			</view>
 		</uni-popup>
