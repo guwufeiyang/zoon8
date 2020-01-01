@@ -1,12 +1,9 @@
-import client from "@kqtec/graphql-uni-app-client"
-
-const graphqlClient = new client({ uri: 'https://www.valuations.cn/room8/graphql' });
 var jwt;
 function arequest(url, data, header) {
 	jwt = jwt || uni.getStorageSync("jwt") || "";
 	return new Promise((resolve, reject) => {
-		if(url == "/me2222") {
-			graphqlClient.query(`{
+		if(url == "/graphql") {
+			var query = `{
 	  me(jwt: "` + jwt + `") {
 		id
 		name
@@ -23,9 +20,27 @@ function arequest(url, data, header) {
 			rankValue
 		}
 	  }
-	}`).then(result => {
-				resolve(result);
-			});		
+	}`
+			uni.request({
+				url: 'https://www.valuations.cn/room8/graphql' ,
+				method: data ? "POST" : "GET",
+				data: {
+					query,
+					variables: { },
+				},
+				header: {
+					...header,
+					jwt,
+					'Access-Control-Allow-Origin': '*',
+					'Content-Type': 'application/json; charset=UTF-8'
+				},
+				success: (res) => {
+					resolve(res);
+				},
+				fail: (err) => {
+					reject(err)
+				}
+			});	
 		} else {
 			uni.request({
 				url: 'https://www.valuations.cn/room8' + url,

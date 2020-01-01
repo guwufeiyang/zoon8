@@ -113,11 +113,7 @@
 
 				contributeList: [],
 				type: '',
-				
-				comments: [],
-				commentPage: 0,
-				commentPageSize: 10,
-				
+								
 				commentPage: {
 					offset: 0,
 					limit: 10,
@@ -148,10 +144,8 @@
 		methods: {
 			...mapMutations(['login', 'addToStealedBand', 'setCurrentBand']),
 			async reloadComment() {
-				var commentsRes = await arequest('/loadComment', {
-					id: this.userInfo.band.id,
-					offset: this.commentPage.offset,
-					limit: this.commentPage.limit
+				var commentsRes = await arequest('/loadComment?offset=' + this.commentPage.offset + '&limit=' + this.commentPage.limit, {
+					id: this.bandId
 				}, {})
 				this.commentPage = commentsRes.data;
 			},
@@ -164,15 +158,10 @@
 			async loadData() {
 				this.bandId = this.currentBand
 				if(this.bandId) {
-					var bandsRes = await arequest('/loadBands', null, {})
-					this.bands = bandsRes.data
-					this.bandInfo = this.bands.find((item)=>{
-						return item.id == this.bandId
-					})
+					var bandRes = await arequest('/loadBand?bandId=' + this.bandId, null, {})
+					this.bandInfo = bandRes.data
 
-					// 获取贡献榜
 					this.loadFansRank()
-					
 					this.reloadComment()
 				} else {
 					uni.navigateBack();	
@@ -184,11 +173,8 @@
 				var stealRes = await arequest('/steal', { id: this.bandId }, {});
 				this.stealResult = stealRes.data
 				
-				var bandsRes = await arequest('/loadBands', null, {})
-				var bands = bandsRes.data
-				this.bandInfo = bands.find((item)=>{
-					return item.id == this.bandId
-				});
+				var bandRes = await arequest('/loadBand?bandId=' + this.bandId, null, {})
+				this.bandInfo = bandRes.data
 				
 				this.type = 'center';
 				this.$nextTick(() => {

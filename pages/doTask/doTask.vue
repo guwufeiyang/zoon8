@@ -38,25 +38,25 @@
 					</view>
 				</view>
 				<view class="tab-content-wrap" v-if="currentTab==='achievement' && isShow">
-					<view class="task-list" v-for="(task, index) in tasks" :key="index">
+					<view class="task-list" v-for="(achievement, index) in achievements" :key="index">
 						<view class="task-bg"></view>
 						<view class="task-content">
 							<view class="task-l">
-								<image class="img" :src="task.image"></image>
+								<image class="img" :src="achievement.image"></image>
 								<view class="task-con">
-									<view class="task-name">{{task.name}}</view>
-									<view class="task-reward">{{task.desc}}</view>
+									<view class="task-name">{{achievement.name}}</view>
+									<view class="task-reward">{{achievement.desc}}</view>
 								</view>
 							</view>
 							<view class="task-r">
 								<!--
-								<image :src=" task.count >= task.threshold ? '../../static/task-btn-disabled.png' : '../../static/task-btn.png'"
+								<image :src=" achievement.count >= achievement.threshold ? '../../static/task-btn-disabled.png' : '../../static/task-btn.png'"
 								 class="task-btn" @tap="goFinish(task)"></image>
-								<view class="task-txt" >{{task.count >= task.threshold ? '已完成' : '去完成'}}</view>
+								<view class="task-txt" >{{achievement.count >= achievement.threshold ? '已完成' : '去完成'}}</view>
 								-->
 								<view class="has-finish has-finish-no-btn">
 									已完成
-									<text class="progress">{{task.count > task.threshold ? task.threshold : task.count}}/{{task.threshold}}</text>
+									<text class="progress">{{achievement.count > achievement.threshold ? achievement.threshold : achievement.count}}/{{achievement.threshold}}</text>
 								</view>
 							</view>
 						</view>
@@ -96,9 +96,9 @@
 			returnBack() {
 				uni.navigateBack();	
 			},
-			tabSwitch(tab) {
+			async tabSwitch(tab) {
+				this.isShow = false
 				this.currentTab = tab
-
 				this.loadTabData()
 			},
 			async reloadMe() {
@@ -123,11 +123,17 @@
 			async loadTabData() {
 				await this.reloadMe()
 				
-				if(this.currentTab == 'dailyTask' ||　this.currentTab == 'achievement') {
+				if(this.currentTab == 'dailyTask') {
 					var loadRes = await arequest('/loadTaskProcessRate?type='+this.currentTab, {}, {})
 					this.tasks = loadRes.data
 					this.isShow = true
 				}
+				if(this.currentTab == 'achievement') {
+					var loadRes = await arequest('/loadTaskProcessRate?type='+this.currentTab, {}, {})
+					this.achievements = loadRes.data
+					this.isShow = true
+				}
+				
 			}
 		},
 		onShow() {

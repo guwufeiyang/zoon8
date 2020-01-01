@@ -68,7 +68,8 @@
 					},
 					noMoreSize: 5,
 					empty: {
-						tip: '暂无相关数据'
+						use: false,
+						// tip: '暂无相关数据'
 					}
 				}
 			};

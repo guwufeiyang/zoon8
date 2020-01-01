@@ -370,14 +370,10 @@
 				item.selected = !item.selected;
 			},
 			gotoContribute() {
-				if(!this.userInfo.bindedBand) {
-					console.log('')
-				} else {
-					this.setCurrentBand(this.userInfo.bindedBand);
-					uni.navigateTo({
-						url: "/pages/contribute/contribute"
-					})
-				}
+				this.setCurrentBand(this.userInfo.bindedBand);
+				uni.navigateTo({
+					url: "/pages/contribute/contribute"
+				})
 			},
 			doTask() {
 				uni.navigateTo({
