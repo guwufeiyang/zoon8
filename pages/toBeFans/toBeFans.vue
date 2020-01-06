@@ -25,7 +25,7 @@
 						:disabled="stealedBand.includes(bandId) || (bandInfo.totalRank && bandInfo.totalRank.amount == 0)" 
 						:class="{ 'disabled': stealedBand.includes(bandId) || (bandInfo.totalRank && bandInfo.totalRank.amount == 0) }"
 						@click="steal()">
-						{{stealedBand.includes(bandId) || (bandInfo.totalRank && bandInfo.totalRank.amount == 0) ? '已偷取':'偷积分' }}
+						{{stealedBand.includes(bandId) ? '已偷取' : (bandInfo.totalRank && bandInfo.totalRank.amount == 0) ? "无积分" : '偷积分' }}
 						<image src="../../static/icon-contribute-intergral.png" class="icon-integral"></image>
 					</button>
 				</view>
@@ -164,14 +164,19 @@
 					this.loadFansRank()
 					this.reloadComment()
 				} else {
-					uni.navigateBack();	
+					this.$nextTick(() => {
+						console.log("bandId is not supplied")
+						uni.switchTab({
+							url: "../billboard/billboard"
+						})
+					})
 				}
 			},
 			async steal(){
 				this.addToStealedBand(this.bandId)
 				
 				var stealRes = await arequest('/steal', { id: this.bandId }, {});
-				this.stealResult = stealRes.data
+				this.stealResult = stealRes.data.score
 				
 				var bandRes = await arequest('/loadBand?bandId=' + this.bandId, null, {})
 				this.bandInfo = bandRes.data

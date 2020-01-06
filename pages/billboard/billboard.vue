@@ -118,10 +118,16 @@
 					this.timer = 0;
 				}, 500);
 				
-				this.setCurrentBand(item.id);
-				uni.navigateTo({
-					url: "../toBeFans/toBeFans"
-				});
+				if(this.userInfo.bindedBand == item.id) {
+					uni.switchTab({
+						url: "/pages/fans/fans"
+					});
+				} else {
+					this.setCurrentBand(item.id);
+					uni.navigateTo({
+						url: "../toBeFans/toBeFans"
+					});
+				}
 			},
 			jumpToWelfare() {
 				uni.navigateTo({

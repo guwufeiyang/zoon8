@@ -339,6 +339,8 @@
 				var contributeResult = contributeRes.data
 				if(contributeResult == 0) { // success
 					await this.reloadMe()
+					this.bandInfo = this.userInfo.band || {}
+					
 					this.reloadFansRank()
 					
 					this.$nextTick(() => {

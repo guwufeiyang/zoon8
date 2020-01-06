@@ -25,10 +25,8 @@
 			this.loadCommon()
 		},
 		onShow: function() {
-			this.loadCommon()
 		},
 		onHide: function() {
-			// console.log('App Hide')
 		}
 	}
 </script>

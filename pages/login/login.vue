@@ -30,11 +30,13 @@
 			async doLogin(){
 				var getCodeRes = await arequest('/getWechatCodeUrl', null, {})
 				var getCodeUrl = getCodeRes.data
-				// if(plus && plus.runtime) {
-				// 	plus.runtime.openURL(getCodeUrl);
-				// } else {
-					window.location.href = getCodeUrl
-				// }
+				if(getCodeUrl) {
+					// if(plus && plus.runtime) {
+					// 	plus.runtime.openURL(getCodeUrl);
+					// } else {
+						window.location.href = getCodeUrl
+					// }
+				}
 			}
 		}
 	}
