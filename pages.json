@@ -67,6 +67,14 @@
 				}
 			}
 		}
+        ,{
+            "path" : "pages/search/search",
+            "style" : {
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "搜索",
+				"navigationBarBackgroundColor": "#FA6889"
+			}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

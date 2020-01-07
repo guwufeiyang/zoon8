@@ -4,11 +4,23 @@
 		
 		<view class="content-wrap">
 			<image class="header-bg" src="../../static/header-bg.png"></image>
+			
+			<view class="search-wrap">
+				<view class="search-bg"></view>
+				<view class="search-cont">
+					<image class="icon-search" src="../../static/icon-search.png"></image>
+					<input class="uni-input" placeholder="乐队名称" @focus="goToSearchPage"/>
+				</view>
+			</view>
 			<!-- 头部轮播 -->
 			<view class="carousel-section">
 				<image class="carousel-shadow" src="../../static/banner-bg.png"></image>
 				<swiper class="carousel" circular @change="swiperChange" :autoplay="true" >
-					<swiper-item v-for="(img, index) in carouselList" :key="index" class="carousel-item" @click="navToDetailPage({title: '轮播广告'})">
+					<swiper-item 
+						v-for="(img, index) in carouselList" 
+						:key="index" 
+						class="carousel-item"
+						@click="navToDetailPage({title: '轮播广告'})">
 						<image :src="img" />
 					</swiper-item>
 				</swiper>
@@ -108,6 +120,11 @@
 			swiperChange(e) {
 				const index = e.detail.current;
 				this.swiperCurrent = index;
+			},
+			goToSearchPage() {
+				uni.navigateTo({
+					url: "../search/search"
+				});
 			},
 			navToFansPage(item) {
 				// 防止高频点击
