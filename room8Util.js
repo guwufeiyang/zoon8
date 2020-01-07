@@ -63,7 +63,8 @@ function arequest(url, data, header) {
 						)) {
 						uni.removeStorageSync("jwt")
 						uni.removeStorageSync("vuex")
-						uni.navigateTo({
+						
+						uni.redirectTo({
 							url: "/pages/login/login"
 						})
 					}

@@ -31,7 +31,7 @@
 								</view>
 								<view class="has-finish">
 									已完成
-									<text class="progress">{{task.finished == 1 ? task.threshold : task.count}}/{{task.threshold}}</text>
+									<text class="progress">{{(task.finished == 1 || task.count > task.threshold) ? task.threshold : task.count}}/{{task.threshold}}</text>
 								</view>
 							</view>
 						</view>
