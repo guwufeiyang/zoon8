@@ -1,6 +1,5 @@
-var jwt;
 function arequest(url, data, header) {
-	jwt = jwt || uni.getStorageSync("jwt") || "";
+	var jwt = uni.getStorageSync("jwt") || "";
 	return new Promise((resolve, reject) => {
 		if(url == "/graphql") {
 			var query = `{

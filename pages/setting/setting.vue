@@ -38,18 +38,15 @@
 		},
 		methods: {
 			...mapMutations(['login']),
-			async reloadUserInfo() {
-				var meRes = await arequest('/me', null, {})
-				this.login(meRes.data.me || meRes.data)
-			},
 			async unbindBand(){
 				await arequest('/unbindBand', {}, {})
-				await this.reloadUserInfo()
+				var meRes = await arequest('/me', null, {})
+				this.login(meRes.data.me || meRes.data)
 				uni.switchTab({
 					url: "/pages/billboard/billboard"
 				});
 			},
-			logout() {
+			async logout() {
 				this.login({})
 				uni.switchTab({
 					url: "/pages/person/person"

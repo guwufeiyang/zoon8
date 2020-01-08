@@ -106,7 +106,6 @@
 			}
 		},
 		onShow() {
-			console.log("onshow")
 			this.reloadUserInfo()
 
 			this.orderedGains = this.gains
@@ -122,7 +121,6 @@
 			}
 		},
 		onLoad(option) {
-			console.log("onload")
 			this.loadData(option);
 		}
 	}
