@@ -1,9 +1,25 @@
+import Socket from 'simple-websocket'
+
+var socket
+
+function startWS() {
+	var jwt = uni.getStorageSync("jwt") || "";
+	socket = socket || new Socket('wss://www.valuations.cn/room8/websocket?jwt=' + jwt)
+	socket.on('connect', function() {
+		socket.send('sup!')
+	})
+	socket.on('data', function(data) {
+		console.log('got message: ' + data)
+	})
+}
+
 function arequest(url, data, header) {
 	var jwt = uni.getStorageSync("jwt") || "";
 	return new Promise((resolve, reject) => {
-		if(url == "/graphql") {
+		if (url == "/graphql") {
 			var query = `{
-	  me(jwt: "` + jwt + `") {
+	  me(jwt: "` + jwt +
+				`") {
 		id
 		name
 		channel
@@ -21,11 +37,11 @@ function arequest(url, data, header) {
 	  }
 	}`
 			uni.request({
-				url: 'https://www.valuations.cn/room8/graphql' ,
+				url: 'https://www.valuations.cn/room8/graphql',
 				method: data ? "POST" : "GET",
 				data: {
 					query,
-					variables: { },
+					variables: {},
 				},
 				header: {
 					...header,
@@ -39,7 +55,7 @@ function arequest(url, data, header) {
 				fail: (err) => {
 					reject(err)
 				}
-			});	
+			});
 		} else {
 			uni.request({
 				url: 'https://www.valuations.cn/room8' + url,
@@ -55,14 +71,20 @@ function arequest(url, data, header) {
 					if ('/wechatLogin' == url) {
 						uni.setStorageSync("jwt", res.data.token)
 					}
-			
+
+					if ('/wechatLogin' == url || '/me' == url) {
+						if (res.data.id) {
+							startWS()
+						}
+					}
+
 					if (res && res.data && res.data.message && (
-							res.data.message.indexOf("JWT expired") !== -1 || 
+							res.data.message.indexOf("JWT expired") !== -1 ||
 							res.data.message.indexOf("authentication required") !== -1
 						)) {
 						uni.removeStorageSync("jwt")
 						uni.removeStorageSync("vuex")
-						
+
 						uni.redirectTo({
 							url: "/pages/login/login"
 						})
@@ -76,6 +98,9 @@ function arequest(url, data, header) {
 		}
 	})
 }
+
+
 export {
-	arequest
+	arequest,
+	startWS
 }
