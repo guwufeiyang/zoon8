@@ -182,8 +182,8 @@
 		vertical-align: -4rpx;
 	}
 }
-
-/* 提示窗口 */
+}
+	
 /*  弹出层 */
 .popup {
 	position: fixed;
@@ -192,7 +192,7 @@
 	right: 0;
 	bottom: 0;
 	z-index: 99;
-	.mask{
+	.mask {
 		position: fixed;
 		top: 0;
 		width: 100%;
@@ -210,13 +210,41 @@
 		height: 736upx;
 		z-index: 2;
 		border-radius: 10upx;
-		.lottery-model-bg {
+		@-webkit-keyframes spin {
+			from {
+				-webkit-transform: rotate(0deg);
+			}
+			to {
+				-webkit-transform: rotate(360deg);
+			}
+		}
+		@keyframes spin {
+			from {
+				transform: rotate(0deg);
+			}
+			to {
+				transform: rotate(360deg);
+			}
+		}
+		.lottery-model-light {
 			position: absolute;
 			left: 0;
 			top: 0;
+			z-index: 100;
+			width: 726rpx;
+			height: 726rpx;
+			animation: spin 4s linear infinite;
+		}
+		.lottery-model-bg {
+			position: absolute;
+			left: 46rpx;
+			top: 160rpx;
 			z-index: 101;
-			width: 726upx;
-			height: 612upx;
+			width: 630rpx;
+			height: 404rpx;
+		}
+		.lottery-model-bg-gray {
+			-webkit-filter: grayscale(1);
 		}
 		.icon-close {
 			position: absolute;
@@ -230,7 +258,7 @@
 		.lottery-content {
 			position: absolute;
 			left: 122rpx;
-			top: 392rpx;
+			top: 350rpx;
 			z-index: 102;
 			width: 480rpx;
 			height: 224rpx;
@@ -250,7 +278,6 @@
 			}
 		}
 	}
-	
 }
-	
+		
 

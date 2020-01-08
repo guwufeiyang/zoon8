@@ -151,8 +151,7 @@
 				uni.navigateTo({
 					url: "../welfare/welfare"
 				});
-			},
-			
+			}
 		},
 		onShow() {
 			this.loadData();

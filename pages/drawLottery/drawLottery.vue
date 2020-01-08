@@ -52,8 +52,9 @@
 		<view class="popup lottery-pop" v-if="showTotteryPop" @click.stop.prevent = "stopPenetrate">
 			<view class="mask"></view>
 			<view class="uni-lottery-pop">
+				<image v-if="lotteryType=='success'" class="lottery-model-light" src="../../static/light3.png"></image>
 				<image v-if="lotteryType=='success'" src="../../static/lottery-model-bg.png" class="lottery-model-bg"></image>
-				<image v-if="lotteryType=='fail'" src="../../static/lottery-model-bg1.png" class="lottery-model-bg"></image>
+				<image v-if="lotteryType=='fail'" src="../../static/lottery-model-bg1.png" class="lottery-model-bg lottery-model-bg-gray"></image>
 				<image class="icon-close" @click="closeLotteryPop()" src="../../static/close.png"></image>
 				<view class="lottery-content">
 					<view class="title">{{lotteryTip}}</view>

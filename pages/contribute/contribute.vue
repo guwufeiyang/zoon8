@@ -17,7 +17,11 @@
 			<view class="section contribute-list" v-if="rank.length > 0">
 				<view class="contribute-item" v-for="item in rank" :key="item.id">
 					<view class="item-l">
-						<text class="rank">{{item.totalRank.rankValue }}</text>
+						<image class="rank-img" v-if="item.totalRank.rankValue === 1 " src="../../static/icon-rank-1.png"></image>
+						<image class="rank-img" v-if="item.totalRank.rankValue === 2 " src="../../static/icon-rank-2.png"></image>
+						<image class="rank-img" v-if="item.totalRank.rankValue === 3 " src="../../static/icon-rank-3.png"></image>
+						<text class="rank" v-if="item.totalRank.rankValue > 3 ">{{item.totalRank.rankValue}}</text>
+						
 						<image class="img" :src="item.avatar"></image>
 						<view class="name">{{item.name}}</view>
 					</view>
@@ -122,15 +126,17 @@
 			flex: 2;
 			display: flex;
 			align-items: center;
-
+			.rank-img {
+				width: 38rpx;
+				height: 55rpx;
+			}
 			.rank {
 				display: inline-block;
 				line-height: 56upx;
-				width: 36upx;
+				width: 38upx;
 				height: 56upx;
 				text-align: center;
 			}
-
 			.img {
 				width: 80upx;
 				height: 80upx;
