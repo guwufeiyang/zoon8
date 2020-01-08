@@ -69,23 +69,40 @@
 							敬请期待
 						</view>
 					</view>
-					
 				</view>
 			</view>
 		</view>
+		
+		<!--偷积分弹窗  -->
+		<uni-popup ref="stealIntegralPop" :type="type" :mask-click="false">
+			<view class="uni-tip uni-confirm-contribute-intergral">
+				<image :class="stealResult == 0 ? 'img-fail' : 'img' "
+					:src="stealResult == 0 ? '../../static/steal-integral-fail.png' : '../../static/steal-integral.png'" 
+				>
+				</image>
+				<view :class="stealResult==0 ? 'integral-fail' : 'integral'">
+					stealResult == 0 ? '领取失败' : '偷取{{stealResult}}积分'
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 	import { mapState, mapMutations } from 'vuex'
 	import { arequest } from '../../room8Util.js'
-
+	import uniPopup from '@/components/uni-popup.vue'
+	
 	export default {
+		components: {
+			uniPopup
+		},
 		data() {
 			return {
 				currentTab: 'dailyTask',
 				tasks: [],
-				isShow: false
+				isShow: false,
+				stealResult: ''
 			};
 		},
 		computed: {
@@ -93,9 +110,6 @@
 		},
 		methods: {
 			...mapMutations(['login']),
-			returnBack() {
-				uni.navigateBack();	
-			},
 			async tabSwitch(tab) {
 				this.isShow = false
 				this.currentTab = tab
@@ -111,6 +125,18 @@
 				// })
 			},
 			async manualConfirm(task){
+				// 领取积分弹窗展示
+				this.stealResult = task.score;
+				this.type = 'center';
+				this.$nextTick(() => {
+					setTimeout(() => {
+						this.$refs.stealIntegralPop.open()
+					}, 0);
+					setTimeout( ()=> {
+						this.$refs.stealIntegralPop.close()
+					}, 1500);
+				});
+				
 				if(task.count < task.threshold) {
 					// uni.switchTab({
 					// 	url: task.gotoUrl
@@ -122,7 +148,6 @@
 			},
 			async loadTabData() {
 				await this.reloadMe()
-				
 				if(this.currentTab == 'dailyTask') {
 					var loadRes = await arequest('/loadTaskProcessRate?type='+this.currentTab, {}, {})
 					this.tasks = loadRes.data
@@ -133,7 +158,6 @@
 					this.achievements = loadRes.data
 					this.isShow = true
 				}
-				
 			}
 		},
 		onShow() {

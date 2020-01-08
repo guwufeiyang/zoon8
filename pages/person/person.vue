@@ -11,11 +11,14 @@
 					<view class="userinfo-r">
 						<view class="userinfo-top">
 							<view class="login-name" v-if="!userInfo.id" @tap="gotoLogin">点我登录</view>
-							<view class="login-name" v-if="userInfo.id">{{userInfo.name}}</view>
-							<view class="setting-area" @click="toSetting">
-								{{userInfo.band && userInfo.band.name}}
-								<image src="../../static/icon-setting.png" class="icon-settings"></image>
+							<view class="login-name" v-if="userInfo.id">
+								{{userInfo.name}}
+								<text class="setting-area" {{userInfo.band && userInfo.band.name}}></text>
 							</view>
+							
+				
+							<image @click="toSetting" src="../../static/icon-setting.png" class="icon-settings"></image>
+							
 						</view>
 						<view class="rank-info">
 							<view class="rank-info-item">
@@ -36,8 +39,11 @@
 			</view>
 
 			<view class="section-list">
-				<view class="section notLogin-item" :class="{'disabled': item.sortHint == 0}" v-for="(item, index) in orderedGains"
-				 :key="index">
+				<view 
+					class="section notLogin-item" 
+					:class="{'disabled': item.sortHint == 0}" 
+					v-for="(item, index) in orderedGains"
+					:key="index">
 					<image :src="item.image" class="img"></image>
 					<view class="section-txt">
 						<view class="info-label">{{item.name}}</view>

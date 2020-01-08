@@ -91,14 +91,13 @@
 		<!--偷积分弹窗  -->
 		<uni-popup ref="stealIntegralPop" :type="type" :mask-click="false">
 			<view class="uni-tip uni-confirm-contribute-intergral">
-				<image  :class="stealResult == 0 ? 'img-fail' : 'img' "
+				<image :class="stealResult == 0 ? 'img-fail' : 'img' "
 					:src="stealResult == 0 ? '../../static/steal-integral-fail.png' : '../../static/steal-integral.png'" 
 				>
 				</image>
 				<view :class="stealResult==0 ? 'integral-fail' : 'integral'">
 					stealResult == 0 ? '领取失败' : '偷取{{stealResult}}积分'
 				</view>
-				
 			</view>
 		</uni-popup>
 		
@@ -109,12 +108,9 @@
 	import { mapState, mapMutations } from 'vuex'
 	import moment from "moment"
 	import { arequest } from '../../room8Util.js'
-
-	import uniStatusBar from '@/components/uni-status-bar.vue'
 	import uniPopup from '@/components/uni-popup.vue'
 	export default {
 		components: {
-			uniStatusBar,
 			uniPopup
 		},
 		data() {
