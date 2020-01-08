@@ -9,8 +9,14 @@
 				<view class="userinfo-box-top">
 					<image class="portrait" v-bind:src='userInfo.avatar || "/static/missing-face.png"'></image>
 					<view class="userinfo-r">
-						<view class="login-name" v-if="!userInfo.id" @tap="gotoLogin">点我登录</view>
-						<view class="login-name" v-if="userInfo.id">{{userInfo.name}}</view>
+						<view class="userinfo-top">
+							<view class="login-name" v-if="!userInfo.id" @tap="gotoLogin">点我登录</view>
+							<view class="login-name" v-if="userInfo.id">{{userInfo.name}}</view>
+							<view class="setting-area" @click="toSetting">
+								新裤子乐队
+								<image src="../../static/icon-setting.png" class="icon-settings"></image>
+							</view>
+						</view>
 						<view class="rank-info">
 							<view class="rank-info-item">
 								<view class="info-val">{{userInfo.amount == null ? '--' : userInfo.amount}}</view>
@@ -66,8 +72,13 @@
 		methods: {
 			...mapMutations(['login']),
 			gotoLogin() {
-				uni.redirectTo({
+				uni.navigateTo({
 					url: '../login/login',
+				});
+			},
+			toSetting() {
+				uni.navigateTo({
+					url: '../setting/setting',
 				});
 			},
 			async loadData(option) {
