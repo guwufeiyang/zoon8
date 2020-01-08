@@ -66,7 +66,7 @@
 		methods: {
 			...mapMutations(['login']),
 			gotoLogin() {
-				uni.navigateTo({
+				uni.redirectTo({
 					url: '../login/login',
 				});
 			},

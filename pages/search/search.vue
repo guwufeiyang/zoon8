@@ -4,8 +4,8 @@
 			<image class="icon-search" src="../../static/icon-search1.png"></image>
 			<input v-model="keyword" class="uni-input" placeholder="" focus />
 		</view>
-		
-		<view class="section top-others" v-if="searchList">
+
+		<view class="section top-others" v-if="searchList.length > 0">
 			<view class="billboard-list-others">
 				<view class="billboard-item" v-for="(item, index) in searchList" :key="index">
 					<view class="billboard-item-l">
@@ -26,97 +26,112 @@
 </template>
 
 <script>
+	import { mapState, mapMutations } from 'vuex'
 	import { arequest } from '../../room8Util.js'
+	import _ from 'lodash'
+
 	export default {
 		data() {
 			return {
-				billboardList: [ ],
 				searchList: [],
 				keyword: ''
 			};
 		},
 		watch: {
-			keyword() {
-				if(this.timer) {
-					clearTimeout(this.timer);
-				}
-				if(!this.keyword) {
+			keyword(newValue, oldValue) {
+				if (!this.keyword) {
 					this.searchList = [];
 					return;
 				}
-				this.timer = setTimeout(()=> {
-					const result = [];
-					this.billboardList.forEach((item)=> {
-						if(item.name.indexOf(this.keyword) > -1) {
-							result.push(item)
-						}
-					})
-					this.searchList = result;
-					console.log(result);
-				}, 100);
+				this.searchBand()
+				// this.debouncedSearchBand()
 			}
 		},
-		methods: { 
-			async loadData() {
-				// 获取榜单
-				let bandsRes = await arequest('/loadBands', null, {})
-				this.billboardList = bandsRes.data;	
-			}
+		computed: {
+			...mapState(['userInfo'])
 		},
-		onShow() {
-			this.loadData();
-		}
+		created() {
+			this.debouncedSearchBand = _.debounce(this.searchBand, 200)
+		},
+		methods: {
+			...mapMutations(['setCurrentBand']),
+			async searchBand() {
+				var res = await arequest('/searchBand?band=' + this.keyword, null, {})
+				this.$nextTick(() => {
+					this.searchList = res.data || []
+				});
+			},
+			navToFansPage(item) {
+				if(this.userInfo.bindedBand == item.id) {
+					uni.switchTab({
+						url: "/pages/fans/fans"
+					});
+				} else {
+					this.setCurrentBand(item.id);
+					uni.navigateTo({
+						url: "../toBeFans/toBeFans"
+					});
+				}
+			},
+		},
+		onShow() {}
 	}
 </script>
 
 <style lang="less">
-.search-cont {
-	width: 690rpx;
-	height: 72rpx;
-	background: #fff;
-	margin: 20rpx auto;
-	border-radius: 10upx;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-}
-.icon-search {
-	display: inline-block;
-	width: 32rpx;
-	height: 32rpx;
-	margin: 0 12rpx 0 24rpx;
-}
-.uni-input {
-	flex: 1;
-	height: 72rpx;
-	color: #414348;
-	font-size: 16px;
-	.uni-input-placeholder {
-		color: #414348;
+	.search-cont {
+		width: 690rpx;
+		height: 72rpx;
+		background: #fff;
+		margin: 20rpx auto;
+		border-radius: 10upx;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 	}
-}
-.btn-pick {
-	width: 120upx;
-	height: 50upx;
-	background: linear-gradient(127deg,rgba(250,114,104,1) 0%,rgba(117,96,249,1) 100%);
-	box-shadow: 0upx 4upx 12upx 0px rgba(184,105,176,0.54);
-	border-radius: 30upx;
-	font-size: 12px;
-	color: #fff;
-	line-height: 50upx;
-	text-align: center;
-}
-.billboard-list-others {
-	.billboard-item {
-		.img {
-			width: 80upx;
-			height: 80upx;
-			margin: 0 22upx 0 0;
-			border-radius: 50%;
+
+	.icon-search {
+		display: inline-block;
+		width: 32rpx;
+		height: 32rpx;
+		margin: 0 12rpx 0 24rpx;
+	}
+
+	.uni-input {
+		flex: 1;
+		height: 72rpx;
+		color: #414348;
+		font-size: 16px;
+
+		.uni-input-placeholder {
+			color: #414348;
 		}
 	}
-}
-.billboard-list-others {
-	padding: 0;
-}
+
+	.btn-pick {
+		width: 120upx;
+		height: 50upx;
+		background: linear-gradient(127deg, rgba(250, 114, 104, 1) 0%, rgba(117, 96, 249, 1) 100%);
+		box-shadow: 0upx 4upx 12upx 0px rgba(184, 105, 176, 0.54);
+		border-radius: 30upx;
+		font-size: 12px;
+		color: #fff;
+		line-height: 50upx;
+		text-align: center;
+	}
+
+	.billboard-list-others {
+		.billboard-item {
+			.img {
+				width: 80upx;
+				height: 80upx;
+				margin: 0 22upx 0 0;
+				border-radius: 50%;
+			}
+		}
+	}
+
+	.billboard-list-others {
+		padding: 0;
+	}
 </style>

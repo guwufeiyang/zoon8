@@ -285,7 +285,7 @@
 				})
 			},
 			toLogin() {
-				uni.navigateTo({
+				uni.redirectTo({
 					url: "../login/login"
 				})
 			},
