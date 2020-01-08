@@ -84,6 +84,7 @@
 		height: 72rpx;
 		background: #fff;
 		margin: 20rpx auto;
+		box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.04);
 		border-radius: 10upx;
 		display: flex;
 		flex-direction: row;

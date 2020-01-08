@@ -19,7 +19,11 @@
 					</view>
 				</view>	
 				<view class="info-r">
-					<button class="btn-join" v-if="!(userInfo.id && userInfo.band && userInfo.band.id)" @click="joinFansGroup()">加入粉丝团</button>
+					<button class="btn-join" 
+						v-if="!(userInfo.id && userInfo.band && userInfo.band.id)" 
+						@click="joinFansGroup()">
+						加入粉丝团
+					</button>
 					<button class="btn-join" 
 						v-if="userInfo.id && userInfo.band && userInfo.band.id != bandId" 
 						:disabled="stealedBand.includes(bandId) || (bandInfo.totalRank && bandInfo.totalRank.amount == 0)" 
@@ -47,7 +51,10 @@
 			
 			<view class="section">
 				<view class="message-list" v-if="commentPage.list.length>0" >
-					<view class="message-item-wrap" :class="{'active': item.id == item.bandId}" v-for="(item, index) in commentPage.list" :key="index" >
+					<view class="message-item-wrap" 
+						:class="{'active': item.id == item.bandId}" 
+						v-for="(item, index) in commentPage.list" 
+						:key="index" >
 						<image class="portrait-bg" src="../../static/person-bg-xs.png"></image>
 						<view class="message-item" >
 							<image class="img" :src="item.fanAvatar"></image>
@@ -84,10 +91,14 @@
 		<!--偷积分弹窗  -->
 		<uni-popup ref="stealIntegralPop" :type="type" :mask-click="false">
 			<view class="uni-tip uni-confirm-contribute-intergral">
-				<image src="../../static/steal-integral.png" class="img"></image>
-				<view class="integral">
-					偷取{{stealResult}}积分
+				<image  :class="stealResult == 0 ? 'img-fail' : 'img' "
+					:src="stealResult == 0 ? '../../static/steal-integral-fail.png' : '../../static/steal-integral.png'" 
+				>
+				</image>
+				<view :class="stealResult == 0 ? 'integral-fail' : 'integral' ">
+					{{ stealResult == 0 ? '领取失败' : '偷取{{stealResult}}积分'}}
 				</view>
+				
 			</view>
 		</uni-popup>
 		

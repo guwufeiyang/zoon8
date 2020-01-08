@@ -1,12 +1,5 @@
 <template>
 	<view class="container">
-		<!-- <view v-if="userInfo.bindedBand">
-			<view class="header-bg"></view>
-			<image class="header-img" src="../../static/fans-bg.png"></image>
-		</view>
-		<view class="status_bar" :style="{color: statusBarColor}">
-			<text v-if="userInfo.bindedBand">{{bandInfo.name}}</text>粉丝团
-		</view> -->
 		
 		<view class="content-wrap" v-if="!userInfo.bindedBand">
 			<view class="not-fans-wrap">
