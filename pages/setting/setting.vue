@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="section setting-box">
-			<view class="setting-item" >
+			<view class="setting-item" @tap="unbindBand()" v-if="userInfo.bindedBand">
 				<view class="setting-left">
 					<image src="../../static/icon-setting.png" class="setting-icon"></image>
 					退出粉丝团
@@ -16,18 +16,42 @@
 				<image class="icon-arrow" src="../../static/icon-arrow-right.png"></image>
 			</view>
 		</view>
-		<view class="btn-sign-out">
+		<view class="btn-sign-out" @tap="logout()" v-if="userInfo.id">
 			退出登录
 		</view>
 	</view>
 </template>
 
 <script>
+	import { mapState, mapMutations } from 'vuex'
+	import { arequest } from '../../room8Util.js'
+	import _ from 'lodash'
+	
 	export default {
 		data() {
 			return {
 				
 			};
+		},
+		computed: {
+			...mapState(['userInfo'])
+		},
+		methods: {
+			...mapMutations(['login']),
+			async unbindBand(){
+				await arequest('/unbindBand', {}, {})
+				var meRes = await arequest('/me', null, {})
+				this.login(meRes.data.me || meRes.data)
+				uni.switchTab({
+					url: "/pages/billboard/billboard"
+				});
+			},
+			async logout() {
+				this.login({})
+				uni.switchTab({
+					url: "/pages/person/person"
+				});
+			}
 		}
 	}
 </script>

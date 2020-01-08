@@ -144,8 +144,8 @@
 		<uni-popup ref="showSendCommentPop" :type="type" :mask-click="false">
 			<view class="uni-tip uni-tip-comment">
 				<view class="btn-area">
-					<button class="btn" @click="cancelSendMsg()">取消</button>
-					<button class="btn" @click="confirmSendMsg()">确定</button>
+					<button class="btn" @tap="cancelSendMsg()">取消</button>
+					<button class="btn" @tap="confirmSendMsg()">确定</button>
 				</view>
 				<textarea 
 					class="textarea" 
