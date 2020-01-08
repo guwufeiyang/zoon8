@@ -95,8 +95,8 @@
 					:src="stealResult == 0 ? '../../static/steal-integral-fail.png' : '../../static/steal-integral.png'" 
 				>
 				</image>
-				<view :class="stealResult == 0 ? 'integral-fail' : 'integral' ">
-					{{ stealResult == 0 ? '领取失败' : '偷取{{stealResult}}积分'}}
+				<view :class="stealResult==0 ? 'integral-fail' : 'integral'">
+					stealResult == 0 ? '领取失败' : '偷取{{stealResult}}积分'
 				</view>
 				
 			</view>
