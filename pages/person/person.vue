@@ -115,7 +115,7 @@
 			this.reloadUserInfo()
 
 			this.orderedGains = this.gains
-			if(this.userInfo.achievements) {
+			if(this.userInfo.achievements && this.userInfo.achievements.length > 0) {
 				this.orderedGains = _.map(this.gains, gain=>{
 					return {
 						...gain,

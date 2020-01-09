@@ -39,6 +39,8 @@ const store = new Vuex.Store({
 				state.stealedBand = []
 				state.userInfo = {
 					name: "",
+					roles: [],
+					achievements: [],
 					band: {
 					}
 				}
