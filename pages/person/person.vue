@@ -15,7 +15,6 @@
 								{{userInfo.name}}
 								<text class="setting-area"> {{userInfo.band && userInfo.band.name}} </text>
 							</view>
-				
 							<image @click="toSetting" src="../../static/icon-setting.png" class="icon-settings"></image>
 						</view>
 						<view class="rank-info">
