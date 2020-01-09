@@ -85,7 +85,7 @@
 	margin-top: 20rpx;
 }
 .setting-item {
-	height: 88rpx;
+	height: 100rpx;
 	padding: 0 32rpx;
 	display: flex;
 	justify-content: space-between;

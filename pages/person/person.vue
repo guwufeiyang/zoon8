@@ -13,7 +13,10 @@
 							<view class="login-name" v-if="!userInfo.id" @tap="gotoLogin">点我登录</view>
 							<view class="login-name" v-if="userInfo.id">
 								{{userInfo.name}}
-								<text class="setting-area"> {{userInfo.band && userInfo.band.name}} </text>
+								<text class="setting-area">
+									<image src="../../static/icon-music1.png" class="icon-music"></image>
+									{{userInfo.band && userInfo.band.name}} 
+								</text>
 							</view>
 							<image @click="toSetting" src="../../static/icon-setting.png" class="icon-settings"></image>
 						</view>

@@ -14,7 +14,8 @@
 			</view>
 			<view class="turntable-bottom">
 				<view class="tip">
-					现有积分:<text class="red-txt">{{ userInfo.amount }}</text>分
+					现有积分: 
+					<text class="red-txt">{{ userInfo.amount }}</text>分
 					今日还可免费抽奖
 					<text class="red-txt">{{ userInfo.lottery.lotteryFreeCount - userInfo.lottery.count >= 0 ? userInfo.lottery.lotteryFreeCount - userInfo.lottery.count : 0 }}</text>次
 				</view>
