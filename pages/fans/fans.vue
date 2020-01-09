@@ -85,7 +85,6 @@
 					<text class="empty-txt">暂无数据</text>
 				</view>
 			</view>
-			
 		</view>
 		
 		<!--确认加入弹窗  -->
@@ -157,7 +156,6 @@
 				/>
 				<!-- <textarea 
 					class="textarea" 
-					
 					v-model="commentContent" 
 					placeholder="写入留言,最多30个字" 
 					placeholder-class="graywords"

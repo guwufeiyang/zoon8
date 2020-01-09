@@ -96,7 +96,7 @@
 				>
 				</image>
 				<view :class="stealResult==0 ? 'integral-fail' : 'integral'">
-					{{stealResult == 0 ? '领取失败' : '偷取{{stealResult}}积分'}}
+					stealResult == 0 ? '领取失败' : '偷取{{stealResult}}积分'
 				</view>
 			</view>
 		</uni-popup>

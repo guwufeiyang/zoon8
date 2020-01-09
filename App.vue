@@ -21,7 +21,6 @@
 			// #ifdef APP-PLUS
 				plus.screen.lockOrientation('portrait-primary');
 			// #endif
-
 			this.loadCommon()
 		},
 		onShow: function() {

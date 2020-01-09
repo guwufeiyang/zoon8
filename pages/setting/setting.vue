@@ -19,6 +19,19 @@
 		<view class="btn-sign-out" @tap="logout()" v-if="userInfo.id">
 			退出登录
 		</view>
+		
+		<!--确认退出弹窗  -->
+		<uni-popup ref="showtip" :type="type" :mask-click="false">
+			<view class="uni-tip">
+				<text class="uni-tip-content">
+					您将退出**的粉丝团
+				</text>
+				<view class="uni-tip-group-button">
+					<text class="uni-tip-button" @click="cancel()">再想想</text>
+					<text class="uni-tip-button" @click="confirm()">确定</text>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -38,13 +51,24 @@
 		},
 		methods: {
 			...mapMutations(['login']),
-			async unbindBand(){
+			unbindBand(){ 
+				this.type = 'center';
+				this.$nextTick(() => {
+					this.$refs.showtip.open();
+				});
+			},
+			async confirm() {
+				this.$refs.showtip.close();
+				
 				await arequest('/unbindBand', {}, {})
 				var meRes = await arequest('/me', null, {})
 				this.login(meRes.data.me || meRes.data)
 				uni.switchTab({
 					url: "/pages/billboard/billboard"
 				});
+			},
+			cancel() {
+				this.$refs.showtip.close();
 			},
 			async logout() {
 				this.login({})
@@ -96,4 +120,53 @@
 	font-size: 16px;
 	color: #FA6889;
 }
+
+.uni-tip {
+	width: 640upx;
+	height: 310upx;
+	background-color: #fff;
+	border-radius: 10upx;
+}
+
+.uni-tip-title {
+	margin-bottom: 10px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 16px;
+	color: #333;
+}
+
+.uni-tip-content {
+	display: flex;
+	height: 208upx;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+	text-align: center;
+	line-height: 42upx;
+	color: #656976;
+	padding: 0 90rpx;
+	border-bottom: 1upx solid #F4F5F7;
+}
+
+.uni-tip-group-button {
+	/* #ifndef APP-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+	height: 100upx;
+	line-height: 100upx;
+}
+
+.uni-tip-button {
+	flex: 1;
+	text-align: center;
+	font-size: 18px;
+	color: #656976;
+	&:last-child{
+		border-left: 1upx solid #F4F5F7;
+		color: #fa6889;
+	}
+}
+
 </style>
