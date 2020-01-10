@@ -81,6 +81,10 @@
 				"navigationBarTitleText": "设置"
 			}
         }
+        ,{
+            "path" : "pages/experiment/experiment",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
