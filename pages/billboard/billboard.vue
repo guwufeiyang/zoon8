@@ -143,7 +143,7 @@
 				} else {
 					this.setCurrentBand(item.id);
 					uni.navigateTo({
-						url: "../toBeFans/toBeFans"
+						url: "/pages/toBeFans/toBeFans"
 					});
 				}
 			},

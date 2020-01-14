@@ -91,7 +91,7 @@
 		<uni-popup ref="joinFansGroupPop" :type="type" :mask-click="false">
 			<view class="uni-tip">
 				<text class="uni-tip-content">
-					您将加入{{bandInfo.name}}的粉丝团，<br />暂不提供退团功能哦！
+					您将加入{{bandInfo.name}}的粉丝团！
 				</text>
 				<view class="uni-tip-group-button">
 					<text class="uni-tip-button" @click="cancelJoinFansGroup()">再看看</text>

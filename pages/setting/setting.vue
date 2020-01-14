@@ -39,8 +39,12 @@
 	import { mapState, mapMutations } from 'vuex'
 	import { arequest } from '../../room8Util.js'
 	import _ from 'lodash'
+	import uniPopup from '@/components/uni-popup.vue'
 	
 	export default {
+		components: {
+			uniPopup
+		},
 		data() {
 			return {
 				
