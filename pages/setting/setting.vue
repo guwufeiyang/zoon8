@@ -24,7 +24,7 @@
 		<uni-popup ref="showtip" :type="type" :mask-click="false">
 			<view class="uni-tip">
 				<text class="uni-tip-content">
-					您将退出**的粉丝团
+					您将退出{{userInfo.band && userInfo.band.name}} 的粉丝团
 				</text>
 				<view class="uni-tip-group-button">
 					<text class="uni-tip-button" @click="cancel()">再想想</text>

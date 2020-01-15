@@ -78,7 +78,7 @@
 			bottom: -130rpx;
 			left: 50%;
 			width: 72rpx;
-			height: 172rpx;
+			height: 130rpx;
 			margin-left: -36rpx;
 			z-index: 1;
 		}

@@ -135,7 +135,7 @@
 				} else {
 					randomDeg = Math.random() % 2 == 1 ? 45 - delta : 45 *5 - delta				
 				}
-				console.log("randomDeg " + randomDeg)
+				// console.log("randomDeg " + randomDeg)
 				 
 
 				let rand_circle = 5; // 默认多旋转5圈

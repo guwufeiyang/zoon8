@@ -1,10 +1,9 @@
 <template>
 	<view class="container">
-		<!-- <view class="status_bar">新秀榜单</view> -->
 		
+		<!-- <view class="status_bar">新秀榜单</view> -->
 		<view class="content-wrap">
 			<image class="header-bg" src="../../static/header-bg.png"></image>
-			
 			<view class="search-wrap">
 				<view class="search-bg"></view>
 				<view class="search-cont">
@@ -75,16 +74,22 @@
 				</view>
 			</view>
 		</view>
+		
+		<finish-task ref="finishTaskPop" @closeFinishTaskPop="closeFinishTaskPop"></finish-task>
 	</view>
 </template>
 
 <script>
-	import CoupleRegister from '../../components/couple-register.vue'
+	import finishTask from '@/components/finish-task.vue'
+	
 	import { mapState, mapMutations } from 'vuex'
 	import { arequest } from '../../room8Util.js'
 	import _ from "lodash"
 	
 	export default {
+		components: {
+			finishTask
+		},
 		data() {
 			return {
 				swiperCurrent: 0,
@@ -151,10 +156,16 @@
 				uni.navigateTo({
 					url: "../welfare/welfare"
 				});
+			},
+			closeFinishTaskPop() {
+				
 			}
 		},
 		onShow() {
 			this.loadData();
+		},
+		onReady() {
+			this.$refs.finishTaskPop.openCoupleRegisterPop()
 		}
 	}
 </script>
