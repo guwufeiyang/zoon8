@@ -19,7 +19,7 @@
   "dependencies": {
     "lodash": "^4.17.15",
     "mescroll-uni": "^1.1.9",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mp-storage": "^1.0.3",
     "simple-websocket": "^8.1.1",
     "subscriptions-transport-ws": "^0.9.16",
